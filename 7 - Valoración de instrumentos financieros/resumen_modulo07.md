@@ -199,3 +199,4 @@ Ventaja sobre la fórmula cerrada: funciona para opciones path-dependent (barrer
 | Tasa libre de riesgo $r_f$ | T6 | CAPM, WACC, descuento en B-S |
 | GBM, movimiento browniano | T7 | Base de B-S (T19) y Euler (T21) |
 | VaR, ES | — | Módulo 9; la sensibilidad $\sigma$ viene de T6-T7 |
+

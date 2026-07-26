@@ -1,0 +1,2498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Finanzas Cuantitativas M7–M10</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sb:252px;
+  --c7:#3b82f6;--c8:#8b5cf6;--c9:#10b981;--c10:#f59e0b;--cp:#ef4444;--ch:#60a5fa;
+  --tx:#1e293b;--tm:#64748b;--bg:#f8fafc;--bdr:#e2e8f0;--card:#ffffff
+}
+body{font-family:system-ui,sans-serif;color:var(--tx);background:var(--bg);display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sb{width:var(--sb);background:#1e1e2e;color:#cbd5e1;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;display:flex;flex-direction:column}
+.sb-logo{padding:1.4rem 1.25rem;border-bottom:1px solid #2d3748}
+.sb-logo-main{font-size:.88rem;font-weight:700;color:#f1f5f9}
+.sb-logo-sub{font-size:.7rem;color:#475569;margin-top:.2rem}
+.sb-sec{padding-top:1.2rem}
+.sb-lbl{padding:.2rem 1.25rem .45rem;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:#475569;font-weight:700}
+.sb-a{display:block;padding:.52rem 1.25rem;font-size:.86rem;color:#94a3b8;cursor:pointer;border-left:3px solid transparent;transition:all .12s;user-select:none}
+.sb-a:hover{color:#e2e8f0;background:rgba(255,255,255,.04)}
+.sb-a.on{color:#f1f5f9;font-weight:600;background:rgba(255,255,255,.07)}
+.sb-a.on[data-id=home]{border-color:var(--ch)}
+.sb-a.on[data-mod=m7]{border-color:var(--c7)}
+.sb-a.on[data-mod=m8]{border-color:var(--c8)}
+.sb-a.on[data-mod=m9]{border-color:var(--c9)}
+.sb-a.on[data-mod=m10]{border-color:var(--c10)}
+.sb-a.on[data-mod=p]{border-color:var(--cp)}
+
+/* MAIN */
+.main{margin-left:var(--sb);flex:1;padding:2.25rem 3.5rem 5rem;min-width:0}
+
+/* BREADCRUMB */
+.bc{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--tm);margin-bottom:1.75rem;flex-wrap:wrap}
+.bc span{cursor:pointer}
+.bc span:hover{text-decoration:underline;color:var(--tx)}
+.bc span.cur{color:var(--tx);font-weight:500;cursor:default}
+.bc span.cur:hover{text-decoration:none}
+.bc-sep{color:#cbd5e1;cursor:default!important}
+
+/* MODULE CARDS (landing) */
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.9rem;margin-bottom:2.5rem}
+.mc{background:var(--card);border:1px solid var(--bdr);border-radius:10px;border-top:4px solid;padding:1.1rem 1.25rem;cursor:pointer;transition:all .14s}
+.mc:hover{box-shadow:0 6px 18px rgba(0,0,0,.1);transform:translateY(-2px)}
+.mc.m7{border-top-color:var(--c7)}.mc.m8{border-top-color:var(--c8)}
+.mc.m9{border-top-color:var(--c9)}.mc.m10{border-top-color:var(--c10)}
+.mc-id{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35rem}
+.mc.m7 .mc-id{color:var(--c7)}.mc.m8 .mc-id{color:var(--c8)}
+.mc.m9 .mc-id{color:var(--c9)}.mc.m10 .mc-id{color:var(--c10)}
+.mc-t{font-size:.93rem;font-weight:600;margin-bottom:.25rem}
+.mc-d{font-size:.73rem;color:var(--tm)}
+
+/* DETAIL CARDS (level 1 -> 2) */
+.det-wrap{margin-bottom:2rem}
+.det-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.09em;color:var(--tm);font-weight:700;margin-bottom:.6rem}
+.det-row{display:flex;flex-wrap:wrap;gap:.65rem}
+.dc{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:.8rem 1.1rem;cursor:pointer;transition:all .12s;flex:1;min-width:155px}
+.dc:hover{box-shadow:0 3px 10px rgba(0,0,0,.1);transform:translateY(-1px)}
+.dc-t{font-size:.88rem;font-weight:600;margin-bottom:.2rem}
+.dc-s{font-size:.73rem;color:var(--tm)}
+.dc.m7 .dc-t{color:var(--c7)}.dc.m8 .dc-t{color:var(--c8)}
+.dc.m9 .dc-t{color:var(--c9)}.dc.m10 .dc-t{color:var(--c10)}
+
+/* QUESTION CARDS */
+.q-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-top:1.5rem}
+.qc{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1.25rem;cursor:pointer;transition:all .14s}
+.qc:hover{border-color:var(--cp);box-shadow:0 4px 14px rgba(0,0,0,.1);transform:translateY(-2px)}
+.qc-n{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--cp);margin-bottom:.5rem}
+.qc-t{font-size:.93rem;font-weight:600;line-height:1.4}
+
+/* MARKDOWN CONTENT */
+#content{max-width:820px;line-height:1.75}
+#content h1{font-size:1.85rem;font-weight:800;margin-bottom:1rem;color:#0f172a;line-height:1.25}
+#content h2{font-size:1.3rem;font-weight:700;margin:2.25rem 0 .7rem;color:#0f172a;border-bottom:2px solid var(--bdr);padding-bottom:.35rem}
+#content h3{font-size:1.05rem;font-weight:700;margin:1.75rem 0 .5rem;color:#1e293b}
+#content h4{font-size:.95rem;font-weight:700;margin:1.25rem 0 .4rem;color:#334155}
+#content p{margin-bottom:.9rem}
+#content ul,#content ol{margin:.5rem 0 .9rem 1.6rem}
+#content li{margin-bottom:.3rem}
+#content table{border-collapse:collapse;width:100%;margin:1.1rem 0;font-size:.88rem}
+#content th{background:#f1f5f9;padding:.55rem .85rem;text-align:left;font-weight:700;border:1px solid var(--bdr)}
+#content td{padding:.45rem .85rem;border:1px solid var(--bdr)}
+#content tr:nth-child(even) td{background:#f8fafc}
+#content code{font-family:Consolas,Monaco,monospace;background:#f1f5f9;padding:.15em .4em;border-radius:3px;font-size:.86em;color:#c7254e}
+#content pre{background:#1e293b;color:#e2e8f0;border-radius:8px;padding:1.25rem;overflow-x:auto;margin:1rem 0;font-size:.85rem;line-height:1.65}
+#content pre code{background:none;padding:0;color:inherit;font-size:inherit}
+#content blockquote{border-left:4px solid var(--c7);background:#eff6ff;padding:.85rem 1.1rem;margin:1rem 0;border-radius:0 6px 6px 0;color:#1e40af}
+#content blockquote p{margin:0}
+#content hr{border:none;border-top:1px solid var(--bdr);margin:2rem 0}
+#content strong{font-weight:700}
+.mjx-container{overflow-x:auto}
+</style>
+</head>
+<body>
+
+<aside class="sb">
+  <div class="sb-logo">
+    <div class="sb-logo-main">Finanzas Cuantitativas</div>
+    <div class="sb-logo-sub">Máster · Módulos 7–10</div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">General</div>
+    <div class="sb-a" data-id="home" onclick="nav('home')">Vista General</div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Módulos</div>
+    <div class="sb-a" data-id="m7" data-mod="m7" onclick="nav('m7')">M7 — Valoración</div>
+    <div class="sb-a" data-id="m8" data-mod="m8" onclick="nav('m8')">M8 — Carteras</div>
+    <div class="sb-a" data-id="m9" data-mod="m9" onclick="nav('m9')">M9 — Riesgos</div>
+    <div class="sb-a" data-id="m10" data-mod="m10" onclick="nav('m10')">M10 — Valor Extremo</div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Examen</div>
+    <div class="sb-a" data-id="preguntas" data-mod="p" onclick="nav('preguntas')">Preguntas de Examen</div>
+  </div>
+</aside>
+
+<div class="main">
+  <div id="bc" class="bc"></div>
+  <div id="top"></div>
+  <div id="content"></div>
+</div>
+
+<script type="text/markdown" id="c-home">
+# Mapa de los Módulos 7-10: Finanzas Cuantitativas
+
+---
+
+## La pregunta que responden los cuatro módulos
+
+> *¿Cuánto vale algo que depende del futuro, y cuánto puedo perder si me equivoco?*
+
+Hay una tensión que recorre los cuatro módulos y que nunca se dice explícitamente:
+
+> **Los modelos asumen normalidad. Los mercados no son normales. Todo lo demás es gestionar esa contradicción.**
+
+- M7 construye los modelos asumiendo normalidad (o lognormalidad)
+- M8 muestra que el mercado *sabe* que eso falla y lo corrige con la sonrisa de volatilidad
+- M9 mide el riesgo con esos modelos imperfectos
+- M10 dice "olvidemos la normalidad en las colas y modelémoslas directamente"
+
+Es la misma historia contada cuatro veces, cada vez con más honestidad sobre lo que los modelos no pueden hacer.
+
+---
+
+## Módulo 7 — ¿Cómo valoro activos financieros?
+
+**La clave que conecta todo:** el valor presente. Todo activo financiero vale lo que te va a dar en el futuro, descontado al hoy. La diferencia entre bono, acción y opción es solo cuán incierto es ese flujo futuro y quién asume esa incertidumbre.
+
+**Bloque 1 — Conceptos base**
+
+Antes de valorar nada, hay que medir. El módulo construye el lenguaje: retornos, riesgo, distribuciones y diversificación (Markowitz). Los retornos no son normales en la realidad — tienen colas gordas y skewness negativa — pero los modelos que vienen después asumen normalidad de todas formas. Esa tensión recorre todo lo que sigue.
+
+**Bloque 2 — Valoración de bonos y acciones**
+
+Todo activo vale el descuento de sus flujos futuros. La diferencia es cuán predecibles son esos flujos: un bono tiene cupones fijos (fácil), una acción tiene dividendos inciertos (más difícil). Los **factores de riesgo** (CAPM, APT, Fama-French) no son una tercera categoría de valoración: son la respuesta a *"¿qué tasa de descuento uso?"*. Son la fontanería del denominador.
+
+**Bloque 3 — Valoración de opciones y derivados**
+
+Una opción es el instrumento donde la incertidumbre es más extrema: el comprador tiene el derecho pero no la obligación, así que el valor depende de toda la distribución futura del precio. Black-Scholes convierte esa distribución futura en un precio presente. El único input no observable es la volatilidad — pequeñas diferencias en ella generan grandes diferencias de precio.
+
+---
+
+## Módulo 8 — ¿Cómo gestiono el riesgo de tener opciones en cartera?
+
+El módulo tiene tres temas que comparten un eje: la distancia entre los modelos teóricos y cómo operan los mercados de verdad.
+
+**Dynamic Hedging — gestionar el riesgo de haber vendido una opción**
+
+Cuando vendes una opción, asumes la obligación contraria a quien la compra. Si vendiste una call de Repsol a 15€ y el precio sube a 25€, tienes que venderla a 15€ aunque en el mercado cueste 25€. Para cubrirte, compras acciones de Repsol directamente: si el precio sube, ganas en las acciones lo que pierdes en la opción.
+
+El problema es que no sabes si van a ejercer la opción o no, así que no compras todas las acciones — compras una fracción. Esa fracción es la **delta**. Si la probabilidad de que ejerzan es del 60%, compras 0.6 acciones por cada opción vendida. Esa fracción cambia cada día según cómo evoluciona el precio, por eso hay que reajustar continuamente. El coste de esos reajustes es el coste real de la cobertura. Las demás griegas (gamma, vega, theta) miden otras dimensiones del mismo riesgo: cuánto cambia la delta, cuánto afecta la volatilidad, cuánto afecta el paso del tiempo.
+
+**La sonrisa de volatilidad — Black-Scholes falla, y el mercado lo sabe**
+
+Black-Scholes asume volatilidad constante. No es verdad. Los traders lo saben y han desarrollado un *hack*: usan Black-Scholes igualmente, pero en vez de meterle una volatilidad fija le meten una volatilidad diferente para cada opción según su precio de ejercicio y su vencimiento. La "sonrisa" es el mapa de qué volatilidad usar en cada caso. Black-Scholes pasa de ser un modelo a ser una **calculadora con parámetros ajustables**.
+
+En acciones e índices la curva no es simétrica sino sesgada: las puts baratas (protección contra crash) tienen volatilidad implícita muy alta. Este sesgo no existía antes de 1987 — el mercado aprendió que los desplomes extremos son más probables de lo que implica el modelo y desde entonces incorpora esa prima.
+
+**Gestión activa de carteras — tres filosofías para desviarte del índice**
+
+Un gestor pasivo replica un índice. Un gestor activo toma posiciones que se desvían apostando a que sus señales generan rentabilidad adicional (alpha). Hay tres respuestas distintas a cómo hacerlo:
+
+- **Treynor-Black**: tienes ideas sobre acciones concretas infravaloradas → construyes el portfolio desde abajo, ponderando cada apuesta por su ratio alpha/riesgo
+- **Black-Litterman**: tienes ideas sobre sectores o mercados → partes de los pesos del índice (equilibrio CAPM) y los ajustas con tus creencias usando Bayes. Más estable que la optimización clásica porque ancla en el mercado
+- **Risk Parity**: en vez de igualar dinero invertido, igualas riesgo aportado por cada activo. Sobrepondera activos de bajo riesgo (bonos) e infrapondera los de alto riesgo (acciones); en la práctica suele apalancar la parte de bonos para alcanzar la rentabilidad de un portfolio tradicional
+
+Son tres filosofías distintas, no tres pasos de un proceso.
+
+---
+
+## Módulo 9 — ¿Cuánto puedo perder?
+
+El módulo responde: *¿de cuántas formas distintas puedo perder dinero?* La respuesta tiene tres capítulos.
+
+**Riesgo de mercado — el precio se mueve en tu contra**
+
+Aquí vive el **VaR** (Value at Risk): un número que dice *"con 99% de probabilidad, mañana no pierdo más de X"*. Se puede calcular de tres formas:
+
+- Asumiendo normalidad (rápido, pero miente en las colas)
+- Con simulación histórica (usas datos reales, sin asumir distribución)
+- Con Monte Carlo (simulas miles de escenarios)
+
+El VaR tiene un problema estructural: no dice nada de lo que pasa en ese 1% malo, solo que existe. El **Expected Shortfall** sí: *"dado que estoy en ese 1% peor, ¿cuánto pierdo de media?"*. ES es el VaR mejorado y es lo que exige Basilea desde 2016. Aquí conecta directamente el Módulo 10: si el VaR paramétrico falla porque asume normalidad, EVT proporciona la herramienta para calcular ese extremo con más precisión.
+
+**Riesgo de crédito — la contraparte no paga**
+
+Dos problemas distintos bajo el mismo paraguas. Primero: ¿cuánto vale un bono que puede impagar? Los modelos estructurales (Merton) tratan el equity de una empresa como una call sobre sus activos — si el valor de los activos cae por debajo de la deuda, la empresa quiebra. Segundo: ¿cómo gestiono una cartera de créditos donde los defaults están correlacionados? Si quiebra una empresa, ¿quién más quiebra con ella? Aquí entran las cópulas, la misma herramienta que EVT usa para el caso multivariante.
+
+**Riesgo de liquidez — el activo vale X en teoría pero no puedes venderlo a ese precio**
+
+Dos dimensiones que se confunden pero son distintas. La **liquidez de mercado** es el coste de salir de una posición: el bid-ask spread. La **liquidez de financiación** es no tener cash para mantener una posición aunque tengas razón. Esta segunda mató a LTCM en 1998: tenían razón en sus apuestas pero no pudieron aguantar hasta que el mercado les diera la razón. Un activo puede ser ilíquido en mercado pero tener financiación, o viceversa; en una crisis, ambas se deterioran a la vez y se retroalimentan.
+
+---
+
+## Módulo 10 — ¿Qué pasa en ese 1% que el VaR ignora?
+
+EVT no es un modelo alternativo al VaR. Es una mejora específica para el extremo de la cola. Para el 95% del tiempo, el VaR normal funciona bien. EVT solo importa cuando la pregunta es *"¿qué pasa en un crash de verdad?"* — y esa es exactamente la pregunta que los reguladores hacen después de cada crisis.
+
+La estadística clásica modela el comportamiento promedio. EVT modela solo las colas, donde ocurren las pérdidas graves. El resultado teórico clave: bajo ciertas condiciones, los valores extremos de *cualquier* distribución convergen a una de solo tres distribuciones posibles. En finanzas siempre aparece la misma: colas gruesas (Fréchet), que es equivalente a una t de Student con pocos grados de libertad.
+
+Hay dos formas de aplicarlo. El enfoque de **bloques** toma el máximo de cada periodo y modela esa serie de máximos. El enfoque **POT** (Peaks Over Threshold) modela directamente las observaciones que superan un umbral — es el preferido en la práctica porque aprovecha más datos. El punto débil de POT es elegir ese umbral: demasiado bajo introduce sesgo, demasiado alto deja muy pocas observaciones.
+
+Una advertencia práctica importante: EVT asume que los datos son independientes entre sí. Los retornos financieros no lo son (hay clusters de volatilidad, autocorrelación). El flujo correcto es filtrar primero con un modelo GARCH, extraer los residuos estandarizados, y aplicar EVT sobre esos residuos.
+
+---
+
+## El hilo que une los cuatro
+
+| Módulo | Pregunta | Herramienta clave |
+|---|---|---|
+| M7 | ¿Cuánto vale este activo? | Descuento de flujos, Black-Scholes |
+| M8 | ¿Cómo gestiono el riesgo de tenerlo? | Delta hedging, superficie de volatilidad |
+| M9 | ¿Cuánto puedo perder en total? | VaR, Expected Shortfall |
+| M10 | ¿Qué pasa cuando los modelos de M9 se rompen? | EVT, GPD, GEV |
+</script>
+<script type="text/markdown" id="c-m7">
+# Módulo 7 — Valoración de Instrumentos Financieros
+
+El módulo responde tres preguntas en secuencia: cómo medir retorno y riesgo (T6-10), cómo usar esas medidas para valorar bonos y acciones (T11-17), y cómo extender esa valoración a instrumentos derivados (T18-21).
+
+---
+
+## Bloque 1 — Medición: Retorno, Riesgo y Diversificación (T6-10)
+
+### T6: Retornos
+
+El denominador común para comparar inversiones es el retorno. Los **log-retornos** son el estándar cuantitativo porque se suman en el tiempo:
+
+$$r_t = \ln(P_t / P_{t-1})$$
+
+El valor temporal del dinero es la base de toda la valoración: $PV = C/(1+r)^T$. En el límite (capitalización continua): $FV = Pe^{rT}$, que aparece directamente en Black-Scholes. La **relación de Fisher** separa tipo nominal de tipo real: $r_{nominal} \approx r_{real} + \pi^e$.
+
+### T7: Estadísticos de riesgo
+
+Los cuatro momentos que importan para describir retornos:
+
+| Estadístico | Normal |
+|---|---|
+| Media $\mu$ | cualquier valor |
+| Varianza $\sigma^2$ | cualquier valor |
+| Skewness $\gamma$ | 0 |
+| Kurtosis $\kappa$ | 3 |
+
+Escalado a datos anuales (250 días): $\sigma_{anual} = \sqrt{250}\,\sigma_{diaria}$. La **utilidad esperada** de un inversor averso al riesgo: $U = E(r) - \frac{\lambda}{2}\sigma^2$.
+
+### T8: Distribuciones no normales
+
+Los retornos reales tienen skewness negativa y kurtosis > 3. Alternativas:
+
+- **t de Student:** colas gruesas con varianza finita. $\kappa = 6/(\nu-4)$.
+- **Estable Paretiana:** varianza infinita para $\alpha < 2$; invalida el análisis media-varianza.
+- **Mezcla de normales:** regímenes de calma/pánico producen colas gordas aunque cada régimen sea normal.
+- **Jump-diffusion:** browniano + saltos de Poisson; explica el volatility smile de opciones.
+- **Lognormal:** si log-retornos son normales, precios son lognormales. Base de Black-Scholes.
+
+### T9: Diversificación de Markowitz
+
+Dos tipos de riesgo en cartera: **idiosincrático** (diversificable) y **sistemático** (no diversificable). Con $n$ activos iguales y correlación $\rho$:
+
+$$\sigma_P^2 = \frac{\sigma^2}{n} + \frac{n-1}{n}\rho\sigma^2 \xrightarrow{n\to\infty} \rho\sigma^2$$
+
+La varianza de cartera en forma matricial: $\sigma_P^2 = \mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}$. La **frontera eficiente** es el conjunto de portfolios que maximizan retorno para cada nivel de riesgo. El **Sharpe ratio** mide retorno en exceso por unidad de riesgo:
+
+$$S_P = \frac{E(r_P) - r_f}{\sigma_P}$$
+
+El portfolio completo óptimo asigna fracción $y^* = (E(r_P) - r_f)/(\lambda\sigma_P^2)$ a activos de riesgo.
+
+### T10: Más allá de media-varianza
+
+Tres criterios alternativos cuando la distribución no es normal:
+
+1. **Media Geométrica (GMR):** $r_g \approx \bar{r} - \frac{1}{2}\sigma^2$. Captura el efecto del compounding; penaliza la volatilidad automáticamente.
+2. **Safety-First:** fijan retorno mínimo $r_L$ y/o probabilidad máxima de caer bajo él. Roy ($r_L = r_f$) produce el mismo portfolio que Sharpe ratio.
+3. **Dominancia Estocástica (FSD/SSD/TSD):** compara CDFs completas sin asumir distribución; conceptualmente más general pero computacionalmente prohibitivo con muchos activos.
+
+---
+
+## Bloque 2 — Valoración I: Bonos, Acciones y Factores de Riesgo (T11-17)
+
+### T11: Renta fija (Fixed Income)
+
+**Precio de un bono** (cupón anual, yield constante $r$, vencimiento $T$):
+
+$$P = \frac{\text{par}}{(1+r)^T} + \frac{\text{cupón}}{r}\left[1 - \frac{1}{(1+r)^T}\right]$$
+
+- **YTM:** tasa $r$ que iguala precio de mercado con precio teórico.
+- **Dirty price** = precio limpio + accrued interest.
+- **Duration modificada $D^*$:** sensibilidad del precio al yield. Con corrección de convexidad:
+
+$$\frac{\Delta P}{P} \approx -D^*\Delta y + \frac{\text{convexity}}{2}(\Delta y)^2$$
+
+- Bonos callable tienen convexidad negativa (el emisor ejerce la call cuando tipos bajan → el precio tiene techo).
+- **Credit spread** = yield corporativo − yield soberana. TED spread > 50 bp → señal de estrés.
+
+Características relevantes: floating rate, indexed bonds, convertibles (a favor del inversor); callable, sinking fund, asset-backed (a favor del emisor).
+
+### T12: Curvas de tipos
+
+La **yield curve** (spot rates vs. plazos) resume las expectativas de mercado sobre tipos futuros. Factores clave: nivel, pendiente, curvatura (Litterman-Scheinkman). Construcción: **bootstrapping** iterativo de menor a mayor plazo.
+
+Formas y señales: curva normal (crecimiento), invertida (recesión esperada), joroba (defensa de divisa). Cuatro teorías: expectations hypothesis, liquidity preference, segmentación de mercado, preferred habitat.
+
+Modelos: **Vasicek** (proceso Ornstein-Uhlenbeck para la tasa corta), **Nelson-Siegel/Svensson** (factores de nivel, pendiente y curvatura).
+
+### T13: Valoración de acciones (Equity Valuation)
+
+**Modelos por descuento:**
+
+- **DDM Gordon-Shapiro:** $V_0 = D_1/(k-g)$, donde $g = b \times \text{ROE}$ (fracción retenida × ROE).
+- **FCFF:** $V_0^{firma} = \sum_t \text{FCFF}_t/(1+\text{WACC})^t$, con $\text{WACC} = w_e r_e + w_d r_d(1-\tau)$.
+- **PVGO:** $P_0 = E_1/k + \text{PVGO}$. Si PVGO < 0, la empresa destruye valor reinvirtiendo.
+
+**Múltiplos:** P/E, P/B, P/CF, P/S. Limitación: earnings gestionables, inútiles en pérdidas.
+
+**Corrección de Jensen:** cuando $\hat{k}$ y $\hat{g}$ tienen incertidumbre, el precio justo incluye un término de segundo orden que depende de sus varianzas y covarianza.
+
+### T14: CAPM
+
+Bajo los supuestos estándar (muchos inversores price-takers, horizonte único, expectativas homogéneas, sin impuestos ni fricción), todos sostienen el portfolio de mercado M. La ecuación del CAPM:
+
+$$E(r_i) - r_f = \beta_i[E(r_M) - r_f] \quad;\quad \beta_i = \frac{\text{Cov}(r_i, r_M)}{\sigma_M^2}$$
+
+El **Single-Index Model** reduce inputs de $\frac{n(n+3)}{2}$ a $3n+3$ (para $n=50$: 1.325 → 153). La **SML** identifica activos infra/sobrevalorados según su alpha.
+
+Limitaciones: un solo factor, beta histórico predice mal el futuro, portfolio de mercado teórico inobservable. Mejoras: betas ajustados (Blume/Vasicek), CAPM condicional (betas varían con el ciclo), ICAPM de Merton.
+
+### T15: APT y modelos multifactor
+
+**APT (Ross 1976):** sin arbitraje implica que el retorno esperado se explica solo por exposiciones a factores:
+
+$$R_i \approx \beta_{i,1}F_1 + \ldots + \beta_{i,k}F_k$$
+
+**Factores macro (Chen-Roll-Ross):** producción industrial, inflación esperada, sorpresa de inflación, credit spread corporativo, pendiente de la curva.
+
+**Factores de estilo:** Fama-French 3F (mercado + SMB + HML), Carhart 4F (+momentum WML), Fama-French 5F (+RMW + CMA). Harvey-Liu-Zhu: solo son estadísticamente robustos mercado, HML, momentum, liquidez y volatilidad a corto plazo.
+
+**Factores de liquidez:** Acharya-Pedersen (bid-ask spread como factor), Pastor-Stambaugh (volumen en dólares como proxy).
+
+*(Temas 16 y 17 no disponibles en el PDF del curso.)*
+
+---
+
+## Bloque 3 — Valoración II: Derivados y Pricing de Opciones (T18-21)
+
+### T18: Contratos derivados
+
+Cuatro tipos fundamentales:
+
+| Tipo | Obligación | Mercado | Uso principal |
+|---|---|---|---|
+| Forward | Ambas partes | OTC (bilateral) | Cobertura de FX/materias primas |
+| Futuro | Ambas partes | Bolsa (estandarizado) | Cobertura con menor riesgo de contraparte |
+| Opción | Solo el vendedor | Ambos | Cobertura + especulación; prima por la asimetría |
+| Swap | Flujos recurrentes | OTC | Gestión de riesgo de tipos/divisas |
+
+La diferencia estructural clave: forward/futuro obligan a ambas partes; la opción da flexibilidad unilateral al comprador a cambio de una prima.
+
+### T19: Fórmula de Black-Scholes
+
+Precio analítico de una call europea bajo lognormalidad, volatilidad y tasa constantes, sin dividendos:
+
+$$C = S \cdot N(d_1) - K \cdot e^{-rT} \cdot N(d_2)$$
+
+$$d_1 = \frac{\ln(S/K) + (r + \sigma^2/2)\,T}{\sigma\sqrt{T}}, \qquad d_2 = d_1 - \sigma\sqrt{T}$$
+
+$N(d_2)$ = probabilidad de terminar in the money. $N(d_1)$ pondera además el tamaño del beneficio. En Python: `scipy.stats.norm.cdf()`.
+
+Paridad put-call: $C - P = S - K e^{-rT}$ (permite valorar puts desde calls sin nueva derivación).
+
+### T20-21: Monte Carlo y discretización de Euler
+
+**Monte Carlo directo (T20):** simula el precio final del subyacente bajo GBM:
+
+$$S_T = S_0 \cdot e^{(r - \sigma^2/2)T + \sigma\sqrt{T}\,Z}, \quad Z \sim N(0,1)$$
+
+El precio de la call = $e^{-rT} \cdot \mathbb{E}[\max(S_T - K, 0)]$. Converge a Black-Scholes con suficientes iteraciones.
+
+**Discretización de Euler (T21):** simula la trayectoria completa en pasos $\Delta t$:
+
+$$S_t = S_{t-1} \cdot e^{(r - \sigma^2/2)\Delta t + \sigma\sqrt{\Delta t}\,Z_t}$$
+
+Ventaja sobre la fórmula cerrada: funciona para opciones path-dependent (barrera, asiáticas, americanas) y cualquier proceso estocástico (varianza estocástica, saltos). Black-Scholes es exacto para opciones europeas simples; Euler es la herramienta general.
+
+---
+
+## Lo más importante para recordar
+
+1. **Log-retornos son el lenguaje de trabajo.** Se suman en el tiempo, conectan con capitalización continua y son el input de todos los modelos del módulo.
+
+2. **Los retornos no son normales.** Colas gordas y skewness negativa son universales. Las mezclas de normales y jump-diffusion son las explicaciones más convincentes. El modelo correcto depende del cuantil que importa.
+
+3. **La diversificación elimina riesgo específico sin coste.** El riesgo sistemático persiste. El CAPM mide exactamente ese riesgo que no desaparece diversificando.
+
+4. **CAPM es el punto de partida, no el final.** Un solo factor es insuficiente empíricamente. APT y modelos de estilo (Fama-French, Carhart) mejoran el ajuste; el coste es la interpretabilidad y el sobreajuste.
+
+5. **Black-Scholes convierte distribución futura en precio presente.** La volatilidad $\sigma$ es el único input no observable: pequeñas diferencias en $\sigma$ generan grandes diferencias de precio. La volatilidad implícita del mercado es la métrica que realmente importa.
+
+6. **Euler generaliza Black-Scholes a cualquier proceso.** Para opciones europeas, la fórmula cerrada es exacta y más eficiente. Euler es necesario cuando el payoff depende de la trayectoria o cuando el proceso es no-lognormal.
+
+---
+
+## Conexión entre bloques
+
+| Concepto | Bloque origen | Aparece en |
+|---|---|---|
+| Volatilidad $\sigma$, log-retornos | T6-7 | Input #1 de Black-Scholes (T19) |
+| Distribuciones no normales, fat tails | T8 | Limitaciones de B-S; EVT (M10) |
+| Frontera eficiente, Sharpe ratio | T9 | CAPM como extensión (T14) |
+| $\beta$, prima de riesgo | T14 | Factor de mercado en APT (T15); descuento en FCFF (T13) |
+| Tasa libre de riesgo $r_f$ | T6 | CAPM, WACC, descuento en B-S |
+| GBM, movimiento browniano | T7 | Base de B-S (T19) y Euler (T21) |
+| VaR, ES | — | Módulo 9; la sensibilidad $\sigma$ viene de T6-T7 |
+</script>
+<script type="text/markdown" id="c-m7-medicion">
+# Módulo 7 — Temas 6, 7, 8, 9 y 10: Retornos, Riesgo y Diversificación
+
+---
+
+## Para qué sirve este bloque
+
+Antes de poner precio a cualquier instrumento financiero — un bono, una acción, una opción — necesitas responder dos preguntas previas:
+
+1. **¿Cuánto puedo esperar ganar?** (retorno)
+2. **¿Cuánto puedo perder, y con qué probabilidad?** (riesgo)
+
+Sin esas dos piezas, la valoración no tiene base. El CAPM, Black-Scholes, la curva de tipos: todos usan retorno esperado y volatilidad como inputs. Este bloque es el lenguaje que hace posible todo lo que viene después.
+
+---
+
+## Tema 6: Retornos — el lenguaje común del dinero
+
+### La idea central
+
+Para comparar inversiones distintas (un bono a 2 años, acciones, un inmueble) necesitas un denominador común. La respuesta es el **retorno**: cuánto ganas por cada euro invertido, expresado de forma que sea comparable.
+
+### Valor temporal del dinero
+
+El concepto más importante de las finanzas: **100€ hoy valen más que 100€ dentro de un año**, aunque la inflación fuera cero. ¿Por qué? Porque puedes invertirlos hoy y tener más mañana. Por tanto, para comparar cantidades en distintos momentos del tiempo necesitas descontarlas o capitalizarlas usando una tasa.
+
+- **Valor presente (PV):** cuánto vale hoy un pago futuro → $PV = \frac{C}{(1+r)^T}$
+- **Valor futuro (FV):** a cuánto crece tu dinero → $FV = PV \cdot (1+r)^T$
+
+Todo el análisis de descuento de flujos de caja (DCF), que se usa para valorar acciones y bonos, descansa sobre esto.
+
+### Compounding (interés compuesto)
+
+La frecuencia con la que se capitaliza el interés cambia el resultado real:
+
+$$FV = P\left(1 + \frac{r}{N}\right)^{NT}$$
+
+En el límite (capitalización continua): $FV = Pe^{rT}$
+
+Esta fórmula de capitalización continua aparece constantemente en los modelos de derivados (Black-Scholes usa $e^{rT}$ para descontar).
+
+### Log-retornos
+
+En la práctica, en vez de calcular la rentabilidad como:
+
+$$R = \frac{P_t - P_{t-1}}{P_{t-1}}$$
+
+se usan **log-retornos**:
+
+$$r_t = \ln\left(\frac{P_t}{P_{t-1}}\right) = \ln(P_t) - \ln(P_{t-1})$$
+
+La ventaja es que los log-retornos **se suman en el tiempo**, lo que simplifica los modelos. Si ganas un 5% en enero y un 3% en febrero, el retorno acumulado es simplemente $r_{enero} + r_{febrero}$. Con retornos simples eso no funciona. Los log-retornos son el estándar en finanzas cuantitativas.
+
+### Tipos nominales vs. reales
+
+- **Tipo nominal:** lo que promete el instrumento en euros corrientes.
+- **Tipo real:** lo que ganas en poder adquisitivo real, corrigiendo por inflación.
+
+Relación de Fisher (1930): $r_{nominal} \approx r_{real} + \text{inflación esperada}$
+
+Importante para valorar bonos indexados a la inflación (TIPS) y para cualquier análisis de largo plazo.
+
+---
+
+
+
+
+## Tema 7: Riesgo vs. Retorno — los estadísticos que importan
+
+### La idea central
+
+Si los mercados incorporan información rápidamente, los precios se mueven de forma impredecible. El modelo matemático natural para eso es el **movimiento browniano geométrico**:
+
+$$\frac{dS_t}{S_t} = \mu \, dt + \sigma \, dW_t$$
+
+donde $\mu$ es la tendencia media y $\sigma$ es la volatilidad. Si este modelo fuera exactamente correcto, los log-retornos serían **normalmente distribuidos**. El problema es que no lo son — y eso es el tema 8.
+
+### Estadísticos clave para caracterizar retornos
+
+Para caracterizar la distribución de retornos, los cuatro momentos que importan:
+
+| Estadístico | Qué mide | Normal |
+|---|---|---|
+| **Media** ($\mu$) | Retorno esperado | cualquier valor |
+| **Varianza** ($\sigma^2$) | Dispersión cuadrática | cualquier valor |
+| **Skewness** ($\gamma$) | Asimetría — ¿más sorpresas malas o buenas? | 0 |
+| **Kurtosis** ($\kappa$) | Peso de las colas — ¿qué tan extremos son los extremos? | 3 |
+
+Para escalar a datos anuales (con 250 días de trading):
+- $\sigma_{anual} = \sqrt{250} \cdot \sigma_{diaria}$
+- Skewness y kurtosis no escalan — son invariantes al período de medición.
+
+### Riesgo y prima de riesgo
+
+El mercado compensa por asumir riesgo. El exceso de retorno respecto al activo libre de riesgo se llama **prima de riesgo**:
+
+$$\text{Prima de riesgo} = E(r_i) - r_f$$
+
+Para acciones estadounidenses, históricamente ~6–8% anual sobre el bono del Tesoro. No es constante: varía entre 3–15% dependiendo del período y el entorno macro.
+
+La **utilidad esperada** de un inversor averso al riesgo bajo normalidad:
+
+$$U = E(r) - \frac{\lambda}{2}\sigma^2$$
+
+donde $\lambda$ es el coeficiente de aversión al riesgo ($\lambda \in [2, 4]$ en la práctica). A mayor $\lambda$, más penaliza la varianza.
+
+---
+
+
+
+
+## Tema 8: Distribuciones No Normales — cuando los modelos estándar fallan
+
+### La idea central
+
+Los retornos reales tienen **colas más gordas que la normal** (kurtosis > 3) y **asimetría negativa**. Datos de 14 mercados desarrollados lo confirman: índices de acciones muestran kurtosis 5-7; activos como gas natural o trigo alcanzan 31-60. Un modelo que asume normalidad asigna probabilidad casi cero a caídas del 5-sigma — que en mercados reales ocurren una vez por década.
+
+### Distribuciones alternativas
+
+**Estable Paretiana** — parámetro clave $\alpha \in (0,2)$: para $\alpha < 2$ la varianza es **infinita** y el análisis media-varianza de Markowitz pierde su base. Fama (1965) estimó $\alpha \approx 1.7$ para acciones diarias.
+
+**t de Student** — captura leptocurtosis con varianza finita. Kurtosis $= 6/(\nu-4)$; converge a la normal para $\nu \to \infty$. Alternativa práctica a la estable Paretiana.
+
+**Mezcla de normales** — el mercado alterna entre regímenes (calma/pánico); cada régimen es normal pero la mezcla produce colas gordas. Versión discreta (Kon 1984) y secuencial con rupturas estructurales (Kim y Kon 1996).
+
+**Jump-diffusion** — movimiento browniano + saltos de Poisson para modelar shocks de noticias inesperadas. Base de extensiones de Black-Scholes que explican el "volatility smile".
+
+**Lognormal** — si los log-retornos son normales, los retornos simples son lognormales: $E(1+r_t) = e^{\dot{\mu} + \frac{1}{2}\dot{\sigma}^2}$. Incorpora la asimetría por responsabilidad limitada. El CAPM sigue siendo válido bajo lognormalidad.
+
+### Resumen comparativo
+
+| Distribución | Varianza finita | Captura skewness | Captura fat tails | Uso en práctica |
+|---|---|---|---|---|
+| Normal | Sí | No | No | Base teórica |
+| Estable Paretiana | No (si $\alpha<2$) | Sí | Sí | Investigación académica |
+| t de Student | Sí | No | Sí | Riesgo de mercado, opciones |
+| Mezcla de normales | Sí | Sí | Sí | Modelos de régimen |
+| Jump-diffusion | Sí | Sí | Sí | Opciones avanzadas |
+| Lognormal | Sí | Sí (positiva) | Moderado | Precios de acciones, B-S |
+
+---
+
+## Tema 9: Diversificación — cómo construir carteras
+
+### La idea central
+
+Mezclar activos que no se mueven igual reduce el riesgo sin reducir el retorno esperado. Esta es la única forma conocida de reducir riesgo sin coste.
+
+### Dos tipos de riesgo
+
+**Riesgo idiosincrático (específico)** — propio de un activo concreto. Si inviertes solo en Repsol y Repsol tiene un accidente, pierdes. Al añadir más activos descorrelacionados, este riesgo se diluye hasta casi desaparecer.
+
+**Riesgo sistemático (de mercado)** — común a todos los activos: recesiones, guerras, pandemias. No desaparece diversificando porque todos los activos caen a la vez. Este es el riesgo que el CAPM (tema 14) va a medir y a pagar.
+
+En el límite, con $n$ activos iguales con correlación $\rho$:
+
+$$\sigma_P^2 = \frac{\sigma^2}{n} + \frac{n-1}{n}\rho\sigma^2 \xrightarrow{n\to\infty} \rho\sigma^2$$
+
+El primer término desaparece (riesgo específico eliminado). El segundo persiste (riesgo sistemático).
+
+### Varianza de cartera
+
+Para una cartera con pesos $w_i$:
+
+$$\sigma_P^2 = \mathbf{w}^T \mathbf{\Sigma} \mathbf{w}$$
+
+Expandido para dos activos B y E:
+
+$$\sigma_P^2 = w_B^2\sigma_B^2 + w_E^2\sigma_E^2 + 2w_Bw_E\,\text{Cov}(r_B, r_E)$$
+
+El término clave es la **covarianza**. Si $\rho_{BE} < 0$, la varianza de la cartera puede caer por debajo de la varianza de cualquiera de los activos individuales. Por eso los bonos y las acciones se han combinado históricamente bien.
+
+### Frontera eficiente de Markowitz (1952)
+
+Al variar los pesos de todos los activos disponibles, obtienes el **conjunto de oportunidades de activos de riesgo (OSRA)**: todos los portfolios posibles en el espacio ($\sigma_P$, $E(r_P)$).
+
+Dentro del OSRA:
+- **Frontera eficiente:** la parte superior. Para cada nivel de riesgo, el portfolio con máximo retorno esperado.
+- **Portfolio de mínima varianza (MV):** el punto más a la izquierda.
+- **Frontera ineficiente:** la parte inferior — mismo riesgo, menos retorno.
+
+### Capital Allocation Line (CAL) y Sharpe ratio
+
+Combinando el portfolio de riesgo $P$ con el activo libre de riesgo:
+
+$$E(r_C) = r_f + \frac{E(r_P) - r_f}{\sigma_P} \cdot \sigma_C = r_f + S_P \cdot \sigma_C$$
+
+La pendiente de esta línea es el **Sharpe ratio**:
+
+$$S_P = \frac{E(r_P) - r_f}{\sigma_P}$$
+
+Retorno en exceso por unidad de riesgo. La métrica más usada en la industria para comparar gestores y fondos. El portfolio óptimo maximiza el Sharpe ratio.
+
+### Portfolio completo óptimo
+
+El inversor reparte entre el portfolio óptimo $P$ y el activo libre de riesgo en proporción:
+
+$$y^* = \frac{E(r_P) - r_f}{\lambda \sigma_P^2}$$
+
+A mayor aversión al riesgo ($\lambda$ alto), menor fracción en activos de riesgo.
+
+---
+
+## Tema 10: Inversión Más Allá de Media-Varianza
+
+### La idea central
+
+Media y varianza describen completamente la distribución solo bajo normalidad. El tema 8 demostró que los retornos no lo son. Tres criterios alternativos que no dependen de ese supuesto.
+
+### 1. Criterio de la Media Geométrica (GMR)
+
+La media aritmética sobreestima el crecimiento real porque ignora el compounding. La corrección:
+
+$$r_g \approx \bar{r} - \frac{1}{2}\sigma^2$$
+
+Un activo con $\bar{r} = 18.4\%$ y volatilidad alta puede tener $r_g = 2.9\%$ — el crecimiento real anual. Maximizar la GMR equivale a maximizar la utilidad logarítmica en contexto multiperiodo.
+
+### 2. Criterios de Seguridad Primero (Safety-First)
+
+Fijan un retorno mínimo tolerable $r_L$ y/o probabilidad máxima de caer bajo él ($\alpha$). Los tres criterios bajo normalidad:
+
+| Criterio | Qué fija | Qué optimiza | Ranking ejemplo |
+|---|---|---|---|
+| Roy | $r_L$ | Minimiza $\text{Prob}(r < r_L)$ | B > C > A > D |
+| Kataoka | $\alpha$ | Maximiza $r_L$ | D > C > B > A |
+| Telser | $r_L$ y $\alpha$ | Maximiza $E(r)$ | C > B |
+| Sharpe ratio | — | Maximiza ratio exceso/riesgo | A > C > D > B |
+
+Roy con $r_L = r_f$ produce exactamente el mismo portfolio óptimo que el Sharpe ratio. Los rankings divergen — la elección depende de qué define "desastre" para el inversor.
+
+### 3. Dominancia Estocástica
+
+Compara distribuciones completas sin asumir normalidad ni función de utilidad concreta.
+
+- **FSD:** A domina a B si $F_A(r) \leq F_B(r)$ para todo $r$. Cualquier inversor prefiere A independientemente de su aversión al riesgo.
+- **SSD:** integra las diferencias de CDFs; válido para inversores aversos al riesgo ($U'' < 0$). Bajo normalidad, el conjunto SSD-eficiente coincide con la frontera de Markowitz.
+- **TSD:** añade aversión al riesgo absoluta decreciente. Reduce aún más el conjunto eficiente.
+
+**Jerarquía:** FSD-eficiente ⊇ SSD-eficiente ⊇ TSD-eficiente. Ventaja: no asume distribución específica. Inconveniente: comparaciones por pares computacionalmente prohibitivas con muchos activos — uso principalmente académico.
+
+---
+
+## Lo más importante para recordar
+
+**1. Los log-retornos son el lenguaje cuantitativo de las finanzas.**
+Todo modelo de precios, backtesting y estimación de parámetros usa log-retornos. La capitalización continua conecta con Black-Scholes; la suma temporal conecta con la eficiencia computacional.
+
+**2. Los retornos no son normales. Siempre.**
+Skewness negativa y kurtosis > 3 son universales. Mezclas de normales y saltos de Poisson son las explicaciones más convincentes. La pregunta correcta ante cualquier modelo no es "¿funciona en promedio?" sino "¿qué pasa en el percentil 1%?".
+
+**3. La diversificación elimina riesgo específico gratis — hasta el riesgo sistemático.**
+Añadir activos descorrelacionados reduce el riesgo sin coste en retorno esperado. El riesgo sistemático no desaparece. Distinguir ambos tipos es la base del CAPM.
+
+**4. El Sharpe ratio y la GMR son las dos métricas de comparación más usadas.**
+Sharpe ratio para comparación en un período; media geométrica para evaluar estrategias multiperiodo. La GMR penaliza la volatilidad automáticamente — un activo muy volátil puede destruir riqueza aunque tenga media aritmética alta.
+
+**5. Los criterios safety-first son el puente entre teoría y gestión de riesgo real.**
+En la práctica, gestoras, pensiones y reguladores piensan en términos de pérdidas máximas tolerable (Roy/Kataoka) o retorno mínimo garantizado — no en utilidad abstracta. El criterio de Roy con $r_L = r_f$ produce exactamente el mismo portfolio óptimo que el Sharpe ratio.
+
+**6. Media-varianza es el punto de partida, no el final.**
+La dominancia estocástica demuestra que hay portfolios Markowitz-eficientes que no maximizan la utilidad esperada cuando los retornos son no normales. En la práctica, los modelos avanzados corrigen con CVaR, distribuciones t o mezclas.
+
+---
+
+## Conexión con el resto del módulo
+
+| Concepto de este bloque | Dónde aparece después |
+|---|---|
+| Volatilidad $\sigma$ | Input #1 de Black-Scholes (Tema 21) |
+| Retorno esperado $\mu$ | CAPM: $E(r_i) = r_f + \beta_i(E(r_m) - r_f)$ (Tema 14) |
+| Jump-diffusion, fat tails | Complicaciones de Black-Scholes (Tema 21) |
+| t de Student, mezclas | Modelos de volatilidad estocástica |
+| Sharpe ratio | Evaluación de estrategias activas (Temas 14-15) |
+| Safety-first / CVaR | Gestión de riesgos (regulación Basilea) |
+| Dominancia estocástica | Marco teórico de comparación de fondos |
+</script>
+<script type="text/markdown" id="c-m7-markowitz">
+# Markowitz, CAL y Sharpe ratio
+
+---
+
+## Para qué sirve este bloque
+
+Toda decisión de inversión tiene dos preguntas: cuánto puedo ganar y cuánto puedo perder. Markowitz formaliza eso. La CAL y el Sharpe ratio resuelven qué pasa cuando añades una opción sin riesgo a la mezcla.
+
+---
+
+## Markowitz: la nube de posibilidades
+
+Tienes un universo de $m$ activos de riesgo. Quieres construir un portfolio eligiendo $n$ de ellos y asignando pesos $(w_1, w_2, ..., w_n)$ que sumen 100%.
+
+Para cada combinación de activos y pesos puedes calcular:
+
+- **Retorno esperado** del portfolio: media ponderada de los retornos individuales
+- **Riesgo** del portfolio: varianza que depende de los pesos y de las correlaciones entre activos
+
+$$\sigma_P^2 = \mathbf{w}^T \mathbf{\Sigma} \mathbf{w}$$
+```python
+# Expected portfolio return
+np.sum(weights * log_returns.mean()) * 250
+# Expected Portfolio Variance
+np.dot(weights.T, np.dot(log_returns.cov() * 250, weights))
+# Expected Portfolio Volatility
+np.sqrt(np.dot(weights.T, np.dot(log_returns.cov() * 250, weights)))
+```
+
+Si simulas todas las combinaciones posibles de activos y pesos, obtienes una nube de puntos en el espacio (riesgo, retorno). Cada punto es un portfolio distinto.
+
+```
+E(r)
+ |          * frontera eficiente
+ |        *
+ |      * *  (nube interior — posibles pero subóptimos)
+ |    *
+ |  * (mínima varianza)
+ |___________________________
+                            σ
+```
+
+La **frontera eficiente** es el borde superior de esa nube: para cada nivel de riesgo, el portfolio con mayor retorno esperado. Todo lo que está por debajo de la frontera es dominado — mismo riesgo, menos retorno. Se descarta.
+
+El resultado de Markowitz no es un portfolio único sino una frontera: una curva de opciones óptimas. Qué punto de esa curva eliges depende de tu aversión al riesgo.
+
+### Por qué la frontera es curva
+
+Cuando combinas dos activos de riesgo, la varianza del resultado no es la suma de sus varianzas: depende de la correlación entre ellos. Esa dependencia no lineal es lo que hace que la frontera sea curva, no una recta. A menor correlación entre activos, más a la izquierda puede llegar la frontera — menor riesgo para el mismo retorno. Eso es la diversificación.
+
+---
+
+## Añades un activo sin riesgo — y el problema cambia de forma
+
+Un bono del Estado o una cuenta garantizada paga un tipo fijo $r_f$ con riesgo cero: $\sigma = 0$, correlación 0 con todo. En la práctica, $r_f$ no es algo que elijas — es el tipo que fija el banco central (BCE, Fed), observable y disponible para todos. Representa el coste de oportunidad de invertir: si no haces nada, el mercado ya te da $r_f$ gratis. Cualquier activo de riesgo tiene que justificar el riesgo adicional frente a ese punto de referencia.
+
+Ahora tu decisión ya no es solo "qué mezcla de activos de riesgo elijo" sino:
+
+> **¿Cuánto de mi dinero pongo en activos de riesgo y cuánto en el activo sin riesgo?**
+
+Podrías meter el activo sin riesgo directamente en Markowitz, pero matemáticamente el modelo colapsa: como el bono tiene varianza y covarianza cero, la no-linealidad que generaba la curva desaparece. Cualquier mezcla entre el bono y un portfolio de riesgo escala de forma perfectamente lineal — en retorno y en riesgo. El resultado no es una curva sino una recta.
+
+---
+
+## La CAL: la línea bono–portfolio
+
+Elige un portfolio cualquiera $P$ de la frontera eficiente. En el gráfico está en el punto $(\sigma_P,\ E(r_P))$, por ejemplo $(15\%,\ 9\%)$.
+
+El bono está en el eje Y, en el punto $(0,\ r_f)$, por ejemplo $(0,\ 3\%)$ — riesgo cero, retorno garantizado.
+
+Si mezclas bono y $P$ en distintas proporciones, obtienes todos los puntos entre esos dos extremos. Como ambos escalan linealmente, forman una **recta**. Esa recta es la **Capital Allocation Line (CAL)** para el portfolio $P$.
+
+```
+E(r)
+ |
+9%|              * P
+ |            /
+ |          /
+3%|* bono  /
+ |      /
+ |____/___________
+      0%    15%    σ
+```
+
+Moviéndote a lo largo de esta recta:
+- En el extremo izquierdo (todo en bono): $r_f$, riesgo 0
+- En el extremo derecho (todo en $P$): retorno y riesgo de $P$
+- En el medio: proporcional al peso que pones en cada uno
+- Más allá de $P$ (apalancamiento): pides prestado al tipo $r_f$ e inviertes más del 100% en $P$
+
+---
+
+## El Sharpe ratio: la pendiente de la recta
+
+Puedes trazar esa recta desde el bono hacia cualquier portfolio de la frontera eficiente. Cada uno da una recta distinta. La pregunta es: ¿cuál es mejor?
+
+La más empinada. Para cualquier nivel de riesgo que decidas asumir, la recta más empinada te da más retorno. Y como todas las rectas salen del mismo punto (el bono), "más empinada" equivale exactamente a "más retorno por unidad de riesgo añadida".
+
+Eso es el **Sharpe ratio**: la pendiente de la recta bono–$P$.
+
+$$S_P = \frac{E(r_P) - r_f}{\sigma_P}$$
+
+El numerador es el retorno en exceso sobre el bono — lo que ganas de más por asumir riesgo. El denominador es la unidad de riesgo. Sharpe ratio = precio del riesgo para ese portfolio.
+
+---
+
+## Dos decisiones separadas
+
+Aquí está la distinción clave:
+
+**Decisión 1 — ¿Qué portfolio de riesgo elijo?**
+De todos los portfolios en la frontera eficiente, el mejor es el de mayor Sharpe ratio. Es el punto donde la recta desde el bono es tangente a la curva de Markowitz — la recta más empinada posible que todavía toca la frontera.
+
+```
+E(r)
+ |            / ← recta óptima (tangente a la frontera en T)
+ |          T ← portfolio tangente
+ |        * /\
+ |      *  /  P2 ← otra recta, menos empinada
+ |    *   /
+3%|*   /
+ |/__________________
+  0                 σ
+```
+
+**Decisión 2 — ¿Cuánto pongo en $T$ vs. en el bono?**
+Una vez elegido el portfolio tangente $T$, tu aversión al riesgo determina en qué punto de la recta te sitúas:
+
+$$y^* = \frac{E(r_T) - r_f}{\lambda \cdot \sigma_T^2}$$
+
+- Inversor conservador ($\lambda$ alto): $y^*$ pequeño → mucho en bono, poco en $T$
+- Inversor agresivo ($\lambda$ bajo): $y^*$ grande → mucho en $T$, puede llegar al apalancamiento
+
+### El resultado más poderoso
+
+Todos los inversores racionales mantienen el **mismo portfolio de activos de riesgo** — el tangente $T$. Lo que varía entre inversores es cuánto ponen ahí. Esto es el **Teorema de Separación de Tobin**: la elección del portfolio de riesgo óptimo es independiente de la aversión al riesgo.
+
+---
+
+## Conexión con lo que viene
+
+| Concepto | Aparece después en |
+|---|---|
+| Portfolio tangente $T$ | Si el CAPM es cierto, $T$ = índice de mercado (Tema 14) |
+| Sharpe ratio | Evaluación de gestores, alpha de Jensen |
+| $\lambda$ y el reparto $y^*$ | Base del modelo de utilidad esperada |
+| Activo libre de riesgo $r_f$ | Input directo de Black-Scholes ($e^{-r_f T}$) |
+</script>
+<script type="text/markdown" id="c-m7-val1">
+# Módulo 7 — Valoración de Instrumentos Financieros
+## Resumen Temas 11–17 (Valoración I)
+
+> **Fuente:** Guía Didáctica Módulo 7 (UNED, curso 2025/26), páginas 186–310  
+> **Nota:** Los temas 16 y 17 (*Extensions of the Standard CAPM* y *Continuous Time Asset Price Model*) no están incluidos en este PDF.
+
+---
+
+## Tema 11 — Fixed Income
+
+### Terminología y estructura de un bono
+- **Par (face value):** importe del préstamo, devuelto en su totalidad al vencimiento.
+- **Cupón:** pago periódico de intereses = tasa cupón × par.
+- **Zero-coupon bond:** solo paga el par al vencimiento (p.ej. T-bills, strips).
+- Los detalles constan en el **bond indenture**.
+
+### Características del bono
+| Tipo | Beneficia a | Mecanismo |
+|---|---|---|
+| Floating rate | Inversor | Interés ligado a tasas actuales → menor sensibilidad a tipos |
+| Indexed bond | Inversor | Par varía con inflación |
+| Interest rate put | Inversor | Fuerza recompra si tipos suben |
+| Convertible | Inversor | Reembolso en equity a elección del inversor |
+| Interest rate call | Emisor | Rescata el bono si tipos bajan |
+| Sinking fund | Emisor | Amortiza parcialmente a lo largo del tiempo |
+| Asset-backed | Emisor | Traslada riesgo de préstamos a inversores (p.ej. MBS) |
+| Catastrophe bond | Emisor | Paga menos si ocurre un evento catastrófico |
+
+### Valoración
+**Precio justo** (pago anual, tasa constante r, vencimiento T):
+
+$$\text{Bond value} = \frac{\text{par}}{(1+r)^T} + \frac{\text{cupón}}{r}\left[1 - \frac{1}{(1+r)^T}\right]$$
+
+- **Dirty price** = precio limpio + interés acumulado (accrued interest).
+- **Accrued interest** = cupón × (días desde último cupón / días entre cupones).
+- Convención daycount: 30/360 (deuda soberana EE.UU.) o Actual/365 (corporativos, algunos países).
+
+### Yields
+- **YTM (Yield to Maturity):** retorno anual si se mantiene hasta vencimiento; es el r que iguala precio de mercado con precio teórico.
+- **Current yield** = cupón anual / precio actual.
+- Otras: yield to call, yield to put.
+
+### Sensibilidad a tipos de interés
+- Tipos ↑ → precios ↓ (relación inversa).
+- Bonos de mayor vencimiento son más sensibles.
+- **DV01:** cambio en precio por 1 bp de variación en yield.
+- **Duration (Macaulay):** media ponderada (por PV) de los flujos de caja — proxy de la sensibilidad.
+- **Modified duration D\*:** % de variación del precio ante variación en yield.
+- **Convexidad:** segunda derivada del precio respecto al yield; cuantifica la no-linealidad. Permite ajuste de Taylor de orden 2:
+
+$$\frac{\Delta P}{P_0} \approx -D^* \Delta y + \frac{\text{convexity}}{2}(\Delta y)^2$$
+
+- **Convexidad negativa:** bonos callable (el emisor los rescata si tipos bajan → el precio tiene techo).
+
+### Riesgos y elementos de mercado
+- **Default:** insolvencia de balance, insolvencia de flujo de caja o default estratégico.
+- **Covenants protectores:** subordinación, cross-default, restricciones de dividendos, restricciones de activos.
+- **Credit spread:** diferencia de yield respecto a deuda soberana equivalente. TED spread > 50 bp → señal de crisis.
+- **High yield (junk):** bonos sub-investment grade; se comportan parcialmente como equity.
+- **Liquidez:** bonos on-the-run vs off-the-run; diferencia de yield puede ser decenas de bp.
+- **Repo:** venta + recompra de activos como garantía de un préstamo de cash. Haircut = margen de seguridad del prestamista.
+
+---
+
+## Tema 12 — Yield Curves
+
+### Estructura temporal y tipos de tasas
+- **Spot rates (zero rates):** yield de bonos cupón-cero a cada plazo.
+- **Forward rates:** tipos acordados hoy para un préstamo que empieza en el futuro.
+- **Short rates:** tasas a corto plazo vigentes hoy.
+- La curva de rendimiento (*yield curve*) representa yields vs plazos para deuda soberana.
+
+### Formas de la curva y señales macro
+| Forma | Señal habitual |
+|---|---|
+| Upward sloping (suave) | Economía estable, crecimiento |
+| Inverted | Expectativas de desaceleración/recesión |
+| Humped | Defensa de divisa; gobierno sube tipos medios para retener inversores |
+
+- Factores Litterman-Scheinkman: **nivel**, **pendiente**, **curvatura** (shift, twist, bow).
+
+### Bootstrapping
+Para construir la curva zero a partir de bonos con cupón: usar spot rates conocidos para despejar el siguiente spot rate desconocido iterativamente (de corto a largo plazo).
+
+### Teorías de la estructura temporal
+1. **Expectations hypothesis:** las tasas forward predicen las tasas cortas futuras.
+2. **Liquidity preference:** los inversores exigen prima por comprometer liquidez → forward rates > E(tasas cortas).
+3. **Market segmentation:** inversores con horizontes distintos y sin sustitución entre tramos.
+4. **Preferred habitat:** como la anterior, pero con sustitución si hay precio suficiente.
+
+### Política monetaria
+- Los bancos centrales operan principalmente sobre el extremo corto de la curva (tipo overnight).
+- Desde 2008: operaciones de mercado abierto en tramos largos (QE) y activos de riesgo.
+- **Doble mandato Fed:** estabilidad de precios + máximo empleo (post-2008 añade estabilidad financiera).
+
+### Modelos de curva
+- **Vasicek:** proceso Ornstein-Uhlenbeck para la tasa corta: $dr_t = \kappa(\bar{r} - r_t)dt + \sigma dW_t$
+- **Nelson-Siegel / Svensson:** factores de nivel, pendiente y curvatura (uno o dos jorobas).
+
+---
+
+## Tema 13 — Equity Valuation
+
+### Análisis sectorial e industrial
+- **DOL (Degree of Operating Leverage)** = 1 + costes fijos / beneficios → mide sensibilidad al ciclo.
+- Software: DOL alto (costes fijos altos, variables bajos). Construcción: DOL bajo.
+- **Sector rotation:** sobreponderar defensivos / infraponderar cíclicos al entrar en contracción.
+- Codificaciones de industria: NAICS, UKSIC, NACE, ISIC.
+
+### Análisis fundamental y comparables
+- Ratios: **P/E**, **P/B** (book), **P/CF** (cashflow), **P/S** (sales).
+- Limitaciones del P/E: earnings gestionables, no sirve para startups, inestable en cíclicas.
+- **Tobin's q** = precio de mercado / coste de reposición de activos → tiende a 1 por competencia.
+
+### Modelos de valoración por descuento
+
+**DDM básico** (H años):
+$$V_0 = \sum_{t=1}^{H} \frac{D_t}{(1+k)^t} + \frac{P_H}{(1+k)^H}$$
+
+**Gordon-Shapiro (crecimiento constante g)**:
+$$V_0 = \frac{D_1}{k - g} \quad \Rightarrow \quad k = \frac{D_1}{P_0} + g$$
+
+- Reinversión: si ROE > k, tiene sentido no pagar todo como dividendo.
+- $g = b \times \text{ROE}$ donde $b$ = fracción de beneficios retenida.
+- **DuPont:** ROE = margen neto × rotación de activos × multiplicador de equity.
+- **DDM multiestage:** modela el ciclo de vida de la empresa (crecimiento alto → madurez → terminal).
+
+**Free Cashflow to the Firm (FCFF)**:
+$$\text{FCFF} = \text{EBIT}(1-\tau) + \text{amortización} - \text{capex} - \Delta\text{NWC}$$
+$$V_0^{\text{firma}} = \sum_t \frac{\text{FCFF}_t}{(1+\text{WACC})^t}$$
+
+$$\text{WACC} = w_e r_e + (w_b r_b + w_l r_l)(1-\tau)$$
+
+**FCFE** (Free Cashflow to Equity) = FCFF − intereses(1−τ) + variación neta de deuda.
+
+**Comparación de modelos:** en teoría (Modigliani-Miller) todos dan el mismo valor; divergen por incertidumbre en inputs, impuestos, fricciones y no-constancia de rf.
+
+### Corrección por desigualdad de Jensen
+Cuando se estiman $\hat{k}$ y $\hat{g}$ con incertidumbre, la valoración debe corregirse:
+$$\hat{V}_0 \approx \frac{\hat{D}}{\hat{k}-\hat{g}} + \frac{\hat{D}}{(\hat{k}-\hat{g})^3}(\sigma^2_k + \sigma^2_g - 2\,\text{Cov}(\hat{k},\hat{g}))$$
+
+### PVGO y P/E
+$$\text{PVGO} = P_0 - \frac{E_1}{k} \quad;\quad \frac{P_0}{E_1} = \frac{1}{k}\left(1 + \frac{\text{PVGO}}{E_1/k}\right)$$
+
+- Si PVGO = 0, la acción se valora como una renta perpetua.
+- Regla rápida: P/E / g < 1 → acción atractiva.
+
+---
+
+## Tema 14 — Capital Asset Pricing Model (CAPM)
+
+### Notación
+| Símbolo | Significado |
+|---|---|
+| $r_i$ | retorno del activo i |
+| $r_M$ | retorno del portfolio de mercado |
+| $r_f$ | tasa libre de riesgo |
+| $R_i = r_i - r_f$ | exceso de retorno |
+| $\beta_i$ | sensibilidad al factor de mercado |
+| $\alpha_i$ | retorno anormal / inexplicado |
+
+### Single-Index Model
+$$R_{i,t} = \alpha_i + \beta_i R_{M,t} + \varepsilon_{i,t}$$
+
+- **Ventaja:** reduce inputs de $\frac{n(n+3)}{2}$ a $3n+3$ (para 50 activos: 1.325 → 153 estimaciones).
+- **Limitación:** no captura correlaciones idiosincrásicas entre pares.
+
+### CAPM (Sharpe-Lintner-Mossin, 1964-1966)
+**Supuestos:** muchos inversores price-takers, sin impuestos ni costes, horizonte único, maximización media-varianza, expectativas homogéneas.
+
+**Resultado de equilibrio:** todos los inversores sostienen el mismo portfolio de riesgo = portfolio de mercado M. La Capital Market Line (CML) = Capital Allocation Line (CAL).
+
+**Ecuación CAPM:**
+$$E(r_i) - r_f = \beta_i [E(r_M) - r_f] \quad ;\quad \beta_i = \frac{\text{Cov}(r_i, r_M)}{\sigma^2_M}$$
+
+- **Security Market Line (SML):** plot de $E(r_i)$ vs $\beta_i$. Activos por encima → alpha positivo (infravalorados). Por debajo → alpha negativo.
+
+### Limitaciones del CAPM
+- **Teóricas:** un solo factor de riesgo es insuficiente; los inversores no son todos media-varianza; equilibrio puede no existir.
+- **Empíricas:** el portfolio de mercado verdadero es desconocido; heteroscedasticidad; correlación serial; betas pasados predicen mal betas futuros.
+
+### Mejoras del CAPM
+- **Betas ajustados:** Blume ($\hat{\beta}_i = \frac{1}{3} + \frac{2}{3}\hat{\beta}_i^{\text{hist}}$) o Vasicek (shrinkage bayesiano).
+- **Conditional CAPM:** betas varían con el ciclo macroeconómico (Rothschild-Harvey).
+- **Intertemporal CAPM (ICAPM, Merton):** añade factor de estado económico.
+- Incluir capital humano o empresas privadas mejora el ajuste.
+
+### Hedging y alpha portátil
+- Portfolio de tracking T replica el $\beta$ de P usando el índice + T-bills.
+- Posición larga en P + corta en T → market neutral → aísla el alpha.
+- **Zero-beta portfolio (Black):** cuando no hay activo libre de riesgo, la tangente a la frontera en M define una tasa implícita $r_z$ → versión Black del CAPM.
+
+---
+
+## Tema 15 — Factor Models y Arbitrage Pricing Theory (APT)
+
+### Motivación
+Un solo factor de mercado es insuficiente → modelos multifactor.
+
+**Modelo general multifactor:**
+$$R_i = \alpha_i + \beta_{i,1}F_1 + \beta_{i,2}F_2 + \ldots + \beta_{i,k}F_k + \varepsilon_i$$
+
+### APT (Ross, 1976)
+Tres supuestos:
+1. Los retornos se describen por un modelo factorial.
+2. El riesgo idiosincrásico se puede diversificar.
+3. Los mercados no permiten arbitraje persistente.
+
+**Implicación:** $R_i \approx \beta_{i,1}F_1 + \ldots + \beta_{i,k}F_k$ (sin alpha en equilibrio).
+
+**Arbitraje:**
+- *Relativo:* dos portfolios bien diversificados con igual exposición a factores pero diferente retorno esperado → comprar barato, vender caro.
+- *Absoluto:* un portfolio con retorno observado mayor que el predicado por los factores → construir portfolio arb con T-bills y tracking portfolios.
+
+**Dominancia vs arbitraje:** el APT se apoya en pocos agentes que toman posiciones grandes (cierre rápido del desequilibrio), más robusto que el argumento de dominancia del CAPM.
+
+### Factores macro
+**Chen-Roll-Ross (5 factores):**
+- Crecimiento producción industrial (%IP)
+- Inflación esperada E(i)
+- Sorpresa de inflación (Δi − E(i))
+- Cambio en credit spread corporativo (CMG)
+- Cambio en pendiente de la curva (LMS)
+
+**Modelos para hedge funds:** Hasanhodzic-Lo (6 factores), Fung-Hsieh (7 y 8 factores).
+
+### Factores micro
+- **ARCH/GARCH-in-mean:** volatilidad actual afecta a retornos.
+- **Liquidity CAPM (Acharya-Pedersen):** diferencial bid-ask como factor de riesgo.
+- **Pastor-Stambaugh:** sorpresa en volumen en dólares como proxy de liquidez.
+
+### Factores de estilo
+- **Fama-French 3 factores:** mercado (RM), tamaño (SMB: small minus big), valor (HML: high minus low book/price).
+- **Carhart 4 factores:** añade momentum (WML: winners minus losers).
+- **Fama-French 5 factores:** añade rentabilidad (RMW) e inversión (CMA).
+
+**¿Son reales estos factores?**
+- SMB probablemente relacionado con credit spreads y small-cap.
+- HML activo principalmente alrededor de anuncios de beneficios.
+- WML posiblemente news sentiment o sorpresa en desempleo.
+- Harvey-Liu-Zhu: solo son robustos estadísticamente el mercado, HML, momentum, consumo duradero, volatilidad a corto plazo y liquidez.
+
+### Límites del arbitraje
+- **Huberman-Stanzl:** los mercados no permiten quasi-arbitraje (coste de entrada ≈ coste de salida).
+- **"Siamese Twin" shares:** evidencia de que el APT no es exacto.
+- Otros frenos: model risk, fundamental risk, restricciones de crédito, segmentación de mercado.
+
+---
+
+## Temas 16 y 17 — No disponibles en este PDF
+
+| Tema | Título | Estado |
+|---|---|---|
+| 16 | Extensions of the Standard CAPM | No incluido en la guía didáctica PDF |
+| 17 | Continuous Time Asset Price Model | No incluido en la guía didáctica PDF |
+
+Estos temas corresponden a la 3ª semana del módulo (4–11 junio) y deberían buscarse en el material docente adicional del curso.
+</script>
+<script type="text/markdown" id="c-m7-val2">
+# Módulo 7 — Temas 18 a 21: Valoración II — Derivados y Pricing de Opciones
+
+## Para qué sirve este bloque
+
+Los temas anteriores del módulo establecieron cómo medir el riesgo (temas 6-10) y cómo valorar activos bajo modelos de equilibrio como CAPM (temas 11-17). Este bloque da el siguiente paso: cómo valorar instrumentos cuyo precio no depende directamente de un activo, sino del derecho a comprarlo o venderlo en el futuro. Eso es un **derivado financiero**: un contrato cuyo valor se deriva del comportamiento de otro activo subyacente.
+
+La pregunta central que responde este bloque es: ¿cuánto vale hoy la posibilidad de comprar una acción a un precio fijado dentro de un año? La respuesta requiere dos herramientas: la **fórmula de Black-Scholes** (solución analítica) y la **discretización de Euler con Monte Carlo** (solución numérica). Ambas producen el mismo resultado por caminos distintos, lo que refuerza la robustez del resultado.
+
+---
+
+## Tema 18: Introducción a los contratos derivados
+
+### La idea central
+
+Un derivado no tiene valor propio: su precio depende del comportamiento de un activo subyacente (una acción, un índice, un tipo de cambio). Surgieron como instrumentos de cobertura — para proteger posiciones ante movimientos adversos de precios — pero hoy los usan también especuladores y arbitrajistas.
+
+### Los cuatro tipos principales
+
+**Forward**: contrato privado entre dos partes para intercambiar un activo en una fecha futura a un precio pactado hoy. No cotiza en bolsa, no está estandarizado, y genera exposición de crédito bilateral (si una parte incumple, la otra sufre el daño). Se usa principalmente para cubrir riesgos de tipo de cambio o de materias primas.
+
+**Futuro**: equivalente al forward pero estandarizado y negociado en mercados regulados. La estandarización reduce el riesgo de contraparte (la cámara de compensación actúa como intermediario), pero elimina flexibilidad. El comprador asume la obligación de adquirir el subyacente en la fecha de vencimiento; el vendedor, de entregarlo.
+
+**Opción**: a diferencia del forward y el futuro, la opción da un **derecho, no una obligación**. Una *call* (opción de compra) da al titular el derecho a comprar el subyacente al precio de ejercicio (*strike price*) antes o en la fecha de vencimiento. Una *put* (opción de venta) da el derecho a venderlo. El vendedor de la opción sí tiene la obligación de cumplir si el comprador ejerce. Por asumir esa obligación, el vendedor cobra una prima.
+
+**Swap**: acuerdo para intercambiar flujos de caja futuros según condiciones pactadas. El caso más común es el *interest rate swap*: una parte paga tipo fijo y recibe tipo variable. Se usan para gestionar exposición a tipos de interés, divisas, o para aprovechar ventajas comparativas en distintos mercados de deuda.
+
+La diferencia estructural entre estos cuatro contratos no es trivial: forward y futuros obligan a ambas partes; opciones dan flexibilidad unilateral al comprador a cambio de una prima; swaps redistribuyen flujos recurrentes en lugar de un único intercambio.
+
+---
+
+## Tema 19: Valoración de opciones — Fórmula de Black-Scholes
+
+### La idea central
+
+Black, Scholes y Merton (1973) resolvieron el problema de cuánto vale hoy una opción europea (solo ejercible al vencimiento). Su fórmula da un precio analítico exacto bajo un conjunto de supuestos: mercados eficientes, sin costes de transacción, sin dividendos, volatilidad y tasa libre de riesgo conocidas y constantes, y precios del subyacente que siguen una distribución lognormal.
+
+### La fórmula
+
+El precio de una *call* europea es:
+
+$$C = S \cdot N(d_1) - K \cdot e^{-rT} \cdot N(d_2)$$
+
+donde:
+
+$$d_1 = \frac{\ln(S/K) + (r + \sigma^2/2) \cdot T}{\sigma \sqrt{T}}, \qquad d_2 = d_1 - \sigma\sqrt{T}$$
+
+Los símbolos son: $S$ = precio actual del subyacente, $K$ = precio de ejercicio (*strike*), $r$ = tasa libre de riesgo, $\sigma$ = volatilidad anualizada del subyacente, $T$ = tiempo hasta vencimiento en años, $N(\cdot)$ = función de distribución acumulada normal estándar.
+
+**¿Qué calcula cada parte?** El término $S \cdot N(d_1)$ es el valor esperado de lo que recibes si ejerces la opción (el activo, ponderado por la probabilidad de que valga la pena ejercerla). El término $K \cdot e^{-rT} \cdot N(d_2)$ es el valor presente de lo que pagas al ejercerla. La diferencia es el valor neto de la opción hoy.
+
+$N(d_1)$ y $N(d_2)$ son probabilidades, obtenidas con la función de distribución acumulada normal (en Python, `scipy.stats.norm.cdf()`). $N(d_2)$ es la probabilidad de que la opción termine *in the money* (precio de mercado > strike al vencimiento). $N(d_1)$ pondera adicionalmente el tamaño del beneficio.
+
+### Implementación en Python
+
+```python
+import numpy as np
+from scipy.stats import norm
+
+def d1(S, K, r, stdev, T):
+    return (np.log(S / K) + (r + stdev**2 / 2) * T) / (stdev * np.sqrt(T))
+
+def d2(S, K, r, stdev, T):
+    return (np.log(S / K) + (r - stdev**2 / 2) * T) / (stdev * np.sqrt(T))
+
+def BSM(S, K, r, stdev, T):
+    return S * norm.cdf(d1(S, K, r, stdev, T)) - K * np.exp(-r * T) * norm.cdf(d2(S, K, r, stdev, T))
+```
+
+Para Procter & Gamble en abril 2017: $S = 88.12$, $K = 110$, $r = 2.5\%$, $\sigma = 0.176$, $T = 1$ año → precio de la call ≈ **$1.13**.
+
+La diferencia entre $d_1$ y $d_2$ en el código es que $d_1$ suma $\sigma^2/2$ y $d_2$ la resta. Esto corresponde al ajuste de Itô en el logaritmo del precio esperado.
+
+---
+
+## Tema 20: Monte Carlo con Black-Scholes
+
+### La idea central
+
+Antes de pasar a Euler, el material presenta Monte Carlo aplicado directamente al movimiento browniano geométrico que subyace a Black-Scholes. El objetivo es simular miles de trayectorias del precio del subyacente y estimar el precio de la opción como el promedio descontado de los payoffs simulados. Es conceptualmente más intuitivo que la fórmula cerrada, aunque computacionalmente más costoso.
+
+El precio del subyacente evoluciona como movimiento browniano geométrico:
+
+$$S_T = S_0 \cdot e^{(r - \frac{\sigma^2}{2})T + \sigma\sqrt{T} \cdot Z}$$
+
+donde $Z \sim N(0,1)$ es un shock aleatorio. Se generan miles de valores de $Z$, se calcula $S_T$ para cada uno, y el precio de la call es:
+
+$$C = e^{-rT} \cdot \mathbb{E}[\max(S_T - K, 0)]$$
+
+El resultado converge al valor de Black-Scholes a medida que aumenta el número de simulaciones.
+
+---
+
+## Tema 21: Discretización de Euler con Monte Carlo
+
+### La idea central
+
+La fórmula cerrada de Black-Scholes funciona para opciones europeas simples. Para instrumentos más complejos (opciones americanas, opciones barrera, productos estructurados con condiciones path-dependent), no existe solución analítica. La **discretización de Euler** resuelve esto simulando la trayectoria completa del precio paso a paso, no solo el valor final.
+
+### La fórmula de Euler
+
+En lugar de simular directamente $S_T$, se aproxima la evolución del precio en pequeños intervalos de tiempo $\Delta t$:
+
+$$S_t = S_{t-1} \cdot e^{(r - \frac{\sigma^2}{2})\Delta t + \sigma \sqrt{\Delta t} \cdot Z_t}$$
+
+donde cada $Z_t \sim N(0,1)$ es independiente. Esto discretiza la ecuación diferencial estocástica de Black-Scholes en pasos diarios (o del tamaño que se elija).
+
+### Implementación en Python
+
+```python
+T = 1.0
+t_intervals = 250          # días de trading
+delta_t = T / t_intervals
+iterations = 10000         # simulaciones
+
+Z = np.random.standard_normal((t_intervals + 1, iterations))
+S = np.zeros_like(Z)
+S[0] = S0                  # precio inicial
+
+for t in range(1, t_intervals + 1):
+    S[t] = S[t-1] * np.exp((r - 0.5 * stdev**2) * delta_t
+                           + stdev * delta_t**0.5 * Z[t])
+
+# Payoff y precio de la call
+p = np.maximum(S[-1] - K, 0)
+C = np.exp(-r * T) * np.sum(p) / iterations
+```
+
+Para los mismos parámetros de P&G: resultado ≈ **$1.16**, frente a $1.13 de Black-Scholes. La diferencia (~2.5%) es pequeña pero no nula: depende de la semilla aleatoria y del número de simulaciones. Con más iteraciones, converge.
+
+### Por qué Euler es más potente
+
+La diferencia no está en la precisión para opciones europeas simples (donde Black-Scholes es exacto), sino en la generalidad: Euler puede simular cualquier proceso estocástico, incluyendo varianza estocástica, saltos, o condiciones que dependen de toda la trayectoria del precio. Por eso se usa como base en modelos de riesgo avanzados.
+
+---
+
+## Lo más importante para recordar
+
+1. **Un derivado vale por el derecho que otorga, no por el subyacente en sí.** Una call vale $\max(S_T - K, 0)$: solo tiene valor si el precio de mercado supera el strike. Este payoff asimétrico es la esencia de las opciones.
+
+2. **Black-Scholes convierte la incertidumbre futura en un precio presente.** $N(d_1)$ y $N(d_2)$ son probabilidades que resumen toda la distribución de posibles precios futuros en dos números. La fórmula es exacta bajo sus supuestos, pero los supuestos (volatilidad constante, sin dividendos, mercados completos) son aproximaciones.
+
+3. **Monte Carlo y Euler dan el mismo resultado que Black-Scholes para opciones europeas.** Que las tres rutas converjan al mismo número (~$1.13–1.16) es una validación, no una redundancia. En la práctica, se usa la solución analítica cuando existe y Euler cuando no.
+
+4. **La discretización de Euler aproxima la EDE paso a paso.** Esto permite modelar cualquier proceso estocástico, no solo el lognormal. Es la base de los modelos de valoración de derivados exóticos y de la simulación de escenarios de riesgo.
+
+5. **La volatilidad es el input más crítico de Black-Scholes.** El precio del subyacente y el strike son observables; la tasa libre de riesgo está dada por el mercado. La volatilidad ($\sigma$) hay que estimarla — históricamente o implícita del mercado — y pequeñas diferencias en $\sigma$ generan grandes diferencias en el precio de la opción.
+
+---
+
+## Conexión con el resto del módulo
+
+| Concepto | Dónde aparece después |
+|---|---|
+| Movimiento browniano geométrico | Base de todos los modelos de simulación de precios en módulos posteriores |
+| Volatilidad histórica (log-returns std) | Módulo 5 (modelos de volatilidad y correlación) |
+| Monte Carlo | Módulo 2 (modelos de simulación); se retoma aquí aplicado a pricing |
+| Tasa libre de riesgo como tasa de descuento | Temas 11-17 (CAPM y multifactor) usan el mismo concepto de descuento a tasa $r$ |
+| Cobertura (hedging) con derivados | Módulo 8 (gestión de carteras) — el delta de una opción da el ratio de cobertura óptimo |
+| Gestión del riesgo de opciones | Módulo 9 (gestión de riesgos financieros) — Greeks (delta, gamma, vega) |
+</script>
+<script type="text/markdown" id="c-m8">
+# Módulo 8 — Temas 22 a 24: Gestión de Carteras de Inversión
+
+## Para qué sirve este bloque
+
+El módulo 7 terminó con cómo valorar una opción: Black-Scholes y Euler dan su precio teórico. Este bloque responde las preguntas que siguen: ¿cómo gestionas el riesgo de una posición en opciones una vez que la has vendido? (T22), ¿cómo funciona la volatilidad en los mercados reales, donde el supuesto de BSM claramente falla? (T23), y ¿cómo construyes y gestionas activamente un portfolio buscando rentabilidad por encima del benchmark? (T24).
+
+Los tres temas son independientes en su técnica pero comparten un eje común: la distancia entre los modelos teóricos y cómo operan los mercados de verdad.
+
+### Recall: definición Opción
+Una opción es un contrato que te da el **derecho** (pero no la obligación) de comprar o vender un activo a un precio fijado de antemano, en una fecha futura.
+
+Por ejemplo: hoy una acción de Repsol vale 15€. Compras una opción que te da derecho a comprarla a 15€ dentro de tres meses. Si dentro de tres meses la acción vale 20€, ejerces la opción — la compras a 15€ y ganas 5€. Si vale 12€, no la ejerces y pierdes solo lo que pagaste por la opción.
+
+Hay dos tipos básicos:
+- **Call:** derecho a comprar.
+- **Put:** derecho a vender.
+
+Y quien vende la opción (la institución financiera del Tema 22) asume la obligación contraria: tiene que venderte la acción a 15€ aunque valga 20€. Por eso necesita cubrir ese riesgo — ahí es donde entran las griegas.
+
+---
+
+## Tema 22: Dynamic Hedging — Cobertura con Opciones
+
+### La idea central
+
+Cuando una institución financiera vende una opción a un cliente que no corresponde a ningún contrato estandarizado en bolsa, no puede cubrirse comprando exactamente la misma opción en el mercado. Tiene que cubrirse de forma **dinámica**: reajustando continuamente una posición en el activo subyacente para neutralizar el riesgo de la opción. El marco teórico para hacer esto son las **griegas** — un conjunto de sensibilidades que miden cómo cambia el valor de la opción ante cambios en distintos factores de mercado.
+
+
+### EJEMPLO:
+
+Piénsalo así: si vendes una opción call a alguien (le das el derecho a comprarte Repsol a 15€), y la acción sube a 25€, tienes que venderle la acción a 15€ aunque te cueste 25€ en el mercado. Pierdes 10€ por acción.
+
+Para no estar expuesto a esa pérdida, la institución financiera **compra acciones de Repsol mientras espera**. Si tiene las acciones, cuando el cliente ejerza la opción simplemente se las entrega — no tiene que salir a comprarlas al precio alto.
+
+El problema es que no sabe si el cliente va a ejercer o no. Si compra todas las acciones desde el principio y el precio baja a 10€, ha perdido dinero en las acciones sin necesidad. Y si no compra nada y el precio sube mucho, pierde al tener que comprarlas caras al final.
+
+La cobertura dinámica resuelve esto comprando **una fracción** de las acciones — no todas, no ninguna. Esa fracción es exactamente la **delta**: si delta es 0.6, compras 0.6 acciones por cada opción vendida. Si el precio sube y la probabilidad de que el cliente ejerza aumenta, delta sube a 0.8 y compras más. Si el precio baja y es menos probable que se ejerza, delta baja y vendes parte.
+
+Vas ajustando esa posición continuamente según cómo evoluciona el precio — de ahí lo de "dinámica". El objetivo es que en cualquier momento, las ganancias o pérdidas en las acciones que tienes compradas compensen exactamente las pérdidas o ganancias en la opción que vendiste.
+
+### Las griegas
+
+Cada griega mide una dimensión diferente del riesgo de una posición en opciones. El objetivo del gestor es mantenerlas dentro de rangos aceptables.
+
+**Delta** ($\Delta$): sensibilidad del precio de la opción respecto al precio del subyacente. Una delta de 0.6 significa que si el subyacente sube 1€, la opción sube 0.6€. Cubrir el delta — mantenerlo en cero — es la cobertura básica. Para ello, el emisor de la call compra $\Delta$ acciones por cada opción vendida. Como delta cambia constantemente con el precio del subyacente, la cobertura requiere reajustes continuos.
+
+**Gamma** ($\Gamma$): sensibilidad del delta respecto al precio del subyacente. Mide cuánto cambia la cobertura necesaria cuando se mueve el mercado. Una posición con gamma alta es más difícil de cubrir porque el delta se desplaza rápidamente y hay que reajustar con más frecuencia.
+
+**Vega**: sensibilidad del precio de la opción respecto a la volatilidad implícita. Cubrir el vega requiere comprar otras opciones, no solo el subyacente. Una posición vendida en opciones tiene vega negativa: pierde valor si la volatilidad sube.
+
+**Theta** ($\Theta$): decaimiento del valor de la opción con el paso del tiempo. Una posición corta en opciones tiene theta positivo (el tiempo juega a favor del emisor).
+
+**Rho** ($\rho$): sensibilidad respecto al tipo de interés libre de riesgo. En general es la griega menos relevante para horizontes cortos.
+
+### Posición descubierta vs. posición cubierta
+
+Una **posición descubierta** (*naked*) significa no hacer nada: si la opción expira out-of-the-money, el emisor se queda la prima. Si expira in-the-money, asume la pérdida total. Una **posición cubierta** estática consiste en comprar desde el inicio el subyacente para poder entregarlo si es necesario, pero esto sobre-cubre cuando la opción no se ejerce. La cobertura dinámica con delta es el término medio: cubre el riesgo de forma continua al coste de las comisiones de reajuste.
+
+---
+
+## Tema 23: Trading de Volatilidad — La Sonrisa de Volatilidad
+
+### La idea central
+
+Black-Scholes asume que la volatilidad es constante y que los precios del subyacente siguen una distribución lognormal. Ninguna de las dos cosas se cumple en los mercados reales. Los operadores lo saben y lo ajustan: usan una volatilidad diferente para cada opción según su precio de ejercicio y su vencimiento. La representación gráfica de esta volatilidad implícita en función del precio de ejercicio se llama **sonrisa de volatilidad**.
+
+### Opciones sobre divisas: la sonrisa simétrica
+
+Para opciones sobre tipos de cambio, la volatilidad implícita es más alta en opciones muy dentro o muy fuera del dinero (*deep ITM/OTM*) y más baja para opciones *at-the-money*. El resultado es una curva en forma de U — la sonrisa.
+
+Esto refleja que la distribución real de los tipos de cambio tiene **colas más pesadas** que la lognormal (mayor kurtosis): los movimientos extremos son más frecuentes de lo que el modelo predice. Los datos lo confirman: los tipos de cambio superan 3 desviaciones estándar diarias el 1.34% de los días; el modelo lognormal predice solo el 0.27%.
+
+Las causas son dos: la volatilidad no es constante (varía a lo largo del tiempo) y los tipos de cambio sufren saltos discretos en respuesta a noticias o intervenciones de bancos centrales.
+
+### Opciones sobre acciones: el sesgo de volatilidad
+
+Para acciones e índices, la curva no es simétrica: la volatilidad implícita decrece a medida que aumenta el precio de ejercicio. Las opciones de venta *out-of-the-money* (puts baratas que se disparan en un crash) tienen volatilidad implícita muy alta; las calls *out-of-the-money* tienen volatilidad baja. Esto se llama **sesgo de volatilidad** (*volatility skew*), no sonrisa.
+
+Este patrón no existía antes del crash de octubre de 1987. La explicación más directa es el **apalancamiento**: cuando el precio de una acción cae, el ratio deuda/capital sube y la acción se vuelve más arriesgada, lo que aumenta su volatilidad. Otra explicación es la **fobia a los crash**: los operadores asignan una probabilidad subjetiva mayor a desplomes extremos que la que implica la lognormal, y valoran las puts protectoras en consecuencia.
+
+### Superficie de volatilidad
+
+Cuando se combinan la sonrisa (variación por strike) con la **estructura de plazos de la volatilidad** (variación por vencimiento), se obtiene una **superficie de volatilidad**: una función bidimensional que da la volatilidad implícita apropiada para cualquier combinación de precio de ejercicio y plazo. Los operadores usan esta superficie como input real en la fórmula de BSM, reemplazando el supuesto de volatilidad constante por una que se ajusta al mercado.
+
+La volatilidad implícita tiende a ser creciente con el plazo cuando las volatilidades de corto plazo están históricamente bajas (el mercado espera una reversión al alza), y decreciente cuando están altas. La sonrisa se aplana a medida que aumenta el vencimiento.
+
+---
+
+## Tema 24: Active Portfolio Management — Gestión Activa de Carteras
+
+### La idea central
+
+Un gestor **pasivo** replica un índice. Un gestor **activo** toma posiciones que se desvían del índice apostando a que sus señales de información generan rentabilidad adicional (**alpha**). El tema cubre tres marcos para construir portfolios activos y una forma de medir si la gestión activa añade valor.
+
+### Treynor-Black (bottom-up)
+
+El enfoque de Treynor-Black construye el portfolio activo desde los activos individuales hacia arriba. El analista genera señales de alpha para un subconjunto de activos (los que cree que están mal valorados). El modelo combina esas señales con el portfolio de mercado de forma óptima: pondera cada activo en el portfolio activo según su ratio alpha/riesgo idiosincrático ($\alpha_i / \sigma^2(\epsilon_i)$). El peso del portfolio activo respecto al de mercado depende de cuánto alpha total se espera y de cuánto riesgo no sistemático introduce.
+
+Es un enfoque bottom-up porque parte de valoraciones individuales de activos y agrega hacia el portfolio.
+
+### Black-Litterman (top-down, bayesiano)
+
+Black-Litterman parte desde arriba: el **punto de partida son los pesos de mercado** (equilibrio CAPM), que implican un vector de rentabilidades esperadas. El gestor añade sus propias **views** — creencias sobre rentabilidades absolutas o relativas de activos o sectores — con un nivel de confianza asignado a cada una.
+
+El modelo combina ambas fuentes mediante el **teorema de Bayes**: la distribución posterior de rentabilidades mezcla las rentabilidades de equilibrio (prior) con las views del gestor (likelihood), ponderadas por la confianza en cada una. Los pesos óptimos resultan de minimizar la varianza del portfolio sujeto a maximizar la rentabilidad esperada posterior.
+
+La ventaja respecto a la optimización media-varianza clásica es la estabilidad: los pesos no dependen exclusivamente de las rentabilidades esperadas del analista (que tienen mucho error de estimación), sino de una combinación disciplinada con el equilibrio de mercado.
+
+### Risk Parity
+
+El portfolio de **riesgo paritario** asigna pesos de forma que cada activo o clase de activo **contribuya igual al riesgo total** del portfolio, en lugar de igualar los pesos de capital (1/N) o maximizar el Sharpe.
+
+Para volatilidad como medida de riesgo, los pesos de riesgo paritario son proporcionales a la inversa de la volatilidad de cada activo (o, de forma más exacta, a la inversa de la suma de la fila correspondiente de la matriz de covarianzas). En la práctica, esto sobrepondera activos de bajo riesgo (bonos) e infrapondera activos de alto riesgo (acciones). Para alcanzar el nivel de rentabilidad de un portfolio tradicional 60/40, los fondos de risk parity suelen apalancar la parte de bonos.
+
+La evidencia (PanAgora, Bridgewater) sugiere que outperforma para medidas de riesgo coherentes. El riesgo principal es el de estimación: si la volatilidad de un activo está subestimada, el portfolio le asigna más peso del que debería.
+
+### Valoración de la gestión activa
+
+El valor de la gestión activa se resume en el **ratio de información** (IR): alpha generado dividido entre el tracking error respecto al benchmark. La **ley fundamental de la gestión activa** establece que:
+
+$$IR = IC \cdot \sqrt{BR}$$
+
+donde $IC$ (*information coefficient*) es la correlación entre las señales del gestor y los retornos reales, y $BR$ (*breadth*) es el número de apuestas independientes al año. Un gestor con $IC$ modesto pero que opera con muchas apuestas independientes (diversificación de alpha) puede tener un IR alto. La implicación práctica: más diversificación de señales mejora el IR, incluso con habilidad moderada.
+
+---
+
+## Lo más importante para recordar
+
+1. **Delta hedging es dinámico por definición.** La delta de una opción cambia continuamente con el precio del subyacente, por lo que la cobertura hay que reajustarla en cada periodo. El coste de ese reajuste es lo que el emisor "paga" por cubrir su exposición.
+
+2. **La sonrisa de volatilidad demuestra que BSM es un modelo incompleto, no uno equivocado.** Los operadores lo usan como herramienta de interpolación: asignan la volatilidad implícita correcta para cada strike y vencimiento leyéndola de la superficie, y aplican la fórmula. El modelo sigue siendo útil como lenguaje común del mercado.
+
+3. **El sesgo de volatilidad en acciones no existía antes de 1987.** Es un artefacto del crash: el mercado aprendió que los desplomes extremos son más probables de lo que implica la lognormal y desde entonces incorpora esa prima en las puts baratas.
+
+4. **Black-Litterman resuelve el problema de inestabilidad de la optimización media-varianza.** Las pequeñas variaciones en las rentabilidades esperadas de entrada producen pesos óptimos radicalmente distintos. BL estabiliza el proceso anclando los pesos al equilibrio de mercado y dejando que las views del gestor los ajusten suavemente.
+
+5. **Risk parity no es igual a mínima varianza.** Mínima varianza minimiza la volatilidad total; risk parity equilibra las contribuciones al riesgo. Son diferentes en composición y en objetivo.
+
+6. **La ley fundamental de la gestión activa: el IR crece con la raíz del número de apuestas.** Diversificar señales (más activos, más estrategias) mejora el IR incluso sin mejorar la habilidad de cada señal individual.
+
+---
+
+## Conexión con el resto del módulo
+
+| Concepto | Dónde aparece |
+|---|---|
+| Delta y cobertura dinámica | Directamente en las prácticas de derivados (M7 T21); base del risk management de opciones en M9 |
+| Volatilidad implícita y superficie | Módulo 5 (modelos de volatilidad tipo GARCH); el tema 23 es su aplicación en pricing |
+| Black-Litterman (Bayes) | Práctica 2 del módulo 8 |
+| Risk parity | Práctica 3 del módulo 8 |
+| Treynor-Black | Práctica 1 del módulo 8 |
+| Information Ratio | Módulo 9 (gestión de riesgos) — la misma métrica se usa para evaluar estrategias de cobertura |
+</script>
+<script type="text/markdown" id="c-m9">
+# Módulo 9 — Gestión de Riesgos Financieros
+
+## Para qué sirve este bloque
+
+El módulo responde a una pregunta concreta: dado que los mercados pueden moverse en tu contra, ¿cómo cuantificas cuánto puedes perder y de qué fuente viene ese riesgo? Cubre tres tipos de riesgo que afectan a cualquier institución financiera —mercado, crédito y liquidez— y para cada uno proporciona tanto el marco teórico como la implementación cuantitativa. El hilo conductor es que cada tipo de riesgo necesita sus propias métricas: usar VaR para riesgo de liquidez o bid-ask spread para riesgo de mercado sería un error conceptual, no solo técnico.
+
+---
+
+## Tema 1: Riesgo de mercado
+
+### La idea central
+
+El **riesgo de mercado** es la pérdida potencial que surge de movimientos adversos en precios de mercado: tipos de interés, tipos de cambio, precios de acciones o materias primas. Las dos métricas dominantes para cuantificarlo son el **VaR** (*Value at Risk*) y el **Expected Shortfall** (ES). Históricamente surgieron de una necesidad práctica: JP Morgan necesitaba un único número que resumiera la exposición diaria de toda la institución.
+
+### Value at Risk (VaR)
+
+El VaR al nivel de confianza $\alpha$ responde a: ¿cuál es la pérdida máxima que no se superará con probabilidad $\alpha$ durante un horizonte temporal dado? Si el VaR diario al 95% es 1M€, hay un 5% de probabilidad de perder más de 1M€ ese día.
+
+Sus tres ingredientes son invariables independientemente del método de cálculo: el **intervalo de confianza** (95% o 99%), el **horizonte temporal** (1 día para trading, 10 días para regulación), y la **desviación típica** de los retornos del portfolio.
+
+El VaR escala con el tiempo según la raíz cuadrada: $\text{VaR}_{n\text{ días}} = \text{VaR}_{1\text{ día}} \times \sqrt{n}$. Esto asume retornos i.i.d., supuesto que rara vez se cumple en periodos de estrés.
+
+### Los tres métodos de cálculo del VaR
+
+**Varianza-covarianza (paramétrico).** Asume que los retornos siguen una distribución normal. La fórmula para un portfolio es:
+
+$$\text{VaR} = V \cdot \sigma_p \cdot Z_\alpha$$
+
+donde $V$ es el valor del portfolio, $\sigma_p = \sqrt{w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2\rho w_1 w_2 \sigma_1 \sigma_2}$ es la desviación típica del portfolio, y $Z_\alpha$ es el cuantil de la normal estándar al nivel $\alpha$. En Python: `norm.ppf(1 - conf_level, mean, std)`.
+
+Ventaja: fácil de calcular, requiere pocos datos. Limitación crítica: los retornos financieros tienen colas más gruesas que la normal (*fat tails*), por lo que este método subestima el riesgo en periodos de crisis.
+
+**Simulación histórica.** No asume ninguna distribución. Se toman los retornos históricos del portfolio, se ordenan, y el VaR es el percentil correspondiente al nivel de confianza: si el intervalo es 95%, el VaR es el percentil 5 de los retornos históricos multiplicado por la inversión inicial. En Python: `np.percentile(returns, 5)`.
+
+Ventaja: captura asimetría, colas gruesas y efectos GARCH implícitamente. Limitación: asume que el pasado es representativo del futuro; requiere muestra grande; es computacionalmente intensivo.
+
+**Monte Carlo.** Genera miles de escenarios de retornos aleatorios desde una distribución especificada, calcula la pérdida en cada escenario, y toma el percentil correspondiente. La lógica es la misma que en simulación histórica, pero con datos sintéticos en lugar de históricos. Permite modelar distribuciones no normales y dependencias no lineales.
+
+Ventaja: máxima flexibilidad. Limitación: depende enteramente de cuán bien se especifique la distribución generadora.
+
+### VaR como medida de riesgo coherente
+
+Una medida de riesgo es **coherente** si cumple cuatro axiomas: invarianza a la traslación, subaditividad, homogeneidad positiva y monotonicidad. El VaR **no es coherente** porque viola la **subaditividad**: puede ocurrir que $\text{VaR}(A+B) > \text{VaR}(A) + \text{VaR}(B)$. Esto es conceptualmente problemático porque implica que combinar dos portfolios puede aumentar el riesgo medido, penalizando la diversificación.
+
+### Expected Shortfall (ES)
+
+El **Expected Shortfall** (también llamado CVaR o *Conditional VaR*) resuelve el problema de subaditividad del VaR. ES sí es coherente. Mientras el VaR es un cuantil, el ES es la **media de las pérdidas que superan el VaR**:
+
+$$\text{ES}_\alpha = \mathbb{E}[L \mid L > \text{VaR}_\alpha] = \frac{1}{1-\alpha}\int_\alpha^1 \text{VaR}_u\, du$$
+
+En distribución continua, ES es la media de las pérdidas en la cola. En distribución discreta:
+
+$$\text{ES}_\alpha = \frac{1}{1-\alpha} \sum_n \max(L_n) \cdot P(L_n)$$
+
+El ES paramétrico usa la esperanza de la normal truncada por encima del cuantil $\alpha$. El ES histórico toma la media de todos los retornos que caen por debajo del percentil 5. La diferencia práctica: si el VaR al 95% es 1M€, el ES al 95% podría ser 1.5M€ —dice que, en los días malos, la pérdida media es 1.5M€, no solo que se supera 1M€.
+
+---
+
+## Tema 2: Riesgo de crédito
+
+### La idea central
+
+El **riesgo de crédito** es la probabilidad de que un prestatario no cumpla sus obligaciones de pago. Es el mayor componente del capital económico de la mayoría de los bancos, superando al riesgo de mercado. El objetivo de su gestión es maximizar el retorno ajustado al riesgo manteniendo la exposición crediticia dentro de límites aceptables.
+
+### Los tres componentes del riesgo de crédito
+
+Todo modelo de riesgo de crédito se construye sobre tres variables:
+
+- **PD** (*Probability of Default*): probabilidad de que el prestatario incumpla. Es el componente más difícil de estimar.
+- **LGD** (*Loss Given Default*): fracción del crédito que no se recupera si hay impago, entre 0 y 1.
+- **EAD** (*Exposure at Default*): importe total expuesto en el momento del impago.
+
+La **pérdida esperada** del enfoque IRB (*Internal Ratings-Based*) de Basilea es:
+
+$$\text{Expected Loss} = \text{EAD} \times \text{LGD} \times \text{PD}$$
+
+### Los Acuerdos de Basilea
+
+**Basilea I (1988):** primer sistema de requerimientos de capital. Clasifica activos por riesgo: 0% para activos libres de riesgo, 20% para préstamos interbancarios, 50% para hipotecas residenciales, 100% para deuda corporativa. Requiere capital mínimo del 8% de los activos ponderados por riesgo.
+
+**Basilea II (1999):** introduce tres pilares — requerimientos mínimos de capital, revisión supervisora y disciplina de mercado. Permite a los bancos usar modelos internos (IRB) para estimar PD, LGD y EAD.
+
+**Basilea III (2010):** respuesta a la crisis de 2007-2008. Introduce ratios adicionales de liquidez (LCR ≥ 100%, ratio de apalancamiento ≥ 3%) y requerimientos de capital de mayor calidad (Tier 1 capital ratio ≥ 4.5%).
+
+### Risk bucketing: segmentación por riesgo
+
+Estimar la PD con un único modelo para todos los clientes produce predicciones pobres porque la distribución del riesgo cambia entre segmentos. El **risk bucketing** agrupa prestatarios con características similares antes de modelar.
+
+El método estándar es **K-means clustering** sobre variables financieras del prestatario. Para determinar el número óptimo de clusters se usan cuatro criterios:
+
+- **Método del codo:** se busca el punto donde la inercia (suma de distancias al centroide) deja de decrecer significativamente.
+- **Silhouette score:** mide separación entre clusters. Valor de 1 indica clasificación perfecta; -1 indica clasificación incorrecta. Fórmula: $(x - y) / \max(x, y)$ donde $x$ es distancia intercluster e $y$ distancia intracluster.
+- **Calinski-Harabasz (CH):** cociente entre varianza entre-clusters ($SSB$) y varianza intra-cluster ($SSW$), escalado por $N$ y $k$. Mayor valor es mejor.
+- **Gap analysis (Tibshirani):** compara la varianza intra-cluster observada con la esperada bajo distribución de referencia nula. Se elige $k$ que maximiza el gap statistic.
+
+### Estimación de la PD: regresión logística
+
+La **regresión logística** es el modelo estándar para predecir la PD porque la variable dependiente es binaria (impago/no impago). Transforma la probabilidad mediante la función logit para que el output esté en $[0, 1]$:
+
+$$\log\frac{p}{1-p} = \beta_0 + \beta_1 x \implies p = \frac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1 x}}$$
+
+Un problema frecuente en datos de crédito es el **desbalance de clases**: los impagos son mucho menos frecuentes que los pagos correctos. La solución estándar es **SMOTEENN** (*Synthetic Minority Oversampling Technique + Edited Nearest Neighbors*): genera muestras sintéticas de la clase minoritaria y elimina observaciones ambiguas en la frontera de decisión.
+
+La evaluación del modelo se hace con la **curva ROC-AUC** (*Receiver Operating Characteristic - Area Under the Curve*): mide la capacidad del modelo de separar defaults de no-defaults. Un AUC de 1 indica separación perfecta; de 0.5 indica que el modelo no tiene poder predictivo (equivale a lanzar una moneda).
+
+---
+
+## Tema 3: Riesgo de liquidez
+
+### La idea central
+
+El **riesgo de liquidez** es la incapacidad de convertir un activo en efectivo sin incurrir en pérdidas significativas de precio o de tiempo. Fue el gran ignorado antes de 2008: los modelos asumían que los activos siempre tenían compradores. La crisis hipotecaria demostró que en periodos de estrés la liquidez desaparece exactamente cuando más se necesita, creando un círculo vicioso entre liquidez de mercado y liquidez de financiación.
+
+### Las cuatro dimensiones de la liquidez
+
+La liquidez es multidimensional; cada dimensión captura un aspecto diferente y necesita sus propias métricas:
+
+- **Tightness (estrechez):** coste de ejecutar una transacción. A mayor diferencia entre precio de compra y venta (bid-ask spread), menor liquidez.
+- **Immediacy (inmediatez):** velocidad a la que se pueden ejecutar órdenes grandes. Malfuncionamiento en clearing o settlement reduce la inmediatez.
+- **Depth (profundidad):** abundancia de compradores y vendedores capaces de absorber órdenes de gran tamaño sin mover el precio.
+- **Resiliency (resiliencia):** capacidad del mercado de recuperar el precio de equilibrio tras un desequilibrio de órdenes.
+
+### Medidas de liquidez por dimensión
+
+**Basadas en volumen (dimensión: profundidad):**
+
+El **ratio de liquidez** mide cuánto volumen se necesita para inducir un cambio de precio del 1%: $LR = \sum(P \cdot V) / \sum|PC|$. Mayor ratio implica mayor liquidez.
+
+El **ratio Hui-Heubel** compara la variación de precio con el volumen relativo a capitalización: $LHH = (P_{max} - P_{min})/P_{min}$ dividido por $V/(P \times \text{shrout})$. Es aplicable a acciones individuales.
+
+El **turnover ratio** es el ratio de volumen negociado sobre acciones en circulación: $TR = (1/D)\sum V / \sum \text{shrout}$. Alta rotación implica alta liquidez.
+
+**Basadas en coste de transacción (dimensión: tightness e immediacy):**
+
+El **porcentaje de spread cotizado** mide el coste directo de una transacción: $(P_{ask} - P_{bid}) / P_{mid}$.
+
+El **spread efectivo** captura el caso donde las operaciones ocurren fuera de las cotizaciones: $2|P_t - P_{mid}|/P_{mid}$.
+
+El **spread de Roll** usa la autocorrelación serial de cambios de precio como proxy del bid-ask spread implícito: $\text{Roll} = 2\sqrt{-\text{Cov}(\Delta p_t, \Delta p_{t-1})}$.
+
+El **spread Corwin-Schultz** extrae el spread directamente de los precios máximos y mínimos diarios, basándose en que los precios altos son órdenes de compra y los bajos son órdenes de venta.
+
+**Basadas en impacto en precio (dimensión: resiliencia):**
+
+La **medida de iliquidez de Amihud** mide la sensibilidad del retorno al volumen en dólares: $\text{ILLIQ} = (1/D)\sum|R|/V$. Mayor ILLIQ implica mayor impacto de precio por dólar negociado, es decir, menor liquidez.
+
+El **ratio RtoTR de Florackis** mejora a Amihud sustituyendo el volumen en dólares por el turnover ratio, eliminando el sesgo por capitalización: $\text{RtoTR} = (1/D)\sum|R|/TR$.
+
+El **coeficiente de elasticidad del trading (CET)** mide la elasticidad del volumen respecto al precio: $\text{CET} = \%\Delta V / \%\Delta P$. Alta elasticidad implica mayor inmediatez.
+
+**Basadas en impacto de mercado (dimensión: resiliencia):**
+
+Se estima el riesgo idiosincrático de cada activo regresando el retorno sobre el retorno de mercado (CAPM), y luego regresando el cuadrado de los residuos sobre el porcentaje de cambio en volumen. El coeficiente $\gamma_2$ mide cuánto se mueve el precio idiosincrático ante cambios en volumen: mayor $\gamma_2$, menor liquidez.
+
+### Modelización: GMM y GMCM
+
+Con once medidas de liquidez construidas, el problema es que son multimodales (diferentes distribuciones según el régimen de mercado) y correlacionadas. El **Gaussian Mixture Model (GMM)** permite modelar datos con múltiples modos sin asumir una distribución paramétrica única. Identifica clusters probabilísticos: cada observación tiene una probabilidad de pertenecer a cada estado. El estado con mayor probabilidad media representa el régimen de liquidez dominante.
+
+El **Gaussian Mixture Copula Model (GMCM)** extiende el GMM incorporando la estructura de correlación entre medidas mediante una cópula. Es el enfoque más completo porque reconoce que distintas dimensiones de liquidez no son independientes: en periodos de alta volatilidad, se deterioran simultáneamente.
+
+Para interpretar qué medidas definen cada estado, se aplica **PCA sobre los componentes del GMM**: los loadings de cada componente principal identifican qué medidas de liquidez dominan en cada régimen. En periodos de alta liquidez predominan turnover ratio, spread cotizado y medidas de Amihud y Florackis; en periodos de iliquidez, cobran más peso las medidas de bid-ask spread basadas en Rolling windows.
+
+---
+
+## Lo más importante para recordar
+
+1. **VaR paramétrico asume normalidad: eso es su mayor vulnerabilidad.** En crisis, los retornos tienen colas más gruesas. El VaR histórico y Monte Carlo evitan este supuesto pero requieren más datos y cómputo.
+
+2. **VaR no es subaditivo: ES sí lo es.** El ES es la media de las pérdidas en la cola y es la métrica preferida regulatoriamente (Basilea IV migra a ES). Es siempre mayor que el VaR al mismo nivel de confianza.
+
+3. **La pérdida esperada en crédito se descompone en PD × LGD × EAD.** La PD es el componente más difícil de estimar; se modela con regresión logística por segmentos (risk bucketing) para capturar la heterogeneidad entre prestatarios.
+
+4. **El desbalance de clases en crédito es la regla, no la excepción.** Sin corrección (SMOTE, ENN), los modelos predicen siempre la clase mayoritaria (no-default) con alta accuracy pero cero capacidad predictiva. La curva ROC-AUC, no el accuracy, es la métrica relevante.
+
+5. **La liquidez tiene cuatro dimensiones que se comportan diferente según el régimen de mercado.** No existe una única medida de liquidez válida para todos los contextos; el GMM permite identificar qué dimensión es dominante en cada periodo.
+
+6. **Los tres tipos de riesgo interactúan.** Una crisis de liquidez puede convertirse en riesgo de crédito (si una empresa no puede financiarse, incumple sus obligaciones). El riesgo de mercado afecta al valor del colateral que respalda el crédito. Modelarlos de forma aislada subestima el riesgo sistémico.
+
+---
+
+## Conexión con el resto del módulo
+
+| Concepto | Dónde aparece después |
+|---|---|
+| Distribución normal y cuantiles | Base del VaR paramétrico (T1) |
+| Cópulas | Modelización de dependencia en liquidez: GMCM (T3) |
+| PCA | Identificación de medidas de liquidez dominantes por régimen (T3) |
+| K-means clustering | Risk bucketing en crédito (T2), clustering de medidas de liquidez (T3) |
+| Regresión logística | Estimación de PD en crédito (T2) |
+| CAPM / regresión OLS | Estimación de riesgo idiosincrático en medidas de impacto de mercado (T3) |
+| Series temporales / GARCH | Implícito en el VaR histórico y en la modelización dinámica de liquidez |
+| Gaussian Mixture Model | Clustering probabilístico de medidas de liquidez multidimensionales (T3) |
+</script>
+<script type="text/markdown" id="c-m9-mates">
+# Módulo 9 — Temas 1 a 12: Gestión de Riesgos Financieros
+
+## Para qué sirve este bloque
+
+Este módulo es la base matemática y estadística del riesgo cuantitativo. No mide riesgos directamente: construye el lenguaje formal —probabilidades, distribuciones, series temporales, regresión— que hace posible modelar pérdidas, calcular VaR, estimar copulas y diseñar pruebas de estrés. Sin este bloque, los modelos de riesgo son cajas negras; con él, se entiende qué supuestos se están asumiendo y cuándo fallan.
+
+Los temas no son independientes: los conceptos de probabilidad (T2–T3) alimentan las distribuciones (T4–T5), que a su vez son la base del VaR (T7) y los modelos de series temporales (T11). El análisis bayesiano (T6) y la regresión (T10) son marcos alternativos de estimación. Los factores de decaimiento (T12) son un refinamiento práctico de casi todo lo anterior.
+
+---
+
+## Tema 1: Matemáticas básicas
+
+### La idea central
+
+Los retornos y los factores de descuento son los bloques de construcción de cualquier modelo financiero. Antes de hacer estadística, hay que decidir cómo medir lo que varía.
+
+### Retornos
+
+Existen dos convenciones para medir la rentabilidad de un activo: el **retorno simple** $R_t = P_t/P_{t-1} - 1$ y el **retorno logarítmico** $r_t = \ln(P_t/P_{t-1})$. La diferencia importa porque los retornos logarítmicos son aditivos en el tiempo:
+
+$$r_{n,t} = r_{1,t} + r_{1,t-1} + \cdots + r_{1,t-n+1}$$
+
+lo que facilita el análisis de series temporales. Los retornos simples, en cambio, son multiplicativos: $(1+R_{n,t}) = (1+R_1)(1+R_2)\cdots$. Para horizontes cortos la diferencia es pequeña; para horizontes largos o retornos extremos, no.
+
+La capitalización continua lleva al límite este razonamiento: cuando el periodo de capitalización tiende a cero, $R_\text{Annual} = e^r - 1$, donde $r$ es el retorno continuo.
+
+### Factores de descuento
+
+El **valor presente** de un pago futuro $V_{t+n}$ se obtiene descontando a la tasa $R$:
+
+$$V_t = \frac{V_{t+n}}{(1+R)^n}$$
+
+Esta fórmula es la base de la valoración de bonos, opciones y cualquier instrumento con flujos futuros.
+
+### Series geométricas y combinatoria
+
+Una **serie geométrica infinita** $\sum_{i=0}^\infty \delta^i = \frac{1}{1-\delta}$ (para $|\delta|<1$) aparece en los factores de decaimiento (T12). La **combinatoria** $C(n,k) = \frac{n!}{k!(n-k)!}$ es la base de la distribución binomial (T4).
+
+---
+
+## Tema 2: Probabilidades
+
+### La idea central
+
+La probabilidad es el lenguaje para hablar de incertidumbre. Este tema establece las definiciones operativas que se usan en toda la gestión de riesgos.
+
+### Variables aleatorias discretas y continuas
+
+Una **variable aleatoria discreta** toma un conjunto contable de valores, cada uno con una probabilidad $p_i$ tal que $\sum p_i = 1$. Una **variable aleatoria continua** tiene una **función de densidad de probabilidad** (PDF, *probability density function*) $f(x)$ que satisface $\int f(x)\,dx = 1$. La probabilidad de que $X$ caiga en un intervalo es el área bajo la PDF en ese intervalo.
+
+La **función de distribución acumulada** (CDF, *cumulative distribution function*) $F(a) = P[X \leq a]$ resume toda la información probabilística en una función monótona creciente de 0 a 1. El VaR se lee directamente como un cuantil de esta función.
+
+### Eventos independientes y probabilidad condicional
+
+Dos eventos son **mutuamente excluyentes** si no pueden ocurrir simultáneamente: $P[A \cup B] = P[A] + P[B]$. Son **independientes** si la ocurrencia de uno no modifica la probabilidad del otro: $P[A \cap B] = P[A] \cdot P[B]$.
+
+La **probabilidad condicional** $P[A|B] = P[A \cap B]/P[B]$ mide cuánto cambia la probabilidad de $A$ al saber que $B$ ocurrió. Esta distinción es central en riesgo: durante crisis, activos que parecían independientes resultan fuertemente correlacionados.
+
+---
+
+## Tema 3: Estadística básica
+
+### La idea central
+
+Dado que no se puede observar la distribución completa de los retornos, se estiman sus propiedades a partir de datos. Este tema cubre los estimadores estándar y sus propiedades.
+
+### Media, varianza y desviación típica
+
+La **media** de una variable aleatoria $\mu = E[X]$ mide el valor central esperado. La **varianza** $\sigma^2 = E[(X-\mu)^2]$ cuantifica la dispersión alrededor de esa media. La **desviación típica** $\sigma = \sqrt{\sigma^2}$ tiene las mismas unidades que la variable original y es la medida de riesgo más básica.
+
+Regla clave para combinar variables: $\text{Var}[cX] = c^2 \text{Var}[X]$, y $E[X^2] \neq (E[X])^2$ en general —la varianza nunca es cero salvo que la variable sea constante.
+
+### Covarianza, correlación y cobertura
+
+La **covarianza** $\sigma_{XY} = E[(X-\mu_X)(Y-\mu_Y)]$ mide si dos variables se mueven juntas. La **correlación** $\rho_{XY} = \sigma_{XY}/(\sigma_X \sigma_Y)$ normaliza esa medida al intervalo $[-1, 1]$, haciendo comparable la dependencia entre pares de activos.
+
+La varianza de un **portfolio** de dos activos $A$ y $B$ es:
+
+$$\sigma_P^2 = \sigma_A^2 + h^2\sigma_B^2 + 2h\rho_{AB}\sigma_A\sigma_B$$
+
+El ratio de cobertura óptimo que minimiza esta varianza es:
+
+$$h^* = -\rho_{AB}\frac{\sigma_A}{\sigma_B}$$
+
+Esta fórmula conecta directamente con la gestión práctica: dice cuántas unidades de $B$ hay que vender por cada unidad de $A$ para minimizar la varianza del portfolio.
+
+### Momentos, asimetría y curtosis
+
+Los **momentos** de orden superior caracterizan la forma de la distribución más allá de la media y la varianza. La **asimetría** (*skewness*) es el momento central estandarizado de orden 3: valores negativos indican una cola larga a la izquierda (pérdidas extremas más probables de lo que sugiere la normal). La **curtosis** es el momento de orden 4: valores superiores a 3 (*fat tails* o colas gruesas) indican más eventos extremos de los que predice la normal.
+
+La **coscewness** y la **cokurtosis** son extensiones multivariantes: miden si los retornos extremos de dos activos tienden a coincidir. Su problema práctico es que generan un número muy elevado de estadísticos cruzados, lo que dificulta su uso en portfolios grandes.
+
+### BLUE
+
+El **estimador BLUE** (*Best Linear Unbiased Estimator*) es el estimador lineal de varianza mínima entre todos los insesgados. La relevancia práctica: bajo los supuestos de OLS (T10), el estimador de mínimos cuadrados es BLUE.
+
+---
+
+## Tema 4: Distribuciones
+
+### La idea central
+
+Las distribuciones paramétricas son modelos compactos para la incertidumbre: en lugar de almacenar miles de observaciones, se estiman dos o tres parámetros y se trabaja con la distribución completa. El coste es que si el modelo paramétrico es incorrecto, las estimaciones de riesgo pueden fallar sistemáticamente.
+
+### Distribuciones clave
+
+La **distribución uniforme** asigna probabilidad igual a todos los valores en $[b_1, b_2]$. Es el punto de partida de la simulación Monte Carlo: se genera una uniforme estándar y se transforma.
+
+La **distribución de Bernoulli** modela un resultado binario (impago/no impago, subida/bajada). La **distribución binomial** extiende esto a $n$ ensayos independientes: $P[K=k] = C(n,k)p^k(1-p)^{n-k}$. Es la base del backtesting del VaR: si el modelo es correcto al 99%, el número de excepciones en $n$ días sigue una binomial con $p=0.01$.
+
+La **distribución de Poisson** $P[X=n] = e^{-\lambda}\lambda^n/n!$ modela el número de eventos raros por unidad de tiempo (defaults, saltos en precios). El parámetro $\lambda$ es simultáneamente la media y la varianza.
+
+La **distribución normal** $N(\mu, \sigma^2)$ es el pilar del riesgo cuantitativo clásico. Su PDF es simétrica y completamente determinada por media y varianza. Su principal limitación para riesgo: subestima la probabilidad de eventos extremos (colas más delgadas que las observadas en mercados).
+
+La **distribución lognormal** modela precios (no retornos): si $r_t \sim N(\mu, \sigma^2)$, entonces $P_t = P_{t-1} e^{r_t}$ sigue una lognormal. Garantiza que los precios sean positivos.
+
+El **teorema central del límite** justifica el uso de la normal: la suma de $n$ variables independientes con media y varianza finitas converge en distribución a una normal cuando $n \to \infty$, independientemente de la distribución original.
+
+La **distribución $\chi^2$** con $k$ grados de libertad es la suma de $k$ normales estándar al cuadrado. La **t de Student** surge de dividir una normal estándar por la raíz cuadrada de una $\chi^2$ normalizada; tiene colas más gruesas que la normal y se usa cuando la varianza es estimada, no conocida. La **distribución F** es el cociente de dos $\chi^2$ normalizadas; aparece en los tests de hipótesis sobre varianzas en regresión.
+
+Las **distribuciones de mezcla** combinan dos o más distribuciones con pesos: pueden reproducir bimodalidad o colas gruesas sin asumir una forma paramétrica simple, a costa de añadir parámetros.
+
+---
+
+## Tema 5: Distribuciones multivariantes y cópulas
+
+### La idea central
+
+El riesgo de un portfolio depende no solo de la distribución marginal de cada activo sino de cómo se mueven conjuntamente. Las distribuciones multivariantes y las cópulas son las herramientas para modelar esa dependencia.
+
+### Distribuciones multivariantes
+
+La extensión natural de la normal univariante es la **normal multivariante**, caracterizada por un vector de medias y una matriz de covarianzas. La correlación captura la dependencia lineal, pero no la no-lineal: dos activos con correlación cero pueden ser estadísticamente dependientes.
+
+### Cópulas
+
+Una **cópula** es una función que une distribuciones marginales arbitrarias en una distribución conjunta, separando la estructura de dependencia de las distribuciones individuales. Formalmente, dado el teorema de Sklar, cualquier distribución conjunta puede descomponerse en sus marginales y una cópula.
+
+La **cópula de Clayton** captura dependencia en la cola inferior (pérdidas conjuntas): dos activos pueden tener correlación baja en mercados normales pero alta dependencia cuando ambos caen. La **cópula de Frank** es más simétrica. La ventaja de las cópulas es su flexibilidad; el inconveniente es que la estimación y la interpretación son matemáticamente exigentes, y su uso masivo en CDOs durante 2006-2008 mostró que parametrizaciones incorrectas generan estimaciones de riesgo catastróficamente optimistas.
+
+---
+
+## Tema 6: Análisis bayesiano
+
+### La idea central
+
+El enfoque bayesiano trata los parámetros desconocidos como variables aleatorias con una distribución de probabilidad, en lugar de valores fijos a estimar. Esto permite incorporar información previa y actualizar creencias con datos nuevos de manera formal.
+
+### Teorema de Bayes
+
+$$P[A|B] = \frac{P[B|A] \cdot P[A]}{P[B]}$$
+
+En notación bayesiana: **posterior** = (likelihood × prior) / evidencia. El **prior** $P[A]$ recoge la creencia antes de ver los datos. La **likelihood** $P[B|A]$ mide cuán probable es la evidencia dado el modelo. El **posterior** $P[A|B]$ actualiza la creencia tras observar los datos.
+
+La fuente del prior es el mayor punto de controversia: puede venir de datos históricos, de opinión experta o de una distribución no informativa. Cuando el prior es una distribución Beta y los datos son ensayos de Bernoulli, el posterior también es Beta —esto se llama **distribución conjugada** y hace el cálculo tratable.
+
+### Redes bayesianas
+
+Una **red bayesiana** representa la estructura causal entre variables con un grafo dirigido. Cada nodo tiene una distribución condicional dados sus padres. La ventaja práctica es que es más fácil obtener probabilidades condicionales de expertos que probabilidades conjuntas. En riesgo financiero, se usan para modelar cadenas de eventos (burbuja inmobiliaria → caída MBS → quiebra bancaria → caída de bolsa) con datos escasos.
+
+### Bayesianos vs frecuentistas
+
+Los **frecuentistas** tratan los parámetros como constantes fijas y usan la frecuencia relativa de eventos para estimarlos. Los **bayesianos** asignan distribuciones de probabilidad a los parámetros. La diferencia práctica: los intervalos de confianza frecuentistas no son intervalos de probabilidad sobre el parámetro; los intervalos creíbles bayesianos sí lo son.
+
+---
+
+## Tema 7: Tests de hipótesis e intervalos de confianza
+
+### La idea central
+
+Estimar un parámetro puntualmente no basta: hay que cuantificar la incertidumbre de la estimación. Este tema conecta directamente con el VaR, que es esencialmente un cuantil estimado con cierta confianza.
+
+### Media y varianza muestrales como variables aleatorias
+
+La **media muestral** $\hat{\mu}$ es en sí misma una variable aleatoria: tiene media $\mu$ y varianza $\sigma^2/n$. La **varianza muestral** $\hat{\sigma}^2$ con denominador $n-1$ es insesgada. La versión estandarizada $t = (\hat{\mu} - \mu) / (\hat{\sigma}/\sqrt{n})$ sigue una distribución $t$ de Student con $n-1$ grados de libertad, lo que permite construir intervalos de confianza sin conocer $\sigma$.
+
+La **desigualdad de Chebyshev** proporciona un límite de probabilidad sin asumir ninguna distribución: $P[|X - \mu| \geq n\sigma] \leq 1/n^2$. Es menos precisa que asumir normalidad, pero más robusta.
+
+### Value at Risk (VaR)
+
+El **VaR** al nivel de confianza $\alpha$ es la pérdida máxima esperada en un horizonte dado, con probabilidad $1-\alpha$. Formalmente es el cuantil $\alpha$ de la distribución de pérdidas. Si el VaR diario al 99% es 10M€, significa que en el 99% de los días las pérdidas no superarán 10M€.
+
+Ventajas: un único número, fácil de comunicar, ampliamente adoptado por reguladores (Basilea). Limitaciones sustanciales: no dice nada sobre la magnitud de las pérdidas en el 1% de los casos (**no captura la forma de la cola**), puede incentivar a concentrar riesgo justo por debajo del umbral, y no es **subaditivo** en general —el VaR del portfolio puede ser mayor que la suma de los VaR individuales, lo que viola la lógica de la diversificación.
+
+El **backtesting** comprueba si el modelo VaR es consistente con los datos: al 99%, se esperan aproximadamente $0.01 \times n$ excepciones en $n$ días. El número de excepciones sigue una distribución binomial, lo que permite hacer tests formales. Los datos de 2007 mostraron que los modelos de los grandes bancos subestimaron sistemáticamente las excepciones (Bank of America: 14 excepciones observadas vs 2.6 esperadas).
+
+---
+
+## Tema 8: Álgebra matricial
+
+### La idea central
+
+Los portfolios son vectores, las covarianzas son matrices. El álgebra matricial es la sintaxis de la gestión de riesgos multivariante.
+
+### Operaciones básicas
+
+Las operaciones matriciales —suma, producto, transpuesta, inversa— permiten expresar en forma compacta sistemas de ecuaciones que de otro modo serían inmanejables. La fórmula de varianza del portfolio $\sigma_P^2 = \mathbf{w}'\Sigma\mathbf{w}$ (donde $\mathbf{w}$ es el vector de pesos y $\Sigma$ la matriz de covarianzas) es el ejemplo canónico.
+
+### Matrices de transición
+
+Una **matriz de transición** $T$ recoge las probabilidades de pasar de un estado a otro en un periodo. En riesgo de crédito, los estados son calificaciones crediticias (A, B, C, D=default). La probabilidad de transición a $n$ periodos es $T^n$: multiplicar la matriz por sí misma $n$ veces. Permite estimar la probabilidad de que un bono con rating A llegue a impago en 5 años.
+
+### Descomposición de Cholesky y Monte Carlo
+
+Para simular variables correlacionadas, se necesita descomponer la matriz de covarianzas $\Sigma = LL'$ (descomposición de **Cholesky**). El vector de variables correlacionadas se obtiene como $C = L\Phi$, donde $\Phi$ es un vector de normales estándar independientes. Esto es el motor de cualquier simulación Monte Carlo multivariante.
+
+---
+
+## Tema 9: Espacios vectoriales
+
+### La idea central
+
+Los rendimientos de activos financieros tienen estructura de espacio vectorial: se pueden descomponer en direcciones independientes (**componentes principales**) que explican la mayor parte de la varianza. Esto reduce dimensionalidad y facilita la interpretación del riesgo.
+
+### Análisis de componentes principales (PCA)
+
+El **PCA** (*Principal Component Analysis*) transforma un conjunto de variables correlacionadas en componentes ortogonales (no correlacionados) ordenados de mayor a menor varianza explicada. En la curva de tipos de interés, los tres primeros componentes principales corresponden a desplazamiento paralelo (*shift*), inclinación (*tilt*) y curvatura (*twist*) de la curva: con solo tres factores se explica más del 95% de los movimientos históricos. En renta variable global, los primeros componentes capturan el factor de mercado global y efectos sectoriales.
+
+La aplicación práctica en riesgo: en lugar de modelar $n$ tipos de interés correlacionados, se modelan 3 factores independientes, lo que simplifica enormemente la estimación y la simulación.
+
+---
+
+## Tema 10: Regresión lineal
+
+### La idea central
+
+La regresión descompone la variación de un activo en una parte explicada por factores sistemáticos y una parte idiosincrática. Esta descomposición es la base de los modelos de factor y las pruebas de estrés.
+
+### OLS y sus supuestos
+
+La regresión por **mínimos cuadrados ordinarios** (OLS, *Ordinary Least Squares*) estima $\beta$ minimizando la suma de residuos al cuadrado:
+
+$$\hat{\beta} = (X'X)^{-1}X'Y$$
+
+Los supuestos clave son: linealidad, $E[\varepsilon|X]=0$ (exogeneidad), $\text{Var}[\varepsilon|X]=\sigma^2$ (homocedasticidad) y $\text{Cov}[\varepsilon_i, \varepsilon_j]=0$ (no autocorrelación). Bajo estos supuestos, OLS es BLUE.
+
+El ratio de cobertura óptimo $h^* = -\rho_{AB}\sigma_A/\sigma_B$ del T3 se obtiene directamente como el coeficiente de la regresión de los retornos de $A$ sobre los de $B$: OLS cancela sistemáticamente el riesgo sistemático.
+
+### Modelos de factor
+
+En la **regresión multivariante** $Y = X\beta + \varepsilon$, los regresores son factores de riesgo (mercado, sector, tipo de cambio). La varianza del portfolio se descompone en:
+
+$$\sigma_\text{portfolio}^2 = \beta^2 \sigma_\text{factor}^2 + \sigma_\varepsilon^2$$
+
+La ventaja es que $\beta$ (la exposición al factor) es aditiva entre activos, lo que permite agregar riesgo de forma consistente en un portfolio. El **stress testing** aplica shocks a los factores y observa el impacto en el portfolio; la limitación es que asume linealidad, que puede fallar en eventos extremos.
+
+---
+
+## Tema 11: Modelos de series temporales
+
+### La idea central
+
+Los precios y retornos financieros no son independientes en el tiempo. Modelar esa dependencia temporal es imprescindible para estimar la volatilidad futura y diseñar modelos de riesgo dinámicos.
+
+### Random walk y drift-diffusion
+
+Un **random walk** es una serie donde cada incremento es ruido blanco: $x_t = x_{t-1} + \varepsilon_t$ con $E[\varepsilon_t]=0$ y varianza constante. La varianza crece linealmente con el tiempo: $\text{Var}[x_t|x_0] = t\sigma^2$. El modelo de **drift-diffusion** añade una tendencia constante $\alpha$: $p_t = p_{t-1} + \alpha + \varepsilon_t$. Estos son los modelos de precios más simples; el modelo de Black-Scholes es su versión en tiempo continuo.
+
+### Autoregresión y reversión a la media
+
+El modelo **AR(1)** es $r_t = \alpha + \lambda r_{t-1} + \varepsilon_t$. Cuando $|\lambda| < 1$, la serie revierte a la media de largo plazo $\alpha/(1-\lambda)$: los tipos de interés y la volatilidad tienen esta propiedad empíricamente. Cuando $\lambda > 1$, la serie diverge. Cuando $\lambda = 1$, es un random walk.
+
+### GARCH
+
+Los mercados financieros exhiben **heterocedasticidad**: la volatilidad no es constante, se agrupa en el tiempo (periodos de alta volatilidad seguidos de alta volatilidad). El modelo **GARCH(1,1)** modela la varianza condicional:
+
+$$\sigma_t^2 = \omega + \alpha \varepsilon_{t-1}^2 + \beta \sigma_{t-1}^2$$
+
+donde $\varepsilon_{t-1}^2$ es el cuadrado del retorno del día anterior (shock reciente) y $\sigma_{t-1}^2$ es la varianza estimada ayer. Este modelo captura la persistencia de la volatilidad y es el estándar de la industria para estimar volatilidad dinámica.
+
+### Jump-diffusion e modelos de tipo de interés
+
+Los modelos de **jump-diffusion** añaden saltos discretos al proceso continuo: $r_t = \mu + \sigma\varepsilon_t + I_t u_t$, donde $I_t$ es un indicador de salto y $u_t$ la magnitud. Capturan mejor los movimientos bruscos de mercado.
+
+Los modelos de tipo de interés son procesos de reversión a la media con formulaciones específicas: el **Vasicek** tiene reversión lineal y volatilidad constante; el **Cox-Ingersoll-Ross** añade un término $r_t^{1/2}$ que hace la volatilidad proporcional al nivel del tipo (impide tipos negativos).
+
+---
+
+## Tema 12: Factores de decaimiento
+
+### La idea central
+
+En la estimación de media y varianza con datos históricos, las observaciones antiguas pesan igual que las recientes. Los factores de decaimiento son un mecanismo para dar más peso a los datos recientes, capturando mejor el estado actual de los mercados.
+
+### Media y varianza con decaimiento
+
+En lugar de la media simple $\hat{\mu} = \frac{1}{n}\sum x_t$, se usa la media con pesos exponenciales:
+
+$$\hat{\mu}_t = (1-\delta)x_t + \delta\hat{\mu}_{t-1}$$
+
+donde $\delta \in (0,1)$ es el factor de decaimiento: cuanto más cercano a 1, más lento el olvido. El **half-life** es el número de periodos en que el peso de una observación se reduce a la mitad: $h = \ln(0.5)/\ln(\delta)$.
+
+La varianza con decaimiento sigue la misma lógica: $\hat{\sigma}_t^2 = (1-\delta)(r_t - \hat{\mu}_t)^2 + \delta\hat{\sigma}_{t-1}^2$, que puede verse como un GARCH restringido.
+
+### Mínimos cuadrados ponderados y Hybrid VaR
+
+Los **mínimos cuadrados ponderados** (WLS, *Weighted Least Squares*) aplican la matriz de pesos $W$ en la estimación de regresión: $\tilde{\beta} = (X'WX)^{-1}X'WY$. Las observaciones recientes reciben mayor peso, lo que hace los coeficientes más sensibles a cambios estructurales.
+
+El **Hybrid VaR** combina la simulación histórica (que reproduce colas gruesas, asimetría y autocorrelación sin asumir una distribución) con factores de decaimiento (que dan más relevancia a los datos recientes). Es el compromiso estándar en la práctica: no paramétrico en la forma de la distribución, pero adaptativo en el tiempo.
+
+---
+
+## Lo más importante para recordar
+
+1. **Los retornos logarítmicos son aditivos en el tiempo; los simples no.** Esto hace los log-retornos más manejables para modelar series temporales, pero la diferencia solo es relevante para horizontes largos o retornos grandes.
+
+2. **El VaR es un cuantil, no una pérdida máxima.** Dice que con probabilidad $1-\alpha$ las pérdidas no superarán cierto nivel; no dice nada sobre qué pasa en el otro $\alpha$%. El Expected Shortfall (ES) es la métrica que sí captura el riesgo de cola.
+
+3. **Correlación no implica independencia, y correlación cero no implica independencia.** Las cópulas existen precisamente para modelar dependencia no lineal, que es la que aparece en crisis.
+
+4. **La volatilidad agrupa en el tiempo (GARCH).** Usar una volatilidad histórica estática subestima el riesgo en periodos de alta volatilidad y lo sobreestima cuando el mercado está tranquilo. El factor de decaimiento y GARCH son las soluciones prácticas.
+
+5. **Los supuestos de OLS son restrictivos.** Homocedasticidad, no autocorrelación y exogeneidad rara vez se cumplen en datos financieros. Violarlos no invalida necesariamente el modelo, pero sí invalida los errores estándar y los tests de hipótesis derivados.
+
+6. **El análisis bayesiano y el frecuentista no son rivales en la práctica: son complementarios.** El prior bayesiano permite incorporar conocimiento experto cuando los datos son escasos (riesgo de crédito, riesgo operacional); el enfoque frecuentista es más robusto cuando los datos son abundantes y el prior difícil de justificar.
+
+---
+
+## Conexión con el resto del módulo
+
+| Concepto | Dónde aparece después |
+|---|---|
+| Retornos logarítmicos | Base de todos los modelos de precios (T11) |
+| Distribución normal | Supuesto implícito del VaR paramétrico (T7), OLS (T10) |
+| Curtosis y colas gruesas | Motivación de distribuciones de mezcla (T4), copulas (T5), Hybrid VaR (T12) |
+| Correlación y covarianza | Matriz de covarianzas en álgebra matricial (T8), PCA (T9) |
+| Distribución binomial | Backtesting del VaR (T7) |
+| Distribución t de Student | Inferencia en regresión cuando $\sigma$ es desconocida (T10) |
+| Teorema de Bayes | Redes bayesianas para riesgo de crédito y stress testing (T6) |
+| Cholesky | Simulación Monte Carlo multivariante (T8) |
+| AR(1) con reversión | Modelos de tipo de interés Vasicek y CIR (T11) |
+| Factores de decaimiento | Hybrid VaR como caso especial de simulación histórica ponderada (T12) |
+</script>
+<script type="text/markdown" id="c-m10">
+# Módulo 10 — Teoría del Valor Extremo (EVT)
+
+## Para qué sirve este bloque
+
+La estadística clásica se centra en el comportamiento promedio de una serie. Los modelos de riesgo basados en distribución normal estiman bien la media y la varianza, pero sistemáticamente subestiman la probabilidad de eventos extremos porque la normal tiene colas demasiado delgadas respecto a los datos financieros reales. La **Teoría del Valor Extremo** (EVT) resuelve exactamente ese problema: en lugar de modelar toda la distribución, modela solo las colas, donde ocurren las pérdidas graves.
+
+El módulo es la continuación natural del Módulo 9: si el VaR paramétrico falla porque asume normalidad, EVT proporciona la herramienta para calcular un VaR más preciso en el extremo de la distribución sin ese supuesto.
+
+Ilustración del problema: retornos mensuales de bonos corporativos A-rated (1980-2008). La peor observación fue -10.84%. Con distribución normal, la probabilidad de un retorno así en 30 años es 0.00008%. Con EVT, es 1.4% — más de 16.000 veces mayor. El evento ocurrió en la muestra; la normal lo consideraba imposible en diez milenios.
+
+---
+
+## Tema 1: Los dos marcos de EVT
+
+### La idea central
+
+EVT no es un modelo único: es una familia de resultados teóricos que garantizan que, bajo ciertas condiciones, los valores extremos de cualquier distribución convergen a una de solo tres distribuciones posibles. El resultado es válido independientemente de cuál sea la distribución subyacente de los datos.
+
+### Marco 1: Block Maximum (máximos por bloque)
+
+Se divide la serie de $T$ observaciones en $m$ bloques de longitud $n$ ($m \times n = T$) y se toma el máximo de cada bloque: $M_k = \max(y_{n(k-1)+1}, \ldots, y_{nk})$. El resultado teórico (Fisher-Tippett 1928, Gnedenko 1943) es que la distribución de los máximos normalizados converge a una **distribución generalizada de valores extremos (GEV)**, que engloba tres casos según el parámetro de forma $\xi$:
+
+- $\xi > 0$: **Fréchet** — colas gruesas. Es la distribución relevante en finanzas, porque los retornos son leptocúrticos. Engloba como caso especial la distribución t de Student.
+- $\xi = 0$: **Gumbel** — colas de grosor medio, decaimiento exponencial. Engloba la normal y la log-normal.
+- $\xi < 0$: **Weibull** — colas cortas con punto final finito; la PDF es exactamente cero más allá de ese punto.
+
+La CDF unificada de la GEV es:
+
+$$H_{\xi,\mu,\sigma}(y_t) = \begin{cases} \exp\left[-(1 + \xi(y_t-\mu)/\sigma)^{-1/\xi}\right] & \text{si } \xi \neq 0 \\ \exp\left[-\exp(-(y_t-\mu)/\sigma)\right] & \text{si } \xi = 0 \end{cases}$$
+
+donde $\mu$ es el parámetro de localización, $\sigma$ es el de escala, y $\xi$ es el de forma (determina el grosor de las colas).
+
+El **problema práctico** del enfoque de bloques es la ineficiencia: si hay varios extremos en un bloque, solo se usa el máximo y el resto se descarta. Hay además un trade-off: bloques largos → menos sesgo pero más varianza; bloques cortos → menos varianza pero más sesgo.
+
+### Marco 2: Peaks Over Threshold (POT)
+
+Es el enfoque preferido en la práctica. Se especifica un umbral $U$ y se modelan las excedencias: $\tilde{y}_t = y_t - U \mid y_t > U$. Cuando $U \to \infty$, la distribución de las excedencias normalizadas converge a la **distribución generalizada de Pareto (GPD)**:
+
+$$G_{\xi,\sigma}(\tilde{y}_t) = \begin{cases} 1 - (1 + \xi \tilde{y}_t/\sigma)^{-1/\xi} & \text{si } \xi \neq 0 \\ 1 - \exp(-\tilde{y}_t/\sigma) & \text{si } \xi = 0 \end{cases}$$
+
+Los tres casos (Fréchet, Gumbel, Weibull en block maximum) corresponden en el POT a las distribuciones **Pareto ordinaria, exponencial y beta**, respectivamente. El parámetro $\xi$ es el mismo en ambos marcos, lo que permite transferir estimaciones entre los dos enfoques.
+
+**Elección del umbral $U$:** es el punto crítico del enfoque POT. Si $U$ es demasiado bajo, observaciones no extremas se clasifican como extremas → sesgo en los parámetros. Si $U$ es demasiado alto, quedan muy pocas observaciones en la cola → alta varianza de las estimaciones. La solución práctica más habitual es estimar los parámetros para valores crecientes de $U$ hasta que los estimados se estabilicen.
+
+---
+
+## Tema 2: Estimación de parámetros
+
+### Estimación por máxima verosimilitud (ML)
+
+La PDF de las excedencias sobre el umbral (para $\xi \neq 0$) es:
+
+$$g_{\xi,\sigma}(\tilde{y}_t) = \frac{1}{\sigma}\left(1 + \frac{\xi \tilde{y}_t}{\sigma}\right)^{-(1/\xi + 1)}$$
+
+La log-verosimilitud conjunta para $N_U$ observaciones sobre el umbral es:
+
+$$\text{LLF}(\xi, \sigma) = -N_U \ln(\sigma) - \left(\frac{1}{\xi} + 1\right)\sum_{i=1}^{N_U} \ln\left(1 + \frac{\xi \tilde{y}_i}{\sigma}\right)$$
+
+Siempre que $\xi > -0.5$, los estimadores ML son consistentes y asintóticamente normales. Sin embargo, **no existe solución analítica**: hay que usar un optimizador numérico (en Python, `scipy.optimize.minimize` con Nelder-Mead). Aplicado a datos del S&P500 con umbral $-0.025$, los parámetros estimados son $\hat{\xi} \approx 0.388$ y $\hat{\sigma} \approx 0.0075$.
+
+### Estimador de Hill (no paramétrico)
+
+Más simple que ML. Aplicable solo al caso de colas gruesas (Fréchet, $\xi > 0$). Se ordenan las excedencias de mayor a menor: $\tilde{y}_{(1)} \geq \tilde{y}_{(2)} \geq \cdots \geq \tilde{y}_{(T)}$. El estimador de Hill es:
+
+$$\hat{\xi} = \frac{1}{k-1} \sum_{i=1}^{k-1} \left[\ln(\tilde{y}_{(i)}) - \ln(\tilde{y}_{(k)})\right]$$
+
+donde $k$ es el número de observaciones clasificadas como extremas. Intuitivamente, promedia los logaritmos de los ratios entre valores extremos consecutivos: estima la velocidad a la que decae la cola. El **Hill plot** representa $\hat{\xi}$ frente a $k$ y se elige el menor $k$ para el que el estimado se estabiliza.
+
+### Estimadores de Pickands y De Haan-Resnick
+
+Dos variantes alternativas del enfoque no paramétrico:
+
+$$\hat{\xi}_{\text{Pickands}} = \frac{1}{\ln 2} \ln\left(\frac{\tilde{y}_{(k)} - \tilde{y}_{(2k)}}{\tilde{y}_{(2k)} - \tilde{y}_{(4k)}}\right)$$
+
+$$\hat{\xi}_{\text{De Haan-Resnick}} = \frac{\ln(\tilde{y}_{(1)}) - \ln(\tilde{y}_{(k)})}{\ln(k)}$$
+
+Pickands es consistente y asintóticamente normal pero menos eficiente que Hill. Una corrección del sesgo de muestra pequeña (Huisman et al. 2001) consiste en regresar las estimaciones de $\xi$ sobre una constante y el valor de $k$ utilizado; el intercepto de esa regresión es el estimado corregido $\hat{\xi}$ que corresponde al límite cuando $k \to 0$.
+
+### Estimación del parámetro de escala $\sigma$
+
+Una vez estimado $\xi$ por un método no paramétrico, $\sigma$ se puede obtener: (a) sustituyendo $\hat{\xi}$ en la log-verosimilitud y optimizando solo sobre $\sigma$; o (b) usando la fórmula analítica que existe bajo el supuesto Fréchet (Brooks et al. 2005).
+
+---
+
+## Tema 3: VaR con EVT
+
+### La idea central
+
+Los tres métodos estándar de VaR (paramétrico normal, histórico y Monte Carlo) fueron cubiertos en el Módulo 9. EVT añade un cuarto método que es más preciso en el extremo profundo de la cola porque usa explícitamente la forma de esa cola, en lugar de extrapolar desde el centro de la distribución.
+
+### VaR delta-normal y VaR histórico (referencia)
+
+**Delta-normal:** $\text{VaR}_{\text{normal}} = \sigma Z_\alpha$. Usa la desviación típica de toda la muestra y un cuantil de la normal estándar. Simple pero subestima el riesgo en las colas.
+
+**Histórico:** ordena los retornos y toma el percentil correspondiente: `data['ret'].quantile(0.05)`. No asume distribución pero usa un único punto de la distribución empírica e ignora toda la información de la forma de la cola.
+
+En datos del S&P500: VaR 99% histórico = -2.60%, VaR 99% normal = -2.21%. El histórico es mayor en valor absoluto porque capta las colas gruesas que la normal no puede.
+
+### VaR con el estimador de Hill
+
+$$\text{VaR}_{\text{Hill}} = \tilde{y}_{(k)} \cdot \left(\frac{N}{N_U} \alpha\right)^{-\hat{\xi}}$$
+
+donde $\tilde{y}_{(k)}$ es la observación en el umbral, $N$ es el tamaño total de la muestra, $N_U$ es el número de observaciones sobre el umbral, y $\alpha$ es el nivel de significación (1% para VaR al 99%).
+
+### VaR con el enfoque POT (GPD)
+
+$$\text{VaR}_{\text{POT}} = U + \frac{\hat{\sigma}}{\hat{\xi}}\left[\left(\frac{N}{N_U}\alpha\right)^{-\hat{\xi}} - 1\right]$$
+
+### VaR con el enfoque de bloques (GEV)
+
+$$\text{VaR}_{\text{Block}} = \hat{\mu} + \frac{\hat{\sigma}}{\hat{\xi}}\left[1 - (-m\ln\alpha)^{-\hat{\xi}}\right]$$
+
+donde $m$ es la longitud del bloque.
+
+Aplicado a S&P500 con umbral -0.025 y ML: $\text{VaR}_{\text{MLE}} \approx -2.60\%$, consistente con el histórico pero con base estadística más sólida para cuantiles más extremos.
+
+### Comparación empírica: mercados emergentes (Gençay y Selçuk 2004)
+
+Estudio con datos diarios de índices de Argentina, Brasil, Hong Kong, Indonesia, Corea, México, Singapur, Taiwán y Turquía (~1993-2000). Conclusión principal: **EVT supera a todos los enfoques alternativos a medida que nos adentramos más en las colas**.
+
+- Para cuantiles del 5% o 2.5% (VaR 95%-97.5%): la t de Student o la simulación histórica son competitivas.
+- Para el cuantil del 0.1% (VaR 99.9%): EVT es el mejor método para todos los países excepto uno.
+- Las colas superior e inferior tienen **formas distintas** — los modelos que asumen simetría (como la normal) están mal especificados por construcción.
+
+Los parámetros de forma estimados oscilan entre 0.03 (Corea, colas casi normales) y 0.60 (Taiwán, colas extremadamente gruesas con varianza que no existe). Para Taiwán, $\hat{\xi} = 0.60$ implica un índice de cola de $1/\hat{\xi} \approx 1.67$, lo que significa que el segundo momento (varianza) no existe: la distribución tiene tanta masa en las colas que la varianza diverge.
+
+---
+
+## Tema 4: Cuestiones avanzadas
+
+### Dependencia temporal y filtrado ARMA-GARCH
+
+EVT asume que los datos son i.i.d., supuesto que los retornos financieros violan (GARCH, autocorrelación). La solución estándar es: ajustar un modelo ARMA-GARCH, recoger los **residuos estandarizados** (que son más cercanos a i.i.d.) y aplicar EVT sobre esos residuos. Esto combina el modelado de la dinámica temporal con la estimación precisa de los extremos.
+
+### EVT multivariante
+
+EVT se puede extender al caso multivariante para medir dependencia conjunta y spillovers entre series. Se usan funciones **cópula** para conectar las distribuciones marginales extremas de cada serie. Tanto el enfoque de bloques como el POT admiten esta extensión, aunque la complejidad aumenta considerablemente y no existe una definición única de "extremo multivariante".
+
+Complicación práctica: debido a efectos de diversificación o cobertura, movimientos extremos simultáneos en activos individuales pueden no constituir un extremo para el portfolio — los movimientos se atenúan o se cancelan entre sí.
+
+### Intervalos de confianza para el VaR de EVT
+
+Es posible construirlos aunque no es trivial. Son útiles para evaluar si las estimaciones de VaR son suficientemente precisas o si la escasez de datos extremos hace el estimado demasiado impreciso para ser accionable.
+
+---
+
+## Aplicación Python: `VaR_calculation.py`
+
+Script directo sobre datos diarios del S&P500 (`sp500_daily.xlsx`). Tres métodos en secuencia sobre los mismos datos:
+
+**1. VaR paramétrico normal** — `norm.ppf(1-alpha, mean, std_dev)`. Resultados: VaR 90% = -1.21%, VaR 95% = -1.56%, VaR 99% = -2.21%.
+
+**2. VaR histórico** — `data['ret'].quantile(alpha)`. Resultados: VaR 90% = -0.99%, VaR 95% = -1.44%, VaR 99% = -2.60%. El 99% histórico es mayor en valor absoluto que el normal, confirmando que los retornos tienen colas más gruesas de lo que predice la normal.
+
+**3. Estimador de Hill** — umbral = -0.025, $\alpha = 0.01$. Filtra observaciones bajo el umbral, ordena, aplica la fórmula de Hill para $\hat{\xi}$, calcula VaR con la fórmula $\tilde{y}_{(k)} \cdot (N/N_U \cdot \alpha)^{-\hat{\xi}}$. El Hill plot muestra que el VaR converge a -3.2% aproximadamente.
+
+**4. MLE de la GPD** — mismos umbral y $\alpha$. Construye la log-verosimilitud de la GPD como función negativa (para usar `scipy.optimize.minimize` con Nelder-Mead). Estimados: $\hat{\xi} = 0.388$, $\hat{\sigma} = 0.0075$. VaR resultante: -2.60%, consistente con el histórico pero con base distribucional explícita que permite extrapolar a cuantiles más extremos.
+
+---
+
+## Lo más importante para recordar
+
+1. **EVT es el único enfoque estadísticamente válido para cuantiles muy extremos (99.9%+).** El VaR normal los subestima por un factor de hasta 16.000x. El histórico mejora pero usa un solo punto de la distribución empírica, sin aprovechar la forma de la cola.
+
+2. **El parámetro $\xi$ lo determina todo.** Si $\xi > 0$ (Fréchet), las colas son gruesas y los momentos de orden $1/\xi$ o superior no existen. Para retornos financieros típicos, $\xi \approx 0.1$-$0.2$, lo que implica colas equivalentes a una t con 5-10 grados de libertad.
+
+3. **La elección del umbral $U$ es el punto débil del POT.** No hay una regla objetiva universalmente aceptada. El criterio pragmático (estimar para $U$ creciente hasta que $\hat{\xi}$ se estabilice) funciona razonablemente, pero introduce subjetividad.
+
+4. **EVT asume i.i.d.: en datos financieros, hay que filtrar primero con GARCH.** Aplicar EVT directamente sobre retornos con clusters de volatilidad da estimaciones sesgadas. El flujo correcto es ARMA-GARCH → residuos estandarizados → EVT.
+
+5. **EVT solo gana claramente en cuantiles muy extremos.** Para VaR al 95% o 97.5%, la t de Student o el histórico son competitivos. La ventaja de EVT es decisiva para el 99.9%, que es donde el regulador (Basilea) y los gestores de riesgo de cola necesitan precisión.
+
+6. **Las colas superior e inferior son asimétricas.** Modelarlas por separado es necesario; asumir simetría (como hace la normal) introduce sesgo sistemático en al menos una de las dos colas.
+
+---
+
+## Conexión con el resto del módulo
+
+| Concepto | Módulo relacionado |
+|---|---|
+| VaR paramétrico y sus limitaciones | Módulo 9 — T1: Riesgo de mercado |
+| Expected Shortfall como alternativa al VaR | Módulo 9 — T1 (ES es más coherente, EVT lo estima mejor en la cola) |
+| GARCH para filtrar dependencia temporal | Módulo 5 — Modelos de volatilidad y correlación |
+| Cópulas para EVT multivariante | Módulo 9 — T3 (GMCM en liquidez) |
+| MLE y optimización numérica | Módulo 9 — guía matemática (T6-T7) |
+| Distribución t de Student como caso especial de Fréchet | Módulo 9 — guía matemática (T4) |
+</script>
+<script type="text/markdown" id="c-p001">
+# Normal vs t-Student para retornos diarios: por qué importa la elección
+
+## El hecho empírico de partida
+
+Los retornos diarios tienen colas gruesas (*fat tails*) y skewness negativa. La normal asigna probabilidad casi cero a movimientos de más de 3σ. En la realidad ocurren con frecuencia. La t-Student los captura mejor porque tiene más masa en las colas, controlada por los grados de libertad ν.
+
+## Consecuencias directas de elegir mal
+
+**1. VaR paramétrico subestimado**
+El cuantil 1% de una t con ν pequeño está más alejado de la media que el cuantil 1% de la normal. Si calculas VaR al 99% asumiendo normalidad, el banco subestima el capital regulatorio necesario.
+
+**2. Expected Shortfall materialmente menor**
+ES mide el promedio de pérdidas en ese 1% de cola. Con normalidad, ese promedio está artificialmente cerca del umbral. Con t-Student, la cola es más pesada y el ES es materialmente mayor — y ES es lo que exige Basilea desde 2016.
+
+**3. Pricing de opciones y la sonrisa de volatilidad**
+Black-Scholes asume lognormalidad (normal en retornos). Las colas gordas reales generan la sonrisa de volatilidad: el mercado implícitamente corrige la distribución usando volatilidades implícitas distintas por strike. La sonrisa es la huella de que la distribución real tiene más cola de lo que asume el modelo.
+
+**4. Backtesting falla sistemáticamente**
+Si el modelo es normal y los retornos son realmente t, las excepciones del VaR superan el umbral esperado. Bank of America en 2007: 14 excepciones observadas vs 2.6 esperadas al 99%.
+
+**5. Conexión con EVT (M10)**
+Cuando la EVT se aplica a colas financieras, siempre emerge la familia Fréchet — equivalente a una t-Student con pocos grados de libertad. La t-Student no es solo un ajuste empírico: es lo que la teoría predice que debe aparecer en las colas.
+
+## So-what para el examen
+
+Elegir t-Student no es una conveniencia estadística sino la distribución que tanto los datos empíricos como la teoría (EVT) predicen para retornos financieros en la zona que importa: las colas. Y es exactamente ahí donde cualquier modelo de riesgo tiene que ser correcto.
+
+En el análisis gráfico y estadístico del examen: esperar Q-Q plot con desviaciones en ambos extremos (colas más pesadas que la normal), curtosis > 3, y p-valores < 0.05 en Jarque-Bera, Shapiro-Wilk y KS — todo apuntando a rechazar normalidad y favorecer t-Student.
+</script>
+<script type="text/markdown" id="c-p002">
+# Rasgos que delatan si los datos siguen Normal o t-Student
+## ν — qué es
+
+ν (*nu*) son los **grados de libertad** de la t-Student. Es el único parámetro que controla la forma de la distribución (además de media y escala). Determina qué tan gruesas son las colas:
+- ν pequeño → colas muy gruesas (más masa en los extremos)
+- ν grande → colas cada vez más finas, convergiendo a la normal cuando ν → ∞
+
+Se estima a partir de los datos (por MLE). En retornos financieros diarios suele caer entre 3 y 8.
+
+---
+
+## 1. Curtosis — el diagnóstico más directo
+
+La normal tiene curtosis teórica = 3 (exceso de curtosis = 0).
+La t-Student tiene curtosis = 6/(ν−4) para ν > 4, siempre positiva y creciente al bajar ν.
+
+| ν | Curtosis exceso |
+|---|---|
+| ∞ (→ normal) | 0 |
+| 30 | 0.21 |
+| 10 | 1.0 |
+| 5 | 6.0 |
+| 4 | ∞ |
+
+Curtosis empírica >> 0 → fat tails → t-Student. El valor de la curtosis orienta qué ν encaja.
+
+## 2. Q-Q plot — firma visual de las colas
+
+**Contra la normal:**
+- Datos normales → puntos sobre la diagonal
+- Datos t-Student → S abierta en ambas colas: las colas observadas están más lejos del centro de lo que la normal predice
+
+**Contra la t-Student (con ν estimado):**
+- Si ν es correcto → puntos vuelven a la diagonal
+- Si aún se separan → ν mal calibrado
+
+La S en el Q-Q normal es la firma visual de fat tails.
+
+## 3. Skewness — asimetría
+
+- Normal y t-Student estándar: skewness = 0 (ambas simétricas)
+- Retornos reales: skewness < 0 (cola izquierda más larga)
+
+Si la skewness es significativamente negativa, ninguna de las dos ajusta perfectamente. La t-Student sigue siendo la mejor elección porque captura fat tails, pero en rigor necesitarías una t asimétrica.
+
+## 4. Pruebas formales y qué miden
+
+| Test | Qué mide | Limitación |
+|---|---|---|
+| **Jarque-Bera** | Desviación conjunta de skewness=0 y curtosis=3 | En muestras grandes casi siempre rechaza aunque la desviación sea trivial |
+| **Shapiro-Wilk** | Correlación entre datos y cuantiles normales | Más potente en muestras pequeñas (<5000) |
+| **Kolmogorov-Smirnov** | Distancia máxima entre CDF empírica y CDF teórica | Más sensible al centro que a las colas — el peor para detectar fat tails |
+
+Para elegir entre normal y t-Student, JB es el más informativo: si el p-valor bajo viene de curtosis alta (no de skewness), señala directamente fat tails → t-Student.
+
+## 5. Estimación de ν por MLE como diagnóstico cuantitativo
+
+- ν > 30 → prácticamente indistinguible de una normal
+- ν ∈ [5, 10] → colas moderadas, típico en retornos diarios de índices
+- ν < 5 → colas muy gruesas, típico en activos individuales o crisis
+- ν ≤ 4 → varianza infinita teórica
+
+## Jerarquía para el examen
+
+1. Curtosis empírica >> 3 → fat tails → candidato t-Student
+2. Q-Q plot con S abierta contra normal → confirma fat tails
+3. JB rechaza por curtosis, no por skewness → apunta a t-Student
+4. MLE de ν ∈ [3, 10] → t-Student ajusta bien con ese ν
+5. Q-Q plot contra t-Student con ν estimado → si puntos vuelven a la diagonal, elección confirmada
+</script>
+<script type="text/markdown" id="c-p003">
+# Cómo se calcula el VaR
+
+El VaR es siempre un **cuantil de la distribución de pérdidas** al nivel de confianza elegido. Lo que cambia entre métodos es cómo construyes esa distribución.
+
+
+
+## Cómo leer el resultado: `quantile(0.01)` → -5.75%
+
+`quantile(0.01)` mira solo la **cola izquierda** — el 1% peor de los retornos históricos. No miras la cola derecha porque el riesgo es la pérdida, no la ganancia.
+
+Lo que dice ese -5.75%: el 1% de los días históricos tuvo retornos ≤ -5.75%. El 99% de los días tuvo retornos > -5.75%. El VaR es ese punto de corte.
+
+## Nomenclatura: ¿VaR al 99% o al 1%?
+
+Es una ambigüedad que confunde habitualmente. Son dos formas de nombrar el mismo número:
+
+- **Por nivel de confianza**: VaR al 99% → en el 99% de los casos no superas esa pérdida
+- **Por nivel de significancia** (la cola): VaR al 1% → estás mirando el percentil 1
+
+`quantile(0.01)` = VaR al **99% de confianza** = VaR al **1% de significancia**. Cuando veas `VaR_95` en código, verifica cuál de los dos están usando — lo normal es que se refiera al nivel de confianza (95%), que corresponde a `quantile(0.05)`.
+
+## Método 1 — Simulación histórica
+
+Sin asumir distribución. Se usan retornos reales pasados, se ordenan, y el VaR es el percentil correspondiente:
+
+```python
+VaR_99 = s.quantile(0.01)
+```
+
+Captura fat tails y asimetría automáticamente porque los datos históricos ya los contienen. Limitación: asume que el futuro se parece al pasado; y el percentil 1 puede estar mal estimado si la ventana histórica es corta o no ha vivido escenarios extremos.
+
+## Método 2 — Varianza-covarianza (paramétrico)
+
+Asumes que los retornos son normales y calculas el VaR analíticamente:
+
+$$\text{VaR} = V \cdot \sigma_p \cdot Z_\alpha$$
+
+- $V$: valor del portfolio
+- $\sigma_p$: desviación típica del portfolio
+- $Z_\alpha$: cuantil de la normal estándar (95% → 1.645; 99% → 2.326)
+
+```python
+VaR = norm.ppf(0.01, mean, std)
+```
+**Ventajas frente al histórico:**
+
+1. **No necesitas historial largo.** El histórico depende de que hayas vivido escenarios extremos en tu ventana de datos. Con varianza-covarianza solo necesitas media y std.
+
+2. **Es analítico y estable.** El percentil 1 histórico puede saltar mucho si entra o sale un día de crash de tu ventana. La normal es más suave y estable en el tiempo.
+
+3. **Escala fácil a portfolios** — esta es la razón más importante. Para un portfolio de N activos, el histórico necesita que todos los activos hayan coexistido en el mismo periodo. El varianza-covarianza solo necesita la matriz de covarianzas, y el VaR del portfolio se calcula analíticamente:
+
+```python
+var_portfolio = z * np.sqrt(w.T @ cov_matrix @ w)
+```
+
+**Problema**: subestima el riesgo con fat tails — asume normalidad cuando los retornos reales no la cumplen.
+
+## Método 3 — Monte Carlo
+
+Simulas miles de retornos futuros posibles desde la distribución que tú elijas, y coges el percentil 1 de esas simulaciones.
+
+```python
+simulations = stats.t.rvs(df=nu, loc=mean, scale=std, size=100_000)
+VaR_99 = np.percentile(simulations, 1)
+```
+Con simulación de distribución normal:
+Con simulación de t-student:
+
+**Ventajas:**
+- Flexible: puedes simular cualquier distribución (t-Student, GARCH, saltos...)
+- Escala bien a portfolios con correlaciones complejas
+- No depende de haber vivido los escenarios extremos en el historial
+
+**Desventajas:**
+- Su calidad depende totalmente de lo bien que modeles la distribución de partida — *garbage in, garbage out*
+- Si simulas una normal, es varianza-covarianza con pasos extra
+- Computacionalmente caro
+- Difícil de explicar y auditar en entornos regulatorios
+
+## Método 4 — EVT (Teoría del Valor Extremo)
+
+Los tres métodos anteriores modelan toda la distribución de retornos. EVT hace algo distinto: **modela solo la cola**, donde ocurren las pérdidas graves, sin asumir nada sobre el centro de la distribución.
+
+El resultado teórico clave: bajo ciertas condiciones, los valores extremos de *cualquier* distribución convergen a una de solo tres familias posibles. En finanzas siempre aparece la misma — colas gruesas (Fréchet) — equivalente a una t-Student con pocos grados de libertad.
+
+Hay dos implementaciones prácticas:
+
+**POT (Peaks Over Threshold):** se elige un umbral $U$ y se modelan solo las observaciones que lo superan. Las excedencias siguen una **GPD** (Generalised Pareto Distribution). El VaR se calcula como:
+
+$$\text{VaR}_{\text{POT}} = U + \frac{\hat{\sigma}}{\hat{\xi}}\left[\left(\frac{N}{N_U}\alpha\right)^{-\hat{\xi}} - 1\right]$$
+
+**Hill (estimador no paramétrico):** alternativa más simple, aplicable solo a colas gruesas. Ordena las excedencias y estima el parámetro de forma $\xi$ promediando los logaritmos de los ratios entre valores extremos consecutivos:
+
+$$\text{VaR}_{\text{Hill}} = \tilde{y}_{(k)} \cdot \left(\frac{N}{N_U}\alpha\right)^{-\hat{\xi}}$$
+
+En ambos casos, $\hat{\xi}$ es el parámetro que controla el grosor de la cola. En retornos financieros típicos, $\hat{\xi} \approx 0.1$–$0.4$.
+
+**Ventajas:**
+- Estadísticamente válido para cuantiles muy extremos (99.9%+) donde los demás métodos fallan
+- No asume ninguna distribución para el centro de los datos
+- La evidencia empírica muestra que supera a todos los otros métodos a medida que te adentras más en la cola
+
+**Desventajas:**
+- Asume datos i.i.d. — en retornos financieros hay que filtrar primero con GARCH, extraer los residuos estandarizados, y aplicar EVT sobre esos residuos
+- La elección del umbral $U$ en POT es subjetiva y crítica: demasiado bajo introduce sesgo, demasiado alto deja pocas observaciones
+- Para VaR al 95%–97.5%, la t-Student o el histórico son igual de buenos — EVT solo gana claramente en cuantiles muy extremos
+
+## Escalado temporal
+
+$$\text{VaR}_{n\text{ días}} = \text{VaR}_{1\text{ día}} \times \sqrt{n}$$
+
+Asume retornos i.i.d. — supuesto que falla en periodos de estrés.
+
+## Conexión con el análisis de distribución (→ respuesta_001, respuesta_002)
+
+El análisis Normal vs t-Student no es un ejercicio previo independiente: es el prerequisito del VaR. Si se asume normalidad con datos que tienen fat tails, el VaR paramétrico subestima la pérdida real. La elección de t-Student justifica usar Monte Carlo con la distribución calibrada, que es el método más honesto dado lo que muestran los datos de Apple.
+</script>
+<script type="text/markdown" id="c-p004">
+# Intuición detrás de escalar el VaR con √n
+
+## Por qué no es simplemente ×n
+
+Si el riesgo fuera el mismo cada día y los días fueran independientes, perder 1% diario durante 10 días daría -10%. Pero el VaR no es una pérdida fija — es una medida de dispersión. Y la dispersión de una suma de variables aleatorias no crece linealmente, crece con la raíz cuadrada del número de términos.
+
+## La intuición estadística
+
+Si cada retorno diario tiene desviación típica σ, y los días son independientes entre sí, la desviación típica acumulada en n días es:
+
+$$\sigma_n = \sigma \times \sqrt{n}$$
+
+Esto viene de que la **varianza sí es aditiva**: Var_n = n · σ², y al sacar la raíz cuadrada aparece √n.
+
+El VaR paramétrico es Z_α × σ, así que escala igual que σ: multiplicando por √n.
+
+## La analogía física
+
+Es la misma lógica que el movimiento browniano: una partícula que da pasos aleatorios no se aleja linealmente en el tiempo — se aleja proporcionalmente a √t. Si hoy puede ir 1 metro, en 100 pasos esperamos que esté a 10 metros del origen, no a 100. Los pasos en direcciones opuestas se cancelan parcialmente.
+
+## Por qué es un supuesto fuerte
+
+La regla √n asume retornos **i.i.d.** — independientes entre sí y con la misma distribución cada día. Eso falla en la práctica:
+- Si hay un crash hoy, mañana la volatilidad es mayor (GARCH — los días no son independientes)
+- En periodos de estrés, los retornos extremos se encadenan
+
+Por eso Basilea exige el VaR a 10 días pero permite calcularlo como VaR diario × √10 solo como **aproximación regulatoria** — no como verdad estadística.
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<script>
+const CFG={
+  home:{bc:[{l:'Vista General',id:'home'}],cid:'c-home',top:'modules',mod:'home'},
+  m7:{bc:[{l:'Vista General',id:'home'},{l:'M7 — Valoración',id:'m7'}],cid:'c-m7',top:'detail',mod:'m7',
+    cards:[
+      {t:'Medición (T6–9)',s:'Retornos, riesgo, distribuciones, diversificación',id:'m7-medicion'},
+      {t:'Markowitz, CAL y Sharpe',s:'Frontera eficiente y portfolio tangente',id:'m7-markowitz'},
+      {t:'Valoración I (T11–17)',s:'Bonos, acciones, CAPM, APT, Fama-French',id:'m7-val1'},
+      {t:'Valoración II (T18–21)',s:'Derivados, Black-Scholes, Monte Carlo, Euler',id:'m7-val2'},
+    ]},
+  'm7-medicion':{bc:[{l:'Vista General',id:'home'},{l:'M7 — Valoración',id:'m7'},{l:'Medición (T6–9)',id:'m7-medicion'}],cid:'c-m7-medicion',top:null,mod:'m7'},
+  'm7-markowitz':{bc:[{l:'Vista General',id:'home'},{l:'M7 — Valoración',id:'m7'},{l:'Markowitz, CAL y Sharpe',id:'m7-markowitz'}],cid:'c-m7-markowitz',top:null,mod:'m7'},
+  'm7-val1':{bc:[{l:'Vista General',id:'home'},{l:'M7 — Valoración',id:'m7'},{l:'Valoración I (T11–17)',id:'m7-val1'}],cid:'c-m7-val1',top:null,mod:'m7'},
+  'm7-val2':{bc:[{l:'Vista General',id:'home'},{l:'M7 — Valoración',id:'m7'},{l:'Valoración II (T18–21)',id:'m7-val2'}],cid:'c-m7-val2',top:null,mod:'m7'},
+  m8:{bc:[{l:'Vista General',id:'home'},{l:'M8 — Carteras',id:'m8'}],cid:'c-m8',top:null,mod:'m8'},
+  m9:{bc:[{l:'Vista General',id:'home'},{l:'M9 — Riesgos',id:'m9'}],cid:'c-m9',top:'detail',mod:'m9',
+    cards:[{t:'Fundamentos matemáticos (T1–12)',s:'Probabilidad, distribuciones, series temporales, GARCH',id:'m9-mates'}]},
+  'm9-mates':{bc:[{l:'Vista General',id:'home'},{l:'M9 — Riesgos',id:'m9'},{l:'Fundamentos matemáticos',id:'m9-mates'}],cid:'c-m9-mates',top:null,mod:'m9'},
+  m10:{bc:[{l:'Vista General',id:'home'},{l:'M10 — Valor Extremo',id:'m10'}],cid:'c-m10',top:null,mod:'m10'},
+  preguntas:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas de Examen',id:'preguntas'}],cid:null,top:'questions',mod:'p'},
+  p001:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'001 — Normal vs t-Student',id:'p001'}],cid:'c-p001',top:null,mod:'p'},
+  p002:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'002 — Rasgos diagnósticos',id:'p002'}],cid:'c-p002',top:null,mod:'p'},
+  p003:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'003 — Cálculo del VaR',id:'p003'}],cid:'c-p003',top:null,mod:'p'},
+  p004:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'004 — Escalado con √n',id:'p004'}],cid:'c-p004',top:null,mod:'p'},
+};
+
+function parseMd(text){
+  const saved=[];
+  text=text.replace(/\$\$([\s\S]*?)\$\$/g,(_,m)=>{saved.push('<div style="overflow-x:auto;padding:.5rem 0">\\['+m+'\\]</div>');return'@@M'+(saved.length-1)+'@@';});
+  text=text.replace(/\$([^\n$]{1,300}?)\$/g,(_,m)=>{saved.push('\\('+m+'\\)');return'@@M'+(saved.length-1)+'@@';});
+  let h=marked.parse(text);
+  saved.forEach((s,i)=>{h=h.split('@@M'+i+'@@').join(s);});
+  return h;
+}
+
+function nav(id){
+  const c=CFG[id]; if(!c) return;
+  // breadcrumb
+  document.getElementById('bc').innerHTML=c.bc.map((b,i)=>{
+    const last=i===c.bc.length-1;
+    return last?`<span class="cur">${b.l}</span>`:`<span onclick="nav('${b.id}')">${b.l}</span><span class="bc-sep">›</span>`;
+  }).join(' ');
+  // sidebar
+  document.querySelectorAll('.sb-a').forEach(el=>el.classList.remove('on'));
+  const modMap={home:'home',m7:'m7',m8:'m8',m9:'m9',m10:'m10',p:'preguntas'};
+  const sbEl=document.querySelector(`.sb-a[data-id="${modMap[c.mod]||c.mod}"]`);
+  if(sbEl) sbEl.classList.add('on');
+  // top area
+  const topEl=document.getElementById('top');
+  const modCls=c.mod==='home'?'':(c.mod==='p'?'':c.mod);
+  if(c.top==='modules'){
+    topEl.innerHTML=`<div class="mod-grid">
+      <div class="mc m7" onclick="nav('m7')"><div class="mc-id">M7</div><div class="mc-t">Valoración de Instrumentos</div><div class="mc-d">Medición, bonos, acciones, Black-Scholes</div></div>
+      <div class="mc m8" onclick="nav('m8')"><div class="mc-id">M8</div><div class="mc-t">Gestión de Carteras</div><div class="mc-d">Delta hedging, volatilidad, gestión activa</div></div>
+      <div class="mc m9" onclick="nav('m9')"><div class="mc-id">M9</div><div class="mc-t">Gestión de Riesgos</div><div class="mc-d">VaR, ES, crédito, liquidez, Basilea</div></div>
+      <div class="mc m10" onclick="nav('m10')"><div class="mc-id">M10</div><div class="mc-t">Valor Extremo</div><div class="mc-d">EVT, GEV, GPD, POT, Hill</div></div>
+    </div>`;
+  } else if(c.top==='detail'&&c.cards){
+    const cls=c.mod;
+    topEl.innerHTML=`<div class="det-wrap"><div class="det-lbl">Ir al detalle</div><div class="det-row">${
+      c.cards.map(d=>`<div class="dc ${cls}" onclick="nav('${d.id}')"><div class="dc-t">${d.t}</div><div class="dc-s">${d.s}</div></div>`).join('')
+    }</div></div>`;
+  } else if(c.top==='questions'){
+    topEl.innerHTML='';
+  } else {
+    topEl.innerHTML='';
+  }
+  // content
+  const el=document.getElementById('content');
+  if(c.top==='questions'){
+    el.innerHTML=`<h1>Preguntas de Examen</h1>
+<p style="color:var(--tm);margin:.75rem 0 0">Registro de preguntas trabajadas sobre los módulos 7–10.</p>
+<div class="q-grid">
+  <div class="qc" onclick="nav('p001')"><div class="qc-n">Pregunta 001</div><div class="qc-t">¿Por qué importa elegir Normal vs t-Student para retornos diarios? ¿Cuándo es óptima cada una?</div></div>
+  <div class="qc" onclick="nav('p002')"><div class="qc-n">Pregunta 002</div><div class="qc-t">¿Qué rasgos teórico-matemáticos delatan si los datos siguen una Normal o una t-Student?</div></div>
+  <div class="qc" onclick="nav('p003')"><div class="qc-n">Pregunta 003</div><div class="qc-t">¿Cómo se calcula el VaR? Cuatro métodos: paramétrico, histórico, Monte Carlo y EVT.</div></div>
+  <div class="qc" onclick="nav('p004')"><div class="qc-n">Pregunta 004</div><div class="qc-t">¿Cuál es la intuición detrás de escalar el VaR con √n al cambiar el horizonte temporal?</div></div>
+</div>`;
+  } else if(c.cid){
+    el.innerHTML=parseMd(document.getElementById(c.cid).textContent);
+  } else {
+    el.innerHTML='';
+  }
+  window.scrollTo(0,0);
+  if(window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise();
+}
+
+document.addEventListener('DOMContentLoaded',()=>nav('home'));
+</script>
+</body>
+</html>
