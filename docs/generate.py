@@ -27,6 +27,7 @@ contents = {
     'p002':        read_md('preguntas/respuesta_002.md', strip_fm=True, no_img=True),
     'p003':        read_md('preguntas/respuesta_003.md', strip_fm=True, no_img=True),
     'p004':        read_md('preguntas/respuesta_004.md', strip_fm=True),
+    'p005':        read_md('preguntas/respuesta_005.md', strip_fm=True),
 }
 
 # Fix Markowitz: bare Python lines -> code block
@@ -209,6 +210,7 @@ const CFG={
   p002:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'002 — Rasgos diagnósticos',id:'p002'}],cid:'c-p002',top:null,mod:'p'},
   p003:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'003 — Cálculo del VaR',id:'p003'}],cid:'c-p003',top:null,mod:'p'},
   p004:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'004 — Escalado con √n',id:'p004'}],cid:'c-p004',top:null,mod:'p'},
+  p005:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'005 — Utilidad media-varianza',id:'p005'}],cid:'c-p005',top:null,mod:'p'},
 };
 
 function parseMd(text){
@@ -262,6 +264,7 @@ function nav(id){
   <div class="qc" onclick="nav('p002')"><div class="qc-n">Pregunta 002</div><div class="qc-t">¿Qué rasgos teórico-matemáticos delatan si los datos siguen una Normal o una t-Student?</div></div>
   <div class="qc" onclick="nav('p003')"><div class="qc-n">Pregunta 003</div><div class="qc-t">¿Cómo se calcula el VaR? Cuatro métodos: paramétrico, histórico, Monte Carlo y EVT.</div></div>
   <div class="qc" onclick="nav('p004')"><div class="qc-n">Pregunta 004</div><div class="qc-t">¿Cuál es la intuición detrás de escalar el VaR con √n al cambiar el horizonte temporal?</div></div>
+  <div class="qc" onclick="nav('p005')"><div class="qc-n">Pregunta 005</div><div class="qc-t">¿Qué es la utilidad media-varianza (mean-variance utility)? ¿Por qué importa?</div></div>
 </div>`;
   } else if(c.cid){
     el.innerHTML=parseMd(document.getElementById(c.cid).textContent);
@@ -277,8 +280,7 @@ document.addEventListener('DOMContentLoaded',()=>nav('home'));
 </body>
 </html>"""
 
-out = os.path.join(BASE, 'web', 'index.html')
-os.makedirs(os.path.dirname(out), exist_ok=True)
+out = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html')
 with open(out, 'w', encoding='utf-8') as f:
     f.write(HTML)
 print(f"Generado: {out} ({os.path.getsize(out)//1024} KB)")

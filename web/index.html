@@ -2399,27 +2399,6 @@ La regla √n asume retornos **i.i.d.** — independientes entre sí y con la mi
 
 Por eso Basilea exige el VaR a 10 días pero permite calcularlo como VaR diario × √10 solo como **aproximación regulatoria** — no como verdad estadística.
 </script>
-<script type="text/markdown" id="c-p005">
-# ¿Qué es la utilidad media-varianza (mean-variance utility)?
-
-## Dónde aparece
-
-M7 — Bloque 1, Tema 7 (Riesgo vs. Retorno). Es el supuesto de fondo de toda la teoría de Markowitz y del CAPM.
-
-## La función
-
-$$U = E(r) - \frac{\lambda}{2}\sigma^2$$
-
-El inversor maximiza $U$: quiere más retorno esperado $E(r)$ y menos varianza $\sigma^2$. El parámetro $\lambda$ es el **coeficiente de aversión al riesgo** — en la práctica $\lambda \in [2, 4]$. A mayor $\lambda$, más penaliza la varianza relativa al retorno.
-
-## Por qué importa
-
-Es el supuesto de fondo de toda la teoría de Markowitz. La frontera eficiente y el portfolio óptimo se derivan exactamente de que los inversores maximizan esta función. También justifica el CAPM: si todos los inversores tienen utilidad media-varianza y expectativas homogéneas, todos acaban en el mismo portfolio de mercado.
-
-## So-what para el examen
-
-Si te preguntan por qué Markowitz asume normalidad: la utilidad media-varianza solo describe completamente las preferencias del inversor cuando la distribución está caracterizada por media y varianza, lo que solo ocurre bajo normalidad (o preferencias cuadráticas). Si los retornos tienen fat tails, $U$ ignora skewness y kurtosis — el portfolio "óptimo" puede ser subóptimo en la práctica. Esa es la motivación de los criterios alternativos del T10 (GMR, safety-first, dominancia estocástica).
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
 <script>
@@ -2450,7 +2429,6 @@ const CFG={
   p002:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'002 — Rasgos diagnósticos',id:'p002'}],cid:'c-p002',top:null,mod:'p'},
   p003:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'003 — Cálculo del VaR',id:'p003'}],cid:'c-p003',top:null,mod:'p'},
   p004:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'004 — Escalado con √n',id:'p004'}],cid:'c-p004',top:null,mod:'p'},
-  p005:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'005 — Utilidad media-varianza',id:'p005'}],cid:'c-p005',top:null,mod:'p'},
 };
 
 function parseMd(text){
@@ -2504,7 +2482,6 @@ function nav(id){
   <div class="qc" onclick="nav('p002')"><div class="qc-n">Pregunta 002</div><div class="qc-t">¿Qué rasgos teórico-matemáticos delatan si los datos siguen una Normal o una t-Student?</div></div>
   <div class="qc" onclick="nav('p003')"><div class="qc-n">Pregunta 003</div><div class="qc-t">¿Cómo se calcula el VaR? Cuatro métodos: paramétrico, histórico, Monte Carlo y EVT.</div></div>
   <div class="qc" onclick="nav('p004')"><div class="qc-n">Pregunta 004</div><div class="qc-t">¿Cuál es la intuición detrás de escalar el VaR con √n al cambiar el horizonte temporal?</div></div>
-  <div class="qc" onclick="nav('p005')"><div class="qc-n">Pregunta 005</div><div class="qc-t">¿Qué es la utilidad media-varianza (mean-variance utility)? ¿Por qué importa?</div></div>
 </div>`;
   } else if(c.cid){
     el.innerHTML=parseMd(document.getElementById(c.cid).textContent);
