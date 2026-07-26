@@ -1,0 +1,30 @@
+ 1. Simple rate of returns.ipynb
+  Calcula retornos simples $\frac{P_t - P_{t-1}}{P_{t-1}}$ sobre precios diarios de MSFT (2000–2017).
+  Anualiza multiplicando por 250. Resultado: ~6,8% de retorno medio anual.
+
+  2. Logarithmic Rate of Returns.ipynb
+  Lo mismo pero con log-retornos: np.log(Close / Close.shift(1)). Resultado anualizado: ~2,1%. La diferencia
+  respecto al retorno simple ilustra exactamente el punto del tema 6 — la media aritmética sobreestima el
+  crecimiento real.
+
+  3. Security Risk.ipynb
+  Calcula media y desviación típica anualizadas de log-retornos para MSFT y AAPL en paralelo. Implementa el
+  escalado $\sigma_{anual} = \sigma_{diaria} \times \sqrt{250}$. Resultados:
+  - MSFT: 2,9% retorno, 31% volatilidad
+  - AAPL: 21,6% retorno, 43,9% volatilidad
+
+  4. Covariance and Correlation.ipynb
+  Construye la matriz de covarianza y correlación entre MSFT y AAPL usando .cov() y .corr() sobre los
+  log-retornos, y la anualiza multiplicando por 250. Es el input directo para calcular la varianza de cartera
+  $\sigma_P^2 = \mathbf{w}^T \Sigma \mathbf{w}$ del tema 9.
+
+  5. Importing Data from Financial API.ipynb
+  Infraestructura: cómo descargar datos de mercado vía pandas_datareader desde IEX y Morningstar. Cubre AAPL
+  y GOOGL. Las APIs están desactualizadas (IEX cambió su modelo en 2019, Morningstar también), así que este
+  notebook no funcionará tal cual — tendrías que sustituirlo por yfinance.
+
+  ---
+  So-what: los notebooks son ejercicios progresivos que traducen a código los conceptos teóricos del bloque
+  de medición. El orden natural de estudio es 1 → 2 → 3 → 4, y el 5 es auxiliar. ¿Quieres que los ejecute o
+  que añada algo — por ejemplo, calcular skewness y kurtosis sobre los mismos datos para conectar con el tema
+  8?
