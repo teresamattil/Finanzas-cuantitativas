@@ -28,6 +28,7 @@ contents = {
     'p003':        read_md('preguntas/respuesta_003.md', strip_fm=True, no_img=True),
     'p004':        read_md('preguntas/respuesta_004.md', strip_fm=True),
     'p005':        read_md('preguntas/respuesta_005.md', strip_fm=True),
+    'p006':        read_md('preguntas/respuesta_006.md', strip_fm=True),
 }
 
 # Fix Markowitz: bare Python lines -> code block
@@ -211,6 +212,7 @@ const CFG={
   p003:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'003 — Cálculo del VaR',id:'p003'}],cid:'c-p003',top:null,mod:'p'},
   p004:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'004 — Escalado con √n',id:'p004'}],cid:'c-p004',top:null,mod:'p'},
   p005:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'005 — Utilidad media-varianza',id:'p005'}],cid:'c-p005',top:null,mod:'p'},
+  p006:{bc:[{l:'Vista General',id:'home'},{l:'Preguntas',id:'preguntas'},{l:'006 — Transaction costs en Markowitz',id:'p006'}],cid:'c-p006',top:null,mod:'p'},
 };
 
 function parseMd(text){
