@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Máster en Finanzas Cuantitativas — Mapa de Modelos</title>
+<style>
+  :root {
+    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eeece8;
+    --text: #1a1a18; --text2: #5f5e5a; --text3: #888780;
+    --border: rgba(0,0,0,0.12); --border2: rgba(0,0,0,0.22); --border3: rgba(0,0,0,0.32);
+    --radius-md: 8px; --radius-lg: 12px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1e1e1c; --bg2: #2a2a27; --bg3: #323230;
+      --text: #e8e6e0; --text2: #9c9a92; --text3: #6e6c66;
+      --border: rgba(255,255,255,0.10); --border2: rgba(255,255,255,0.18); --border3: rgba(255,255,255,0.28);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--bg3); color: var(--text); padding: 24px; min-height: 100vh; }
+  .container { max-width: 900px; margin: 0 auto; background: var(--bg); border-radius: 16px; border: 0.5px solid var(--border); padding: 24px; }
+  h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
+  .nav { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+  .nav button { font-size: 12px; padding: 5px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius-md); background: var(--bg); color: var(--text); cursor: pointer; font-family: var(--font); transition: background 0.15s; }
+  .nav button.active { background: var(--bg2); border-color: var(--border3); font-weight: 500; }
+  .nav button:hover:not(.active) { background: var(--bg2); }
+  .view { display: none; } .view.active { display: block; }
+  .global-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  @media (max-width: 700px) { .global-grid { grid-template-columns: 1fr; } }
+  .curso-card { border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .curso-header { padding: 10px 14px; font-size: 12px; font-weight: 500; }
+  .curso-header.c1 { background: #E6F1FB; color: #0C447C; }
+  .curso-header.c2 { background: #EAF3DE; color: #27500A; }
+  .curso-header.c3 { background: #FAEEDA; color: #633806; }
+  @media (prefers-color-scheme: dark) {
+    .curso-header.c1 { background: #042C53; color: #B5D4F4; }
+    .curso-header.c2 { background: #173404; color: #C0DD97; }
+    .curso-header.c3 { background: #412402; color: #FAC775; }
+  }
+  .mod-row { padding: 9px 14px; border-top: 0.5px solid var(--border); cursor: pointer; transition: background 0.12s; }
+  .mod-row:hover { background: var(--bg2); }
+  .mod-num { font-size: 11px; color: var(--text3); margin-bottom: 2px; }
+  .mod-name { font-size: 13px; font-weight: 500; }
+  .mod-tag { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .thread { margin-bottom: 22px; }
+  .thread-title { font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 10px; }
+  .chain { display: flex; align-items: flex-start; gap: 0; flex-wrap: wrap; }
+  .chain-item { display: flex; align-items: center; }
+  .model-box { border: 0.5px solid var(--border2); border-radius: var(--radius-md); padding: 9px 12px; background: var(--bg); cursor: pointer; min-width: 130px; max-width: 200px; transition: background 0.12s; }
+  .model-box:hover { background: var(--bg2); }
+  .model-box .label { font-size: 12px; font-weight: 500; }
+  .model-box .eq { font-size: 11px; color: var(--text2); margin-top: 3px; font-family: var(--mono); line-height: 1.5; }
+  .model-box .cond { font-size: 10px; color: var(--text3); margin-top: 2px; font-style: italic; }
+  .arrow-wrap { display: flex; flex-direction: column; align-items: center; padding: 0 4px; }
+  .arrow { color: var(--text3); font-size: 14px; }
+  .arrow-label { font-size: 10px; color: var(--text3); text-align: center; white-space: nowrap; }
+  .detail-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .detail-back { font-size: 12px; color: var(--text2); cursor: pointer; padding: 4px 10px; border: 0.5px solid var(--border); border-radius: var(--radius-md); background: var(--bg); font-family: var(--font); transition: background 0.12s; }
+  .detail-back:hover { background: var(--bg2); }
+  .detail-title { font-size: 15px; font-weight: 500; }
+  .detail-sub { font-size: 13px; color: var(--text2); margin-bottom: 16px; line-height: 1.5; }
+  .models-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  @media (max-width: 600px) { .models-grid { grid-template-columns: 1fr; } }
+  .model-card { border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 12px 14px; background: var(--bg); }
+  .mc-name { font-size: 13px; font-weight: 500; margin-bottom: 7px; }
+  .mc-eq { font-size: 12px; font-family: var(--mono); background: var(--bg2); padding: 7px 9px; border-radius: var(--radius-md); margin-bottom: 7px; color: var(--text); line-height: 1.6; }
+  .mc-cond { font-size: 11px; color: var(--text2); margin-bottom: 4px; line-height: 1.5; }
+  .mc-note { font-size: 11px; color: var(--text3); font-style: italic; margin-bottom: 4px; }
+  .tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; margin-top: 4px; font-weight: 500; }
+  .tag-blue   { background: #E6F1FB; color: #0C447C; }
+  .tag-green  { background: #EAF3DE; color: #27500A; }
+  .tag-amber  { background: #FAEEDA; color: #633806; }
+  .tag-teal   { background: #E1F5EE; color: #085041; }
+  .tag-coral  { background: #FAECE7; color: #712B13; }
+  .tag-purple { background: #EEEDFE; color: #3C3489; }
+  @media (prefers-color-scheme: dark) {
+    .tag-blue   { background: #042C53; color: #B5D4F4; }
+    .tag-green  { background: #173404; color: #C0DD97; }
+    .tag-amber  { background: #412402; color: #FAC775; }
+    .tag-teal   { background: #04342C; color: #9FE1CB; }
+    .tag-coral  { background: #4A1B0C; color: #F0997B; }
+    .tag-purple { background: #26215C; color: #CECBF6; }
+  }
+  .assumptions { border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 12px 14px; margin-bottom: 14px; background: var(--bg2); }
+  .assumptions h4 { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 10px; }
+  .assumption-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; font-size: 12px; flex-wrap: wrap; }
+  .asm-badge { font-size: 10px; padding: 2px 7px; border-radius: 4px; min-width: 30px; text-align: center; font-weight: 500; background: #E6F1FB; color: #0C447C; flex-shrink: 0; }
+  .asm-text { color: var(--text); flex-shrink: 0; }
+  .asm-arrow { color: var(--text3); flex-shrink: 0; }
+  .asm-break { color: var(--text2); font-style: italic; }
+  hr.sep { border: none; border-top: 0.5px solid var(--border); margin: 20px 0; }
+  .sec-title { font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 12px; }
+  /* M1 indicators */
+  .ind-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  @media (max-width: 600px) { .ind-grid { grid-template-columns: 1fr; } }
+  .ind-card { border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 12px 14px; background: var(--bg); }
+  .ind-name { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+  .ind-eq { font-size: 12px; font-family: var(--mono); background: var(--bg2); padding: 7px 9px; border-radius: var(--radius-md); margin-bottom: 6px; color: var(--text); line-height: 1.7; }
+  .ind-interp { font-size: 11px; color: var(--text2); line-height: 1.55; margin-bottom: 4px; }
+  .ind-warn { font-size: 11px; color: #633806; font-style: italic; }
+  @media (prefers-color-scheme: dark) { .ind-warn { color: #FAC775; } }
+  /* M1 accordion */
+  .asm-card { border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 10px; }
+  .asm-hdr { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--bg); cursor: pointer; user-select: none; }
+  .asm-hdr:hover { background: var(--bg2); }
+  .asm-dot { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; }
+  .dot-crit { background: #FCEBEB; color: #791F1F; }
+  .dot-warn { background: #FAEEDA; color: #633806; }
+  .dot-low  { background: #EEEDFE; color: #3C3489; }
+  @media (prefers-color-scheme: dark) {
+    .dot-crit { background: #501313; color: #F09595; }
+    .dot-warn { background: #412402; color: #FAC775; }
+    .dot-low  { background: #26215C; color: #CECBF6; }
+  }
+  .asm-hdr-title { font-size: 13px; font-weight: 500; color: var(--text); }
+  .asm-hdr-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .asm-chevron { font-size: 14px; color: var(--text3); transition: transform .2s; margin-left: auto; }
+  .asm-chevron.open { transform: rotate(180deg); }
+  .asm-body { display: none; border-top: 0.5px solid var(--border); }
+  .asm-body.open { display: block; }
+  .asm-sec { padding: 11px 16px; border-bottom: 0.5px solid var(--border); }
+  .asm-sec:last-child { border-bottom: none; }
+  .asm-sec-lbl { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px; }
+  .lbl-def  { color: var(--text3); }
+  .lbl-viol { color: #854F0B; }
+  .lbl-test { color: #185FA5; }
+  .lbl-sol  { color: #27500A; }
+  @media (prefers-color-scheme: dark) {
+    .lbl-viol { color: #FAC775; } .lbl-test { color: #B5D4F4; } .lbl-sol { color: #C0DD97; }
+  }
+  .asm-txt { font-size: 12px; color: var(--text2); line-height: 1.65; }
+  .asm-txt .code { font-family: var(--mono); background: var(--bg2); padding: 1px 5px; border-radius: 3px; font-size: 11px; color: var(--text); }
+  .asm-eq { font-size: 11px; font-family: var(--mono); background: var(--bg2); padding: 7px 10px; border-radius: var(--radius-md); margin-top: 7px; color: var(--text); line-height: 1.7; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+  .pill { font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 500; }
+  .pill-blue   { background: #E6F1FB; color: #0C447C; }
+  .pill-green  { background: #EAF3DE; color: #27500A; }
+  .pill-amber  { background: #FAEEDA; color: #633806; }
+  .pill-red    { background: #FCEBEB; color: #791F1F; }
+  .pill-purple { background: #EEEDFE; color: #3C3489; }
+  @media (prefers-color-scheme: dark) {
+    .pill-blue   { background: #042C53; color: #B5D4F4; }
+    .pill-green  { background: #173404; color: #C0DD97; }
+    .pill-amber  { background: #412402; color: #FAC775; }
+    .pill-red    { background: #501313; color: #F09595; }
+    .pill-purple { background: #26215C; color: #CECBF6; }
+  }
+  .sev-box { display: flex; align-items: flex-start; gap: 7px; margin-top: 8px; padding: 7px 10px; border-radius: var(--radius-md); font-size: 11px; line-height: 1.5; }
+  .sev-crit { background: #FCEBEB; color: #791F1F; }
+  .sev-warn { background: #FAEEDA; color: #633806; }
+  .sev-low  { background: #EEEDFE; color: #3C3489; }
+  @media (prefers-color-scheme: dark) {
+    .sev-crit { background: #501313; color: #F09595; }
+    .sev-warn { background: #412402; color: #FAC775; }
+    .sev-low  { background: #26215C; color: #CECBF6; }
+  }
+  .legend-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); }
+  .leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Máster en Finanzas Cuantitativas</h1>
+<p class="subtitle">Mapa de modelos econométricos — relaciones y ecuaciones clave</p>
+<div class="nav" id="nav">
+  <button class="active" onclick="showView('global')">Vista global</button>
+  <button onclick="showView('thread')">Hilo conductor</button>
+  <button onclick="showView('m1')">Módulo 1</button>
+  <button onclick="showView('m2')">Módulo 2</button>
+  <button onclick="showView('m4')">Módulo 4</button>
+  <button onclick="showView('m5')">Módulo 5</button>
+  <button onclick="showView('m6')">Módulo 6</button>
+</div>
+
+<!-- VISTA GLOBAL -->
+<div id="view-global" class="view active">
+  <div class="global-grid">
+    <div class="curso-card">
+      <div class="curso-header c1">Experto en Métodos Computacionales</div>
+      <div class="mod-row" onclick="showView('m1')"><div class="mod-num">Módulo 1</div><div class="mod-name">Python & R</div><div class="mod-tag">OLS, fundamentos estadísticos</div></div>
+      <div class="mod-row" onclick="showView('m2')"><div class="mod-num">Módulo 2</div><div class="mod-name">Simulación</div><div class="mod-tag">Monte Carlo, Bootstrap, VaR</div></div>
+      <div class="mod-row"><div class="mod-num">Módulo 3</div><div class="mod-name">ML Financiero</div><div class="mod-tag">Clasificación, clustering, redes</div></div>
+    </div>
+    <div class="curso-card">
+      <div class="curso-header c2">Experto en Métodos Econométricos</div>
+      <div class="mod-row" onclick="showView('m4')"><div class="mod-num">Módulo 4</div><div class="mod-name">Series Temporales</div><div class="mod-tag">AR, MA, ARIMA, VAR, cointegración</div></div>
+      <div class="mod-row" onclick="showView('m5')"><div class="mod-num">Módulo 5</div><div class="mod-name">Volatilidad y Correlación</div><div class="mod-tag">ARCH, GARCH, EGARCH, DCC</div></div>
+      <div class="mod-row" onclick="showView('m6')"><div class="mod-num">Módulo 6</div><div class="mod-name">Switching & State Space</div><div class="mod-tag">Markov, TAR, Kalman</div></div>
+    </div>
+    <div class="curso-card">
+      <div class="curso-header c3">Experto en Análisis y Riesgos</div>
+      <div class="mod-row"><div class="mod-num">Módulo 7</div><div class="mod-name">Valoración de Derivados</div><div class="mod-tag">BSM, opciones, renta fija</div></div>
+      <div class="mod-row"><div class="mod-num">Módulo 8</div><div class="mod-name">Gestión de Carteras</div><div class="mod-tag">Markowitz, CAPM, factor models</div></div>
+      <div class="mod-row"><div class="mod-num">Módulo 9</div><div class="mod-name">Gestión de Riesgos</div><div class="mod-tag">VaR, CVaR, stress testing</div></div>
+      <div class="mod-row"><div class="mod-num">Módulo 10</div><div class="mod-name">Teoría del Valor Extremo</div><div class="mod-tag">GEV, GPD, colas de distribución</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- HILO CONDUCTOR -->
+<div id="view-thread" class="view">
+<style>
+  .it-wrap { background:#0f0f12; border-radius:12px; padding:28px 20px 32px; margin:-4px; overflow-x:auto; }
+  .it-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:28px; gap:16px; }
+  .it-header h2 { font-size:16px; font-weight:600; color:#f0ede4; margin-bottom:3px; }
+  .it-header p { font-size:12px; color:#6e6c66; }
+  .it-btn { display:flex; align-items:center; gap:7px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#c8c6be; padding:7px 14px; border-radius:8px; font-size:12px; cursor:pointer; white-space:nowrap; transition:background 0.15s; flex-shrink:0; font-family:inherit; }
+  .it-btn:hover { background:rgba(255,255,255,0.1); color:#f0ede4; }
+  .it-tree { display:flex; flex-direction:column; align-items:center; min-width:700px; }
+  .it-root { background:#1e1e24; border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:12px 28px; text-align:center; }
+  .it-root .rt { font-size:15px; font-weight:600; color:#f0ede4; margin-bottom:3px; }
+  .it-root .req { font-family:'Courier New',monospace; font-size:12px; color:#8a8880; }
+  .it-vline { width:1px; height:22px; background:rgba(255,255,255,0.15); }
+  .it-qbox { background:#1a1a20; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 22px; font-size:12px; font-weight:500; color:#9a9890; }
+  .it-hline-wrap { position:relative; height:22px; width:100%; }
+  .it-hline { position:absolute; top:0; left:calc(100%/12); right:calc(100%/12); height:1px; background:rgba(255,255,255,0.12); }
+  .it-branches { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; width:100%; }
+  .it-col { display:flex; flex-direction:column; align-items:center; }
+  .it-cline { width:1px; height:18px; flex-shrink:0; }
+  .it-card { width:100%; border-radius:8px; padding:9px 8px 7px; text-align:center; border:1px solid transparent; }
+  .it-card .bdg { font-size:10px; font-weight:700; letter-spacing:.04em; margin-bottom:4px; display:inline-block; padding:2px 6px; border-radius:4px; }
+  .it-card .ct { font-size:11px; font-weight:600; line-height:1.3; margin-bottom:3px; }
+  .it-card .cs { font-size:10px; line-height:1.35; font-family:'Courier New',monospace; opacity:.75; }
+  .it-card.clickable { cursor:pointer; transition:filter .15s, transform .15s; }
+  .it-card.clickable:hover { filter:brightness(1.2); transform:translateY(-1px); }
+  .it-lvl { font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:#4a4845; text-align:center; padding:5px 0 2px; width:100%; }
+  .tc  .bdg { background:rgba(29,158,117,.2);  color:#5dcaa5; }
+  .tc  { background:rgba(29,158,117,.08);  border-color:rgba(29,158,117,.25); }
+  .tc  .ct  { color:#7dd9bc; } .tc  .cs  { color:#5dcaa5; }
+  .tl  { background:#1D9E75; }
+  .co  .bdg { background:rgba(216,90,48,.2);   color:#f0997b; }
+  .co  { background:rgba(216,90,48,.08);   border-color:rgba(216,90,48,.25); }
+  .co  .ct  { color:#f0997b; }  .co  .cs  { color:#d87050; }
+  .ol  { background:#D85A30; }
+  .pu  .bdg { background:rgba(127,119,221,.2); color:#afa9ec; }
+  .pu  { background:rgba(127,119,221,.08); border-color:rgba(127,119,221,.25); }
+  .pu  .ct  { color:#c4bff5; } .pu  .cs  { color:#afa9ec; }
+  .pl  { background:#7F77DD; }
+  .am  .bdg { background:rgba(186,117,23,.2);  color:#ef9f27; }
+  .am  { background:rgba(186,117,23,.08);  border-color:rgba(186,117,23,.25); }
+  .am  .ct  { color:#f4bc5a; } .am  .cs  { color:#ef9f27; }
+  .al  { background:#BA7517; }
+  .pk  .bdg { background:rgba(212,83,126,.2);  color:#ed93b1; }
+  .pk  { background:rgba(212,83,126,.08);  border-color:rgba(212,83,126,.25); }
+  .pk  .ct  { color:#f0aac5; } .pk  .cs  { color:#ed93b1; }
+  .kl  { background:#D4537E; }
+  .bl  .bdg { background:rgba(55,138,221,.2);  color:#85b7eb; }
+  .bl  { background:rgba(55,138,221,.08);  border-color:rgba(55,138,221,.35); border-width:1.5px; }
+  .bl  .ct  { color:#9fcbf5; } .bl  .cs  { color:#85b7eb; }
+  .bll { background:#378ADD; }
+  .it-conns { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:24px; border-top:1px solid rgba(255,255,255,0.07); padding-top:20px; min-width:700px; width:100%; }
+  .it-conn { background:#1a1a20; border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:10px 12px; }
+  .it-conn .ctt { font-size:10px; font-weight:600; color:#8a8880; margin-bottom:3px; font-family:'Courier New',monospace; }
+  .it-conn .cds { font-size:11px; color:#6e6c66; line-height:1.4; }
+  .it-notes { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; min-width:700px; width:100%; }
+  .it-note { background:#141418; border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:10px 12px; font-size:11px; color:#5a5855; line-height:1.5; }
+  .it-note span { color:#7a7875; }
+</style>
+
+<div class="it-wrap">
+  <div class="it-header">
+    <div>
+      <h2>OLS y sus extensiones — issue tree</h2>
+      <p>Máster en Finanzas Cuantitativas · UNED · 5 supuestos Gauss-Markov + no estacionariedad</p>
+    </div>
+    <button class="it-btn" onclick="window.print()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Imprimir / PDF
+    </button>
+  </div>
+
+  <div class="it-tree">
+    <div class="it-root">
+      <div class="rt">OLS — modelo base</div>
+      <div class="req">yₜ = α + βxₜ + uₜ &nbsp;·&nbsp; β̂ = (X'X)⁻¹X'y</div>
+    </div>
+    <div class="it-vline"></div>
+    <div class="it-qbox">¿qué falla en los datos?</div>
+
+    <div style="width:100%">
+      <div class="it-hline-wrap"><div class="it-hline"></div></div>
+
+      <!-- NIVEL 1 -->
+      <div class="it-lvl">nivel 1 · supuesto violado</div>
+      <div class="it-branches">
+        <div class="it-col"><div class="it-cline tl"></div><div class="it-card tc"><div class="bdg">A1</div><div class="ct">No linealidad en parámetros</div><div class="cs">f(x) ≠ βx</div></div></div>
+        <div class="it-col"><div class="it-cline ol"></div><div class="it-card co"><div class="bdg">A2</div><div class="ct">Exogeneidad violada</div><div class="cs">E[u|X] ≠ 0</div></div></div>
+        <div class="it-col"><div class="it-cline pl"></div><div class="it-card pu"><div class="bdg">A3</div><div class="ct">Multicolinealidad perfecta</div><div class="cs">rango(X) &lt; k</div></div></div>
+        <div class="it-col"><div class="it-cline al"></div><div class="it-card am"><div class="bdg">A4</div><div class="ct">Heterocedasticidad</div><div class="cs">Var(u|X) ≠ σ²</div></div></div>
+        <div class="it-col"><div class="it-cline kl"></div><div class="it-card pk"><div class="bdg">A5</div><div class="ct">Autocorrelación</div><div class="cs">Cov(uₜ,uₛ) ≠ 0</div></div></div>
+        <div class="it-col"><div class="it-cline bll"></div><div class="it-card bl"><div class="bdg">A5+1</div><div class="ct">No estacionariedad</div><div class="cs">E[yₜ] o Var(yₜ) ∼ t</div></div></div>
+      </div>
+
+      <!-- NIVEL 2 -->
+      <div class="it-lvl">nivel 2 · consecuencia econométrica</div>
+      <div class="it-branches">
+        <div class="it-col"><div class="it-cline tl"></div><div class="it-card tc"><div class="ct">β̂ sesgado e inconsistente</div><div class="cs">modelo mal especificado</div></div></div>
+        <div class="it-col"><div class="it-cline ol"></div><div class="it-card co"><div class="ct">β̂ sesgado e inconsistente</div><div class="cs">variable endógena</div></div></div>
+        <div class="it-col"><div class="it-cline pl"></div><div class="it-card pu"><div class="ct">(X'X)⁻¹ inestable</div><div class="cs">varianza de β̂ muy alta</div></div></div>
+        <div class="it-col"><div class="it-cline al"></div><div class="it-card am"><div class="ct">SE(β̂) erróneos</div><div class="cs">t y F tests no válidos</div></div></div>
+        <div class="it-col"><div class="it-cline kl"></div><div class="it-card pk"><div class="ct">β̂ ineficiente</div><div class="cs">inferencia incorrecta</div></div></div>
+        <div class="it-col"><div class="it-cline bll"></div><div class="it-card bl"><div class="ct">Regresión espuria</div><div class="cs">R² alto sin sentido real</div></div></div>
+      </div>
+
+      <!-- NIVEL 3 — con enlaces a módulos -->
+      <div class="it-lvl">nivel 3 · módulo y modelo</div>
+      <div class="it-branches">
+        <div class="it-col"><div class="it-cline tl"></div><div class="it-card tc clickable" onclick="showView('m6')" title="Ir a Módulo 6"><div class="ct">M6 · Switching</div><div class="cs">Markov, TAR, SETAR<br>transf. ln, x², √</div></div></div>
+        <div class="it-col"><div class="it-cline ol"></div><div class="it-card co clickable" onclick="showView('m4')" title="Ir a Módulo 4"><div class="ct">M4 · Multivariante</div><div class="cs">IV, 2SLS, GMM<br>VAR, SVAR</div></div></div>
+        <div class="it-col"><div class="it-cline pl"></div><div class="it-card pu clickable" onclick="showView('m1')" title="Ir a Módulo 1"><div class="ct">M1 · OLS / Regulariz.</div><div class="cs">Ridge, Lasso, PCA<br>VIF, quitar regresor</div></div></div>
+        <div class="it-col"><div class="it-cline al"></div><div class="it-card am clickable" onclick="showView('m5')" title="Ir a Módulo 5"><div class="ct">M5 · Volatilidad</div><div class="cs">ARCH, GARCH, EGARCH<br>WLS, HCSE</div></div></div>
+        <div class="it-col"><div class="it-cline kl"></div><div class="it-card pk clickable" onclick="showView('m4')" title="Ir a Módulo 4"><div class="ct">M4 · Series temp.</div><div class="cs">ARIMA, GLS<br>Newey-West HAC</div></div></div>
+        <div class="it-col"><div class="it-cline bll"></div><div class="it-card bl clickable" onclick="showView('m4')" title="Ir a Módulo 4"><div class="ct">M4 · Series temp.</div><div class="cs">ARIMA, ECM<br>Johansen, VECM</div></div></div>
+      </div>
+
+      <!-- NIVEL 4 -->
+      <div class="it-lvl">nivel 4 · tests de diagnóstico</div>
+      <div class="it-branches">
+        <div class="it-col"><div class="it-cline tl"></div><div class="it-card tc"><div class="cs">RESET test<br>BDS test<br>Ramsey F-test</div></div></div>
+        <div class="it-col"><div class="it-cline ol"></div><div class="it-card co"><div class="cs">Wu-Hausman<br>Sargan / Hansen<br>Granger causality</div></div></div>
+        <div class="it-col"><div class="it-cline pl"></div><div class="it-card pu"><div class="cs">VIF (&gt;10 = problema)<br>λ ridge / α lasso<br>condition number X'X</div></div></div>
+        <div class="it-col"><div class="it-cline al"></div><div class="it-card am"><div class="cs">LM test (Engle)<br>White test<br>Breusch-Pagan</div></div></div>
+        <div class="it-col"><div class="it-cline kl"></div><div class="it-card pk"><div class="cs">Durbin-Watson<br>Ljung-Box / BG<br>ACF / PACF</div></div></div>
+        <div class="it-col"><div class="it-cline bll"></div><div class="it-card bl"><div class="cs">ADF, KPSS, PP<br>Johansen, Engle-Granger<br>γ &lt; 0 en ECM</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="it-conns">
+    <div class="it-conn"><div class="ctt">A5+1 + A4</div><div class="cds">ECM con errores GARCH: relación de largo plazo más volatilidad dinámica en los residuos</div></div>
+    <div class="it-conn"><div class="ctt">A5+1 + A1</div><div class="cds">Markov Switching + ECM: el ajuste al equilibrio cambia de régimen (ej. crisis vs. normalidad)</div></div>
+    <div class="it-conn"><div class="ctt">A2 + A5+1</div><div class="cds">VECM con instrumentos: cointegración con endogeneidad simultánea entre las series</div></div>
+  </div>
+
+  <div class="it-notes">
+    <div class="it-note"><span>A5 vs A5+1:</span> son distintos. A5 → residuos del modelo correlados en el tiempo. A5+1 → la propia serie no tiene media o varianza fija. Puedes tener uno sin el otro, o ambos a la vez.</div>
+    <div class="it-note"><span>Transversales:</span> M2 (Monte Carlo / Bootstrap) se usa cuando no hay solución analítica. M6 (Kalman filter) cuando los parámetros varían suavemente en el tiempo. Ninguno responde a un supuesto concreto.</div>
+  </div>
+</div>
+</div>
+
+<!-- MÓDULO 1 -->
+<div id="view-m1" class="view">
+  <div class="detail-header">
+    <button class="detail-back" onclick="showView('global')">← volver</button>
+    <div class="detail-title">Módulo 1 · OLS y fundamentos econométricos</div>
+  </div>
+  <p class="detail-sub">El modelo lineal clásico. Todo lo demás del máster es una extensión o corrección de este punto de partida.</p>
+
+  <div class="sec-title">El modelo y el estimador</div>
+  <div class="ind-card" style="margin-bottom:20px">
+    <div class="ind-eq">y = Xβ + u      →      β̂ = (X'X)⁻¹ X'y
+
+y  → vector (n×1) variable dependiente
+X  → matriz (n×k) regresores  [col. de 1s para el intercepto]
+β  → vector (k×1) parámetros a estimar
+u  → perturbaciones  ~  N(0, σ²I)  bajo CLM completo
+
+Residuos:  û = y − Xβ̂
+Varianza:  σ̂² = û'û / (n−k)   [estimador insesgado de σ²]</div>
+    <div class="ind-interp">β̂ minimiza Σûᵢ². Bajo A1–A5 es BLUE: Best Linear Unbiased Estimator (Gauss-Markov).</div>
+  </div>
+
+  <div class="sec-title">Indicadores clave — qué miden y cómo se calculan</div>
+  <div class="ind-grid">
+    <div class="ind-card">
+      <div class="ind-name">R² — bondad de ajuste</div>
+      <div class="ind-eq">SST = SSR + SSE
+R² = SSR/SST = 1 − SSE/SST  ∈ [0,1]
+
+SST = Σ(yᵢ−ȳ)²   variación total
+SSR = Σ(ŷᵢ−ȳ)²   explicada por el modelo
+SSE = Σûᵢ²         no explicada (residuos)</div>
+      <div class="ind-interp">Fracción de la varianza de y explicada por X. Nunca decrece al añadir regresores aunque sean irrelevantes.</div>
+      <div class="ind-warn">No usar para comparar modelos con distinto número de regresores → usar R² ajustado.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-name">R² ajustado</div>
+      <div class="ind-eq">R̄² = 1 − (SSE/(n−k)) / (SST/(n−1))
+     = 1 − (1−R²)·(n−1)/(n−k)</div>
+      <div class="ind-interp">Penaliza la adición de regresores irrelevantes. Puede decrecer si el nuevo regresor no mejora suficientemente el ajuste. Puede ser negativo si el modelo es muy malo.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-name">AIC y BIC — selección de modelo</div>
+      <div class="ind-eq">AIC = −2·ln(L̂) + 2k
+BIC = −2·ln(L̂) + k·ln(n)
+
+L̂ = verosimilitud maximizada
+k  = número de parámetros</div>
+      <div class="ind-interp">Menor valor = mejor modelo. BIC penaliza más los parámetros cuando n es grande. Usados también para selección de orden en ARIMA y GARCH (M4, M5).</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-name">F-test — significatividad conjunta</div>
+      <div class="ind-eq">F = (R²/(k−1)) / ((1−R²)/(n−k))
+  ~ F(k−1, n−k)  bajo H₀
+
+H₀: β₁ = β₂ = … = βₖ₋₁ = 0</div>
+      <div class="ind-interp">Testa si todos los regresores son conjuntamente nulos. F significativo + t-stats individuales no significativos → señal de multicolinealidad alta.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-name">t-stat — significatividad individual</div>
+      <div class="ind-eq">t = β̂ⱼ / SE(β̂ⱼ)  ~  t(n−k)  bajo H₀
+
+SE(β̂) = σ̂ · √[(X'X)⁻¹]ⱼⱼ
+
+IC 95%: β̂ⱼ ± t₀.₀₂₅ · SE(β̂ⱼ)</div>
+      <div class="ind-interp">Testa H₀: βⱼ = 0. Solo válido si A1–A5 se cumplen.</div>
+      <div class="ind-warn">Con heterocedasticidad (A4) o autocorrelación (A5), SE(β̂) es incorrecto → usar SE robustos HC o Newey-West.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-name">VIF — factor de inflación de varianza</div>
+      <div class="ind-eq">VIF_j = 1 / (1 − R²_j)
+
+R²_j = R² de regresar xⱼ sobre el resto de regresores
+
+Regla: VIF_j > 10 → multicolinealidad problemática</div>
+      <div class="ind-interp">Cuánto se infla Var(β̂ⱼ) por la correlación con otros regresores. VIF = 1 → sin multicolinealidad.</div>
+      <div class="ind-warn">VIF alto no sesga β̂ — solo lo hace impreciso. El estimador sigue siendo BLUE.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-name">Durbin-Watson — test de autocorrelación AR(1)</div>
+      <div class="ind-eq">d = Σₜ(ûₜ − ûₜ₋₁)² / Σûₜ²  ≈  2(1 − ρ̂)
+
+d ≈ 2  → sin autocorrelación  (ρ ≈ 0)
+d &lt; 2  → autocorrelación positiva
+d &gt; 2  → autocorrelación negativa</div>
+      <div class="ind-interp">Mide estructura temporal del error (A5). Completamente independiente de Jarque-Bera: uno testea dinámica temporal, el otro forma de la distribución. Pueden dar cualquier combinación de resultados.</div>
+      <div class="ind-warn">Solo detecta AR(1). No válido con retardos de y como regresor → usar Breusch-Godfrey.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-name">Jarque-Bera — test de normalidad</div>
+      <div class="ind-eq">JB = n/6 · [S² + (K−3)²/4]  ~  χ²(2)
+
+S = asimetría = E[(u−μ)³]/σ³
+K = curtosis  = E[(u−μ)⁴]/σ⁴
+H₀: S=0 y K=3  (distribución normal)</div>
+      <div class="ind-interp">Testa solo la forma de la distribución de los residuos (A6). No detecta autocorrelación ni heterocedasticidad. Tests separados para problemas separados.</div>
+      <div class="ind-warn">En muestras grandes (n&gt;100) irrelevante para inferencia: el TCL garantiza normalidad asintótica de β̂. La autocorrelación severa puede distorsionar artificialmente S y K.</div>
+    </div>
+  </div>
+
+  <hr class="sep">
+  <div class="sec-title">Supuestos CLM — definición, violación, tests y solución</div>
+  <div class="legend-row">
+    <div class="leg-item"><div class="leg-dot" style="background:#E24B4A"></div>β̂ sesgado e inconsistente</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#BA7517"></div>Inferencia inválida (β̂ correcto)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#7F77DD"></div>Solo relevante en muestras pequeñas</div>
+  </div>
+
+  <div class="asm-card">
+    <div class="asm-hdr" onclick="toggle(this)">
+      <div class="asm-dot dot-warn">A1</div>
+      <div style="flex:1"><div class="asm-hdr-title">Linealidad en los parámetros</div><div class="asm-hdr-sub">La relación es lineal en β — no necesariamente en x</div></div>
+      <span class="asm-chevron">▾</span>
+    </div>
+    <div class="asm-body">
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-def">Definición</div><div class="asm-txt">El modelo debe ser lineal en β. Las variables pueden transformarse libremente: <span class="code">y = α + β·ln(x)</span> es válido. <span class="code">y = α·xᵝ</span> no lo es sin transformar.</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-viol">Si se viola</div><div class="asm-txt">β̂ estima la proyección lineal, no la relación verdadera. Los coeficientes no tienen interpretación económica válida y las predicciones son sistemáticamente incorrectas.</div><div class="sev-box sev-warn">β̂ sesgado si la forma funcional es incorrecta — no es un problema de muestra.</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-test">Tests</div><div class="asm-txt">Test RESET de Ramsey: añade ŷ², ŷ³ como regresores y testa su significatividad conjunta. Significativos → mala especificación funcional.</div><div class="pill-row"><span class="pill pill-blue">RESET (Ramsey)</span><span class="pill pill-blue">Gráfico û vs ŷ</span></div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-sol">Solución</div><div class="asm-txt">Transformar variables (logaritmos, potencias, interacciones). O modelos no lineales: Logit/Probit para variable binaria, NLS para relaciones no lineales en parámetros.</div><div class="pill-row"><span class="pill pill-green">Transformación ln / x²</span><span class="pill pill-green">Logit / Probit</span><span class="pill pill-green">NLS</span></div></div>
+    </div>
+  </div>
+
+  <div class="asm-card">
+    <div class="asm-hdr" onclick="toggle(this)">
+      <div class="asm-dot dot-crit">A2</div>
+      <div style="flex:1"><div class="asm-hdr-title">Exogeneidad estricta — el más crítico</div><div class="asm-hdr-sub">E[u | X] = 0 → los regresores no están correlacionados con el error</div></div>
+      <span class="asm-chevron">▾</span>
+    </div>
+    <div class="asm-body">
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-def">Definición</div><div class="asm-txt">El error u no contiene información sistemática sobre X. Equivale a que no hay variable omitida correlacionada con x, ni causalidad inversa (y→x), ni error de medida en x.</div><div class="asm-eq">E[u | X] = 0  ⟺  Cov(xⱼ, u) = 0  ∀j</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-viol">Si se viola — endogeneidad</div><div class="asm-txt">β̂ es sesgado e inconsistente: más datos no lo corrigen. Es el único supuesto cuya violación destruye el estimador.</div><div class="pill-row"><span class="pill pill-red">Variable omitida correlac. con x</span><span class="pill pill-red">Causalidad inversa y→x</span><span class="pill pill-red">Error de medida en x</span></div><div class="sev-box sev-crit">Único supuesto cuya violación hace β̂ inútil incluso con n→∞. Los demás solo afectan a la inferencia.</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-test">Tests</div><div class="asm-txt">Test de Hausman: compara β̂_OLS con β̂_IV. Si difieren significativamente → endogeneidad.</div><div class="asm-eq">H = (β̂_IV − β̂_OLS)'·[Var(β̂_IV)−Var(β̂_OLS)]⁻¹·(β̂_IV − β̂_OLS) ~ χ²(k)</div><div class="pill-row"><span class="pill pill-blue">Test Hausman</span><span class="pill pill-blue">Test Wu-Hausman</span></div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-sol">Solución — Variables Instrumentales</div><div class="asm-txt">Instrumento z: <span class="code">Cov(z,u)=0</span> y <span class="code">Cov(z,x)≠0</span>. En la práctica: 2SLS.</div><div class="asm-eq">1ª etapa: x̂ = Zπ̂ + v̂   (OLS de x sobre z)
+2ª etapa: y = αx̂ + u   (OLS usando x̂)</div><div class="pill-row"><span class="pill pill-green">IV / 2SLS</span><span class="pill pill-green">GMM</span><span class="pill pill-green">VAR si hay causalidad mutua (M4)</span></div></div>
+    </div>
+  </div>
+
+  <div class="asm-card">
+    <div class="asm-hdr" onclick="toggle(this)">
+      <div class="asm-dot dot-warn">A3</div>
+      <div style="flex:1"><div class="asm-hdr-title">No multicolinealidad perfecta</div><div class="asm-hdr-sub">rango(X) = k → X'X invertible</div></div>
+      <span class="asm-chevron">▾</span>
+    </div>
+    <div class="asm-body">
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-def">Definición</div><div class="asm-txt">Ningún regresor es combinación lineal exacta de los demás. Multicolinealidad perfecta → (X'X) singular → β̂ no existe. Alta (no perfecta) no viola el supuesto pero infla las varianzas.</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-viol">Si se viola</div><div class="asm-txt">Perfecta: β̂ no se puede calcular. Alta: coeficientes muy inestables entre muestras, errores estándar grandes, t-stats pequeños aunque F sea significativo.</div><div class="sev-box sev-warn">β̂ sigue siendo BLUE — el problema es de precisión, no de sesgo.</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-test">Tests</div><div class="asm-txt">VIF_j > 10 indica problema. Número de condición de X'X > 30 sugiere multicolinealidad moderada, > 100 severa.</div><div class="pill-row"><span class="pill pill-blue">VIF > 10</span><span class="pill pill-blue">Condition number X'X</span><span class="pill pill-blue">Correlaciones entre regresores</span></div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-sol">Solución</div><div class="asm-txt">Eliminar regresores redundantes, PCA, ridge regression. La trampa de las dummies es el caso más común: n categorías → n-1 dummies.</div><div class="pill-row"><span class="pill pill-green">Eliminar regresor</span><span class="pill pill-green">PCA</span><span class="pill pill-green">Ridge regression</span><span class="pill pill-green">Regla n-1 dummies</span></div></div>
+    </div>
+  </div>
+
+  <div class="asm-card">
+    <div class="asm-hdr" onclick="toggle(this)">
+      <div class="asm-dot dot-warn">A4</div>
+      <div style="flex:1"><div class="asm-hdr-title">Homocedasticidad</div><div class="asm-hdr-sub">Var(u | X) = σ²·I → varianza del error constante</div></div>
+      <span class="asm-chevron">▾</span>
+    </div>
+    <div class="asm-body">
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-def">Definición</div><div class="asm-txt">Todos los errores tienen la misma varianza independientemente de X. Su violación → heterocedasticidad: <span class="code">Var(uᵢ) = σ²ᵢ ≠ σ²</span>. Muy común en datos financieros.</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-viol">Si se viola</div><div class="asm-txt">β̂ sigue siendo insesgado y consistente, pero los errores estándar OLS son incorrectos → t-stats y p-valores no fiables → inferencia inválida. No afecta a β̂, destruye la inferencia.</div><div class="sev-box sev-warn">p-valores y t-stats no fiables. β̂ es correcto, sus errores estándar no.</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-test">Tests</div><div class="asm-txt">Breusch-Pagan y White son tests LM: regresar û² sobre X (BP) o sobre X, X² e interacciones (White). Estadístico n·R² ~ χ².</div><div class="asm-eq">Breusch-Pagan: û²ᵢ = γ₀ + γ₁x₁ + … + γₖxₖ + vᵢ
+H₀: γ₁=…=γₖ=0   →   LM = n·R² ~ χ²(k)</div><div class="pill-row"><span class="pill pill-blue">Breusch-Pagan</span><span class="pill pill-blue">Test de White</span><span class="pill pill-blue">Gráfico |û| vs ŷ</span></div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-sol">Solución</div><div class="asm-txt">Errores estándar robustos HC (White): recalculan SE sin asumir homocedasticidad, sin cambiar β̂. WLS si se conoce la forma de σ²ᵢ. Series financieras con clustering de volatilidad → GARCH (M5).</div><div class="pill-row"><span class="pill pill-green">Errores HC robustos (White)</span><span class="pill pill-green">WLS</span><span class="pill pill-green">GARCH (M5)</span></div></div>
+    </div>
+  </div>
+
+  <div class="asm-card">
+    <div class="asm-hdr" onclick="toggle(this)">
+      <div class="asm-dot dot-warn">A5</div>
+      <div style="flex:1"><div class="asm-hdr-title">No autocorrelación</div><div class="asm-hdr-sub">Cov(uᵢ, uⱼ | X) = 0 para i ≠ j</div></div>
+      <span class="asm-chevron">▾</span>
+    </div>
+    <div class="asm-body">
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-def">Definición</div><div class="asm-txt">El error en t no está correlacionado con el error en ningún otro período. Casi siempre violado en series temporales. Caso más común AR(1): <span class="code">uₜ = ρuₜ₋₁ + εₜ</span>, |ρ|&lt;1.</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-viol">Si se viola</div><div class="asm-txt">β̂ sigue siendo insesgado pero los errores estándar OLS subestiman la verdadera varianza → t-stats inflados → falsa sensación de precisión. β̂ ya no es eficiente (existe GLS con menor varianza).</div><div class="sev-box sev-warn">t-stats inflados — errores estándar OLS demasiado pequeños. La inferencia es optimista.</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-test">Tests</div><div class="asm-txt">Durbin-Watson detecta solo AR(1) y no es válido con retardos de y. Breusch-Godfrey es más general: detecta AR(p) y MA(q). Son independientes de Jarque-Bera: DW mide estructura temporal del error, JB mide su distribución marginal. Puedes tener DW significativo y JB no, o cualquier combinación.</div><div class="asm-eq">Durbin-Watson: d ≈ 2(1−ρ̂)  →  d≈2 sin autocorr.
+
+Breusch-Godfrey: ûₜ = Xγ + α₁ûₜ₋₁+…+αₚûₜ₋ₚ + vₜ
+H₀: α₁=…=αₚ=0   →   LM = n·R² ~ χ²(p)</div><div class="pill-row"><span class="pill pill-blue">Durbin-Watson (solo AR(1))</span><span class="pill pill-blue">Breusch-Godfrey LM</span><span class="pill pill-blue">ACF/PACF residuos</span></div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-sol">Solución</div><div class="asm-txt">Errores Newey-West (HAC): robustos simultáneamente a heterocedasticidad y autocorrelación — estándar en series temporales. O modelar la dinámica directamente con ARIMA (M4).</div><div class="pill-row"><span class="pill pill-green">Newey-West HAC</span><span class="pill pill-green">GLS / FGLS</span><span class="pill pill-green">ARIMA (M4)</span></div></div>
+    </div>
+  </div>
+
+  <div class="asm-card">
+    <div class="asm-hdr" onclick="toggle(this)">
+      <div class="asm-dot dot-low">A6</div>
+      <div style="flex:1"><div class="asm-hdr-title">Normalidad del error</div><div class="asm-hdr-sub">u | X ~ N(0, σ²I) — necesario para t y F exactos en muestras pequeñas</div></div>
+      <span class="asm-chevron">▾</span>
+    </div>
+    <div class="asm-body">
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-def">Definición</div><div class="asm-txt">Los errores siguen distribución normal. Garantiza distribuciones exactas de t y F en muestras finitas. En muestras grandes el TCL hace que β̂ sea asintóticamente normal aunque u no lo sea.</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-viol">Si se viola</div><div class="asm-txt">En muestras pequeñas los p-valores son aproximados. En muestras grandes (n&gt;100) prácticamente irrelevante. En datos financieros los errores son habitualmente leptocúrticos (fat tails).</div><div class="sev-box sev-low">Relevante solo en muestras pequeñas. Asintóticamente irrelevante para inferencia sobre β̂.</div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-test">Test: Jarque-Bera — solo testa normalidad</div><div class="asm-txt">Combina asimetría S y curtosis K de los residuos. Testa exclusivamente la forma de la distribución marginal de u. Es un test completamente independiente de Durbin-Watson: puedes tener alerta en DW (autocorrelación) y no en JB (residuos normales), o viceversa. La autocorrelación severa puede distorsionar artificialmente S y K, haciendo que JB dé falsos positivos.</div><div class="asm-eq">JB = n/6 · [S² + (K−3)²/4]  ~  χ²(2)
+
+S = asimetría,  K = curtosis
+H₀: S=0 y K=3  →  distribución normal</div><div class="pill-row"><span class="pill pill-blue">Jarque-Bera</span><span class="pill pill-blue">Shapiro-Wilk (n pequeño)</span><span class="pill pill-blue">Q-Q plot residuos</span></div></div>
+      <div class="asm-sec"><div class="asm-sec-lbl lbl-sol">Solución</div><div class="asm-txt">Bootstrap para inferencia sin supuesto distribucional (M2). Transformación Box-Cox. Para retornos financieros con fat tails: distribución t de Student.</div><div class="pill-row"><span class="pill pill-green">Bootstrap (M2)</span><span class="pill pill-green">Transformación Box-Cox</span><span class="pill pill-green">Distribución t de Student</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULO 2 -->
+<div id="view-m2" class="view">
+  <div class="detail-header"><button class="detail-back" onclick="showView('global')">← volver</button><div class="detail-title">Módulo 2 · Modelos de Simulación</div></div>
+  <p class="detail-sub">Cuando no hay fórmula cerrada, se simula. Tres enfoques complementarios.</p>
+  <div class="models-grid">
+    <div class="model-card"><div class="mc-name">Monte Carlo (MC)</div><div class="mc-eq">yᵢ = f(θ, uᵢ), uᵢ ~ F; repetir N veces</div><div class="mc-cond">Convergencia: S_x = √(Var(x)/N)</div><div class="mc-note">Pricing opciones, critical values ADF, stress-testing</div><span class="tag tag-blue">simulación</span></div>
+    <div class="model-card"><div class="mc-name">Variantes antipéticos</div><div class="mc-eq">Var(x̄) = ¼[Var(x₁)+Var(x₂)+2Cov(x₁,x₂)]</div><div class="mc-cond">Usar –u junto a u → Cov negativa → menor error MC</div><span class="tag tag-teal">reducción varianza</span></div>
+    <div class="model-card"><div class="mc-name">Control variates</div><div class="mc-eq">x* = y + (x̂ – ŷ), y conocida</div><div class="mc-cond">corr(x̂,ŷ) > ½√(Var(ŷ)/Var(x̂))</div><div class="mc-note">Ej: opción asiática vs Black-Scholes analítico</div><span class="tag tag-teal">reducción varianza</span></div>
+    <div class="model-card"><div class="mc-name">Bootstrap</div><div class="mc-eq">θ̂* = θ̂(y*), y* = ŷ + û*</div><div class="mc-cond">Muestreo con reemplazo de residuos û</div><div class="mc-note">Sin supuesto distribucional; falla con autocorrelación</div><span class="tag tag-amber">no paramétrico</span></div>
+    <div class="model-card"><div class="mc-name">VaR por simulación</div><div class="mc-eq">Q = (P₀ – P₁) × n_contratos</div><div class="mc-cond">Percentil 90/95 de 2000 pérdidas máximas simuladas</div><div class="mc-note">Hsieh (1993): Bootstrap de residuos EGARCH</div><span class="tag tag-coral">riesgo</span></div>
+    <div class="model-card"><div class="mc-name">Generación de números aleatorios</div><div class="mc-eq">yᵢ₊₁ = (ayᵢ + c) mod m → Rᵢ₊₁ = yᵢ₊₁/m</div><div class="mc-cond">Pseudo-aleatorios U(0,1) → transformar a N(0,1)</div><span class="tag tag-blue">base</span></div>
+  </div>
+</div>
+
+<!-- MÓDULO 4 -->
+<div id="view-m4" class="view">
+  <div class="detail-header"><button class="detail-back" onclick="showView('global')">← volver</button><div class="detail-title">Módulo 4 · Series Temporales</div></div>
+  <p class="detail-sub">Cuando las observaciones están ordenadas en el tiempo y no son independientes. Capítulos 6, 7 y 8.</p>
+  <div class="models-grid">
+    <div class="model-card"><div class="mc-name">Ruido blanco</div><div class="mc-eq">E(yₜ)=μ, Var(yₜ)=σ², Cov(yₜ,yₛ)=0 ∀t≠s</div><div class="mc-cond">Punto de referencia. Test: Box-Pierce Q, Ljung-Box Q*</div><span class="tag tag-blue">base</span></div>
+    <div class="model-card"><div class="mc-name">MA(q)</div><div class="mc-eq">yₜ = μ + uₜ + θ₁uₜ₋₁ + … + θquₜ₋q</div><div class="mc-cond">ACF truncada en lag q; PACF decae exponencialmente</div><span class="tag tag-green">univariante</span></div>
+    <div class="model-card"><div class="mc-name">AR(p)</div><div class="mc-eq">yₜ = μ + φ₁yₜ₋₁ + … + φₚyₜ₋ₚ + uₜ</div><div class="mc-cond">Estacionario si |raíces| > 1; PACF truncada en p</div><span class="tag tag-green">univariante</span></div>
+    <div class="model-card"><div class="mc-name">ARMA(p,q)</div><div class="mc-eq">yₜ = μ + Σφᵢyₜ₋ᵢ + Σθⱼuₜ₋ⱼ + uₜ</div><div class="mc-cond">Box-Jenkins: identificar → estimar → diagnosticar; AIC/BIC</div><span class="tag tag-green">univariante</span></div>
+    <div class="model-card"><div class="mc-name">ARIMA(p,d,q)</div><div class="mc-eq">Φ(L)(1−L)ᵈyₜ = μ + Θ(L)uₜ</div><div class="mc-cond">d diferencias para estacionarizar; test ADF, PP, KPSS</div><span class="tag tag-green">integrado</span></div>
+    <div class="model-card"><div class="mc-name">VAR(p)</div><div class="mc-eq">yₜ = A₁yₜ₋₁ + … + Aₚyₜ₋ₚ + uₜ</div><div class="mc-cond">Sistema: IRF, descomposición varianza, causalidad Granger</div><span class="tag tag-amber">multivariante</span></div>
+    <div class="model-card"><div class="mc-name">Cointegración (Engle-Granger / Johansen)</div><div class="mc-eq">I(1) + I(1) = I(0) → β'yₜ ~ I(0)</div><div class="mc-cond">r vectores de cointegración; rango de Π en VECM</div><span class="tag tag-amber">largo plazo</span></div>
+    <div class="model-card"><div class="mc-name">ECM (Error Correction Model)</div><div class="mc-eq">Δyₜ = γ(yₜ₋₁−β₀−β₁xₜ₋₁) + δΔxₜ + uₜ</div><div class="mc-cond">γ &lt; 0 → velocidad de ajuste al equilibrio de largo plazo</div><span class="tag tag-amber">largo plazo</span></div>
+  </div>
+</div>
+
+<!-- MÓDULO 5 -->
+<div id="view-m5" class="view">
+  <div class="detail-header"><button class="detail-back" onclick="showView('global')">← volver</button><div class="detail-title">Módulo 5 · Volatilidad y Correlación</div></div>
+  <p class="detail-sub">El residuo uₜ tiene varianza condicional no constante. La volatilidad misma sigue un proceso dinámico. Capítulo 9.</p>
+  <div class="assumptions">
+    <h4>Punto de partida: uₜ = σₜεₜ, εₜ ~ iid(0,1) — la varianza condicional σ²ₜ varía en el tiempo</h4>
+    <div class="assumption-row"><span class="asm-badge" style="background:#EAF3DE;color:#27500A">obs</span><span class="asm-text">Volatility clustering (Mandelbrot 1963)</span><span class="asm-arrow">→</span><span class="asm-break">periodos de alta volatilidad se agrupan → E[u²ₜ|Fₜ₋₁] no es constante</span></div>
+  </div>
+  <div class="models-grid">
+    <div class="model-card"><div class="mc-name">ARCH(q) — Engle 1982</div><div class="mc-eq">σ²ₜ = α₀ + α₁u²ₜ₋₁ + … + αqu²ₜ₋q</div><div class="mc-cond">Test ARCH-LM: T·R² ~ χ²(q)</div><span class="tag tag-green">varianza condicional</span></div>
+    <div class="model-card"><div class="mc-name">GARCH(p,q) — Bollerslev 1986</div><div class="mc-eq">σ²ₜ = ω + Σαᵢu²ₜ₋ᵢ + Σβⱼσ²ₜ₋ⱼ</div><div class="mc-cond">Persistencia: Σα+Σβ &lt; 1; estimación MLE</div><span class="tag tag-green">varianza condicional</span></div>
+    <div class="model-card"><div class="mc-name">IGARCH / EWMA</div><div class="mc-eq">Σα + Σβ = 1 → shocks permanentes</div><div class="mc-cond">RiskMetrics: EWMA λ=0.94 es caso especial de IGARCH</div><span class="tag tag-teal">extensión</span></div>
+    <div class="model-card"><div class="mc-name">GJR-GARCH (leverage)</div><div class="mc-eq">σ²ₜ = ω + αu²ₜ₋₁ + γu²ₜ₋₁Iₜ₋₁ + βσ²ₜ₋₁</div><div class="mc-cond">Iₜ₋₁=1 si uₜ₋₁&lt;0; caídas ↑ más volatilidad que subidas</div><span class="tag tag-coral">asimetría</span></div>
+    <div class="model-card"><div class="mc-name">EGARCH — Nelson 1991</div><div class="mc-eq">ln(σ²ₜ) = ω + β ln(σ²ₜ₋₁) + γ|zₜ₋₁| + λzₜ₋₁</div><div class="mc-cond">λ&lt;0 → leverage effect; sin restricciones de positividad</div><span class="tag tag-coral">asimetría</span></div>
+    <div class="model-card"><div class="mc-name">GARCH-M</div><div class="mc-eq">yₜ = μ + δσ²ₜ + uₜ</div><div class="mc-cond">Prima de riesgo proporcional a varianza condicional</div><span class="tag tag-amber">media + varianza</span></div>
+    <div class="model-card"><div class="mc-name">MGARCH / DCC</div><div class="mc-eq">Hₜ = DₜRₜDₜ (correlaciones dinámicas)</div><div class="mc-cond">Rₜ = Q*ₜ⁻¹QₜQ*ₜ⁻¹; cobertura óptima time-varying</div><span class="tag tag-purple">multivariante</span></div>
+    <div class="model-card"><div class="mc-name">Beta CAPM time-varying</div><div class="mc-eq">βᵢₜ = Cov(rᵢ,rₘ|Fₜ₋₁) / Var(rₘ|Fₜ₋₁)</div><div class="mc-cond">Extraído de MGARCH; conecta M5 con gestión de carteras (M8)</div><span class="tag tag-amber">aplicación</span></div>
+  </div>
+</div>
+
+<!-- MÓDULO 6 -->
+<div id="view-m6" class="view">
+  <div class="detail-header"><button class="detail-back" onclick="showView('global')">← volver</button><div class="detail-title">Módulo 6 · Switching & State Space</div></div>
+  <p class="detail-sub">Los parámetros del modelo cambian en el tiempo o entre regímenes. Capítulo 10.</p>
+  <div class="models-grid">
+    <div class="model-card"><div class="mc-name">Dummies estacionales / de pendiente</div><div class="mc-eq">yₜ = β₁ + γ₁D1 + γ₂D2 + γ₃D3 + β₂xₜ + uₜ</div><div class="mc-cond">n-1 dummies para n estaciones; cambio de intercepto o pendiente</div><span class="tag tag-blue">cambio de régimen</span></div>
+    <div class="model-card"><div class="mc-name">Markov Switching (Hamilton)</div><div class="mc-eq">yₜ = μₛₜ + φyₜ₋₁ + uₜ, sₜ ∈ {1,…,m}</div><div class="mc-cond">P[sₜ=j|sₜ₋₁=i]=pᵢⱼ; πₜ₊₁=πₜP; estimación MLE</div><div class="mc-note">Régimen latente; aplicaciones: tipo cambio real, GEYR</div><span class="tag tag-green">no lineal</span></div>
+    <div class="model-card"><div class="mc-name">TAR (Threshold AR)</div><div class="mc-eq">yₜ = μᵢ+φᵢyₜ₋₁+uₜ si sₜ₋ₖ ≷ r</div><div class="mc-cond">r = umbral; transición discreta; estimación NLS</div><span class="tag tag-green">no lineal</span></div>
+    <div class="model-card"><div class="mc-name">SETAR (Self-exciting TAR)</div><div class="mc-eq">sₜ₋ₖ = yₜ₋ₖ; el propio y define el régimen</div><div class="mc-cond">AIC por régimen; ej. FRF/DEM en ERM</div><span class="tag tag-green">no lineal</span></div>
+    <div class="model-card"><div class="mc-name">State Space — ecuación de medición</div><div class="mc-eq">yₜ = Hβₜ + uₜ, uₜ ~ N(0,R)</div><div class="mc-cond">Lo observable. Ej: yₜ = α + βₜxₜ + uₜ (CAPM TVP)</div><span class="tag tag-purple">parámetros variables</span></div>
+    <div class="model-card"><div class="mc-name">State Space — ecuación de transición</div><div class="mc-eq">βₜ₊₁ = Tβₜ + ηₜ, ηₜ ~ N(0,Q)</div><div class="mc-cond">Lo latente. T=I → paseo aleatorio del parámetro en el tiempo</div><span class="tag tag-purple">parámetros variables</span></div>
+    <div class="model-card"><div class="mc-name">Filtro de Kalman</div><div class="mc-eq">β̂ₜ|ₜ = β̂ₜ|ₜ₋₁ + Kₜ(yₜ − Hβ̂ₜ|ₜ₋₁)</div><div class="mc-cond">Kₜ = ganancia de Kalman (fracción del error de predicción)</div><div class="mc-note">Recursivo → MLE para hiperparámetros σ²η, σ²u</div><span class="tag tag-purple">estimación</span></div>
+    <div class="model-card"><div class="mc-name">¿Parámetros TVP o fijos?</div><div class="mc-eq">H₀: σ²η = 0 → β constante en el tiempo</div><div class="mc-cond">Si σ²η/σ²u grande → parámetros evolucionan; test LM sobre residuos</div><span class="tag tag-teal">diagnóstico</span></div>
+  </div>
+</div>
+
+</div>
+<script>
+function showView(id) {
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  document.querySelectorAll('.nav button').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('view-' + id).classList.add('active');
+  var map = {'global':0,'thread':1,'m1':2,'m2':3,'m4':4,'m5':5,'m6':6};
+  var btns = document.querySelectorAll('.nav button');
+  if (map[id] !== undefined) btns[map[id]].classList.add('active');
+  window.scrollTo(0, 0);
+}
+function toggle(hdr) {
+  var body = hdr.nextElementSibling;
+  var chev = hdr.querySelector('.asm-chevron');
+  var isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+</script>
+</body>
+</html>
