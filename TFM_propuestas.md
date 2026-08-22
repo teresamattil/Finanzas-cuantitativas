@@ -164,6 +164,21 @@ La pregunta que no tiene respuesta universal es **si esa asimetría importa para
 
 5. **Conclusión estructurada:** separar "asimetría estadísticamente presente" de "asimetría económicamente relevante para riesgo". La respuesta puede diferir por activo.
 
+¿De dónde sale el "presentimiento" de que en la práctica no importa?
+
+Es una hipótesis razonable, no un hecho comprobado — por eso es una buena pregunta de TFM. La lógica es:
+
+In-sample, GJR/EGARCH van a ganar casi siempre — por la razón matemática de arriba (más parámetros).
+Pero out-of-sample, el parámetro de asimetría se estima con ruido (con datos limitados, sobre todo si el asset no tiene mucha asimetría real). Ese ruido puede hacer que el modelo complejo sobreajuste el pasado y prediga peor el futuro que el modelo simple — el clásico problema de bias-variance.
+Además, aunque el modelo complejo prediga ligeramente mejor, la diferencia puede ser tan pequeña que no cambie ninguna decisión real (ej. el VaR al 99% da prácticamente el mismo número, o el número de excepciones en el backtest es igual).
+
+En resumen, lo que compara la propuesta 5 es:
+
+	Pregunta que responde
+Comparación in-sample (AIC/BIC)	¿El modelo asimétrico ajusta mejor el pasado? (Casi seguro sí, poco interesante)
+Comparación out-of-sample (RMSE, QLIKE, Diebold-Mariano)	¿Predice mejor la volatilidad futura? (No obvio)
+Comparación en VaR (excepciones, Kupiec)	¿Esa diferencia estadística se traduce en menos pérdidas mal estimadas? (La pregunta que de verdad le importa a un gestor de riesgo)
+
 **Módulos del máster:** M5 (ARCH, GARCH, GJR, EGARCH), M9 (VaR, backtesting)
 
 ---
