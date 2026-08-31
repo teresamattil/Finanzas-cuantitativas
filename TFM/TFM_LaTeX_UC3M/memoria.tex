@@ -1,0 +1,526 @@
+%----------
+%   IMPORTANTE
+%----------
+
+% Esta plantilla está basada en las recomendaciones de la guía "Trabajo fin de Grado: Escribir el TFG", que encontrarás en http://uc3m.libguides.com/TFG/escribir
+% contiene recomendaciones de la Biblioteca basadas principalmente en estilos APA e IEEE, pero debes seguir siempre las orientaciones de tu Tutor de TFG/TFM y la normativa correspondiente a tu titulación.
+
+% ESTA PLANTILLA ESTÁ BASADA EN EL ESTILO APA
+
+
+%----------
+%	CONFIGURACIÓN DEL DOCUMENTO
+%----------
+
+\documentclass[12pt]{report} % fuente a 12pt
+
+% MÁRGENES: 2,5 cm sup. e inf.; 3 cm izdo. y dcho.
+\usepackage[
+a4paper,
+vmargin=2.5cm,
+hmargin=3cm
+]{geometry}
+
+% INTERLINEADO: Estrecho (6 ptos./interlineado 1,15) o Moderado (6 ptos./interlineado 1,5)
+\renewcommand{\baselinestretch}{1.15}
+\parskip=6pt
+
+% DEFINICIÓN DE COLORES para portada y listados de código
+\usepackage[table]{xcolor}
+\definecolor{azulUC3M}{RGB}{0,0,102}
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+
+% Soporte para GENERAR PDF/A --es importante de cara a su inclusión en e-Archivo porque es el formato óptimo de preservación y a la generación de metadatos, tal y como se describe en http://uc3m.libguides.com/ld.php?content_id=31389625.
+% Los metadatos se toman del archivo memoria.xmpdata (mismo nombre que este .tex), que se incluye junto a este documento.
+\usepackage[a-1b]{pdfx}
+
+% ENLACES
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,
+	linkcolor=black, % enlaces a partes del documento (p.e. índice) en color negro
+	urlcolor=blue} % enlaces a recursos fuera del documento en azul
+
+% EXPRESIONES MATEMÁTICAS
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+
+% Codificación caracteres
+\usepackage{txfonts}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Definición idioma español
+\usepackage[spanish, es-tabla]{babel}
+\usepackage[babel, spanish=spanish]{csquotes}
+\AtBeginEnvironment{quote}{\small}
+
+% diseño de PIE DE PÁGINA
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\rfoot{\thepage}
+\fancypagestyle{plain}{\pagestyle{fancy}}
+
+% DISEÑO DE LOS TÍTULOS de las partes del trabajo (capítulos y epígrafes o subcapítulos)
+\usepackage{titlesec}
+\usepackage{titletoc}
+\titleformat{\chapter}[block]
+{\large\bfseries\filcenter}
+{\thechapter.}
+{5pt}
+{\MakeUppercase}
+{}
+\titlespacing{\chapter}{0pt}{0pt}{*3}
+\titlecontents{chapter}
+[0pt]
+{}
+{\contentsmargin{0pt}\thecontentslabel.\enspace\uppercase}
+{\contentsmargin{0pt}\uppercase}
+{\titlerule*[.7pc]{.}\contentspage}
+
+\titleformat{\section}
+{\bfseries}
+{\thesection.}
+{5pt}
+{}
+\titlecontents{section}
+[5pt]
+{}
+{\contentsmargin{0pt}\thecontentslabel.\enspace}
+{\contentsmargin{0pt}}
+{\titlerule*[.7pc]{.}\contentspage}
+
+\titleformat{\subsection}
+{\normalsize\bfseries}
+{\thesubsection.}
+{5pt}
+{}
+\titlecontents{subsection}
+[10pt]
+{}
+{\contentsmargin{0pt}
+	\thecontentslabel.\enspace}
+{\contentsmargin{0pt}}
+{\titlerule*[.7pc]{.}\contentspage}
+
+% DISEÑO DE TABLAS y FIGURAS
+\usepackage{multirow} % permite combinar celdas
+\usepackage{caption} % para personalizar el título de tablas y figuras
+\usepackage{floatrow} % utilizamos este paquete y sus macros \ttabbox y \ffigbox para alinear los nombres de tablas y figuras de acuerdo con el estilo definido.
+\usepackage{array} % con este paquete podemos definir en la siguiente línea un nuevo tipo de columna para tablas: ancho personalizado y contenido centrado
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\DeclareCaptionFormat{upper}{#1#2\uppercase{#3}\par}
+\usepackage{graphicx}
+\graphicspath{{imagenes/}} % ruta a la carpeta de imágenes
+
+% Diseño de tabla para ciencias sociales y humanidades
+\captionsetup*[table]{
+	justification=raggedright,
+	labelsep=newline,
+	labelfont=small,
+	singlelinecheck=false,
+	labelfont=bf,
+	font=small,
+	textfont=it
+}
+
+% Diseño de figuras para ciencias sociales y humanidades
+\captionsetup[figure]{
+	name=Figura,
+	singlelinecheck=off,
+	labelsep=newline,
+	font=small,
+	labelfont=bf,
+	textfont=it
+}
+\floatsetup[figure]{
+    style=plaintop,
+    heightadjust=caption,
+    footposition=bottom,
+    font=small
+}
+
+% Configuración del pie de las figuras y tablas
+\captionsetup*[floatfoot]{
+    footfont={small, up}
+}
+
+% NOTAS A PIE DE PÁGINA
+\usepackage{chngcntr} % para numeración continua de las notas al pie
+\counterwithout{footnote}{chapter}
+
+% LISTADOS DE CÓDIGO
+\usepackage{listings}
+
+\lstdefinestyle{estilo}{ frame=Ltb,
+	framerule=0pt,
+	aboveskip=0.5cm,
+	framextopmargin=3pt,
+	framexbottommargin=3pt,
+	framexleftmargin=0.4cm,
+	framesep=0pt,
+	rulesep=.4pt,
+	backgroundcolor=\color{gray97},
+	rulesepcolor=\color{black},
+	%
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\bfseries,
+	stringstyle=\ttfamily,
+	showstringspaces = false,
+	commentstyle=\color{gray45},
+	%
+	numbers=left,
+	numbersep=15pt,
+	numberstyle=\tiny,
+	numberfirstline = false,
+	breaklines=true,
+	xleftmargin=\parindent
+}
+
+\captionsetup*[lstlisting]{font=small, labelsep=period}
+\lstset{style=estilo}
+\renewcommand{\lstlistingname}{\uppercase{Código}}
+
+
+%BIBLIOGRAFÍA
+
+% CONFIGURACIÓN PARA LA BIBLIOGRAFÍA APA
+\usepackage[style=apa, backend=biber, natbib=true, hyperref=true, uniquelist=false, sortcites]{biblatex}
+\DeclareLanguageMapping{spanish}{spanish-apa}
+
+% Para sustituir % por y o e
+\makeatletter
+\DefineBibliographyExtras{spanish}{%
+  \setcounter{smartand}{1}%
+  \let\lbx@finalnamedelim=\lbx@es@smartand
+  \let\lbx@finallistdelim=\lbx@es@smartand
+}
+
+\renewbibmacro*{name:delim:apa:family-given}[1]{%
+  \ifnumgreater{\value{listcount}}{\value{liststart}}
+    {\ifboolexpr{
+       test {\ifnumless{\value{listcount}}{\value{liststop}}}
+       or
+       test \ifmorenames
+     }
+       {\printdelim{multinamedelim}}
+       {\lbx@finalnamedelim{#1}}}
+    {}}
+\makeatother
+
+\DefineBibliographyStrings{spanish}{%
+	andothers = {et\addabbrvspace al\adddot}
+}
+\DefineBibliographyStrings{spanish}{
+	url = {\adddot\space[En línea]\adddot\space Disponible en:}
+}
+\DefineBibliographyStrings{spanish}{
+	urlseen = {Acceso:}
+}
+\DefineBibliographyStrings{spanish}{
+	pages = {pp\adddot},
+	page = {p.\adddot}
+}
+
+\addbibresource{referencias.bib} % llama al archivo referencias.bib en el que deberá estar la bibliografía utilizada
+
+
+%-------------
+%	DOCUMENTO
+%-------------
+
+\begin{document}
+\pagenumbering{roman} % Se utilizan cifras romanas en la numeración de las páginas previas al cuerpo del trabajo
+
+%----------
+%	PORTADA
+%----------
+\begin{titlepage}
+	\begin{sffamily}
+	\color{azulUC3M}
+	\begin{center}
+		\begin{figure}[H] %incluimos el logotipo de la Universidad, si está disponible
+			\IfFileExists{imagenes/logo_UC3M.png}{
+				\makebox[\textwidth][c]{\includegraphics[width=16cm]{logo_UC3M.png}}
+			}{
+				\makebox[\textwidth][c]{\rule{0pt}{2cm}} % espacio reservado: añade tu logo en imagenes/logo_UC3M.png
+			}
+		\end{figure}
+		\vspace{2.5cm}
+		\begin{Large}
+			Trabajo Fin de Máster\\
+			2026\\ %Indica el curso académico
+			\vspace{2cm}
+			\textsl{Máster en Finanzas Cuantitativas}
+			\bigskip
+
+		\end{Large}
+		 	{\Huge Volatility Targeting aplicado a la estrategia Momentum: evidencia en criptoactivos frente a ETFs sectoriales europeos}\\
+		 	\vspace*{0.5cm}
+	 		\rule{10.5cm}{0.1mm}\\
+			\vspace*{0.9cm}
+			{\LARGE Teresa Mattil Olazabal}\\
+			\vspace*{1cm}
+		\begin{Large}
+			Tutor\\
+			{}[Nombre del tutor/a]\\
+			UC3M, 2026\\
+		\end{Large}
+	\end{center}
+	\vfill
+	\color{black}
+	\end{sffamily}
+\end{titlepage}
+
+\newpage %página en blanco o de cortesía
+\thispagestyle{empty}
+\mbox{}
+
+%----------
+%	RESUMEN Y PALABRAS CLAVE
+%----------
+\renewcommand\abstractname{\large\bfseries\filcenter\uppercase{Abstract}}
+\begin{abstract}
+\thispagestyle{plain}
+\setcounter{page}{3}
+
+	El momentum —la tendencia de los activos con mejor rentabilidad reciente a seguir superando al mercado en el corto plazo— es una de las anomalías más robustas y replicadas de las finanzas empíricas, documentada desde \citet{jegadeeshtitman1993} y presente en prácticamente todas las clases de activo. Sin embargo, la estrategia sufre \textbf{crashes}: caídas extremas y concentradas en el tiempo, como la pérdida superior al 70\% registrada en 2009 tras el rebote posterior a la crisis de Lehman Brothers. \citet{barroso2015} muestran que escalar el tamaño de la posición momentum por su propia volatilidad reciente (\textit{volatility targeting}) casi duplica el Sharpe ratio en el mercado estadounidense y reduce drásticamente el riesgo de cola, un resultado generalizado posteriormente por \citet{moreiramuir2017} a otros factores de riesgo.
+
+	Este trabajo evalúa si dicho resultado se sostiene fuera del contexto en el que fue documentado —acciones estadounidenses de gran capitalización con décadas de historia— en un universo estructuralmente distinto: los criptoactivos, donde el momentum es especialmente fuerte pero también especialmente volátil, y donde los costes de fricción son órdenes de magnitud mayores. Se emplean los ETFs sectoriales europeos como universo de control, para verificar que la metodología reproduce el efecto conocido en un mercado líquido y ya documentado antes de interpretar los resultados en cripto. La pregunta central es si el \textit{volatility targeting} mejora el perfil riesgo-retorno del momentum una vez se incorporan costes de transacción realistas —spread, slippage y, en el caso de futuros perpetuos, \textit{funding rate}— o si dichos costes anulan o incluso revierten la mejora observada en la literatura sobre renta variable.
+
+	\textbf{Keywords:}
+        Momentum, volatility targeting, criptoactivos, factores de riesgo multifactoriales, gestión cuantitativa
+
+	\vfill
+\end{abstract}
+	\newpage % página en blanco o de cortesía
+	\thispagestyle{empty}
+	\mbox{}
+
+
+%----------
+%	DEDICATORIA
+%----------
+\chapter*{Dedicatoria} % \chapter* evita que aparezca en el índice
+
+\setcounter{page}{5}
+
+	% ESCRIBIR LA DEDICATORIA AQUÍ
+
+	\vfill
+
+	\newpage % página en blanco o de cortesía
+	\thispagestyle{empty}
+	\mbox{}
+
+
+%----------
+%	ÍNDICES
+%----------
+
+%--
+% Índice general
+%-
+\tableofcontents
+\thispagestyle{fancy}
+
+\newpage % página en blanco o de cortesía
+\thispagestyle{empty}
+\mbox{}
+
+
+%----------
+%	MEMORIA
+%----------
+\clearpage
+\pagenumbering{arabic} % numeración con números arábigos para el resto de la memoria.
+
+\chapter{Introducción}
+
+El momentum es una anomalía de mercado bien documentada: los activos que más han subido en los últimos 3 a 12 meses tienden a seguir subiendo en el corto plazo, y los que más han caído tienden a seguir cayendo. El fenómeno contradice directamente la hipótesis débil de eficiencia de mercado —si los precios pasados no deberían predecir retornos futuros, el momentum no debería existir— y sin embargo lleva más de tres décadas replicándose en prácticamente cualquier clase de activo: acciones, divisas, materias primas y, más recientemente, criptoactivos.
+
+Su relevancia no es meramente académica. El momentum es una de las señales sistemáticas más utilizadas por fondos cuantitativos reales —CTAs, \textit{managed futures}, hedge funds de factores—, habitualmente en combinación con otras señales como \textit{value}, calidad o baja volatilidad, dentro de un proceso de inversión sistemático: definición de universo, cálculo de señales, ranking, construcción de cartera con ponderación por riesgo, \textit{overlay} de riesgo y rebalanceo periódico. Pero el momentum tiene un defecto grave y conocido: sufre \textbf{crashes} —periodos cortos y extremos en los que pierde una fracción enorme de su valor—. El episodio más citado es 2009, cuando, tras el rebote brusco posterior a la crisis de Lehman Brothers, las carteras momentum perdieron más del 70\% de su valor en semanas. Esto hace que, pese a exhibir un Sharpe ratio atractivo en media, sea una estrategia difícilmente invertible para un gestor real sin algún mecanismo de control de riesgo.
+
+La respuesta habitual de la industria no ha sido abandonar el momentum, sino gestionar dinámicamente el tamaño de la posición en función del riesgo estimado —lo que se conoce como \textit{volatility targeting} o \textit{risk scaling}: cuando la volatilidad reciente de la estrategia sube, se reduce la exposición; cuando baja, se amplía. Es una práctica extendida en la gestión de CTAs y fondos de volatilidad controlada, y cuenta con respaldo académico sólido en el mercado estadounidense de gran capitalización. Sin embargo, su justificación empírica fuera de ese contexto —mercados con menor profundidad, mayores costes de fricción, o activos con una dinámica de volatilidad estructuralmente distinta— está mucho menos probada.
+
+\section{Motivación y pregunta de investigación}
+
+La literatura existente sobre \textit{volatility targeting} aplicado a momentum se concentra casi exclusivamente en mercados de renta variable estadounidense de gran capitalización, con décadas de datos disponibles. Quedan sin resolver dos preguntas: si el resultado se sostiene (a) en mercados con menor profundidad y mayores costes de fricción, y (b) en activos de comportamiento estructuralmente distinto —como los criptoactivos—, donde el momentum tiene documentación mucho más reciente y limitada, y donde la volatilidad es órdenes de magnitud mayor y más persistente (\textit{clustering} más fuerte).
+
+Este trabajo delimita el problema de la siguiente manera: \textbf{¿el volatility targeting mejora igual de bien el perfil riesgo-retorno del momentum fuera de EE.\,UU.\ / large-caps —en concreto en criptoactivos, usando ETFs sectoriales europeos como benchmark de control— y esa mejora se mantiene una vez se incluyen costes de transacción realistas?}
+
+\section{Por qué criptoactivos}
+
+Se elige el mercado cripto como universo principal de estudio, y los ETFs sectoriales europeos como benchmark de sanidad metodológica, por varias razones:
+
+\begin{itemize}
+	\item La tensión de la pregunta es más aguda: el momentum en cripto es muy fuerte (documentado por \citealp{liutsyvinski2021}) pero sus crashes también son brutales —2018, mayo de 2021, 2022— por la volatilidad extrema y su clustering. Es el escenario ideal para que el volatility targeting demuestre su valor, o para que los costes se lo coman por completo.
+	\item Los costes son la parte más interesante de la historia: en cripto, la suma de spread, slippage y funding rate (si se opera con futuros perpetuos) puede ser entre 5 y 10 veces la de un ETF líquido. Es plausible encontrar que el volatility targeting mejora el Sharpe bruto de forma notable, pero que tras costes realistas el efecto desaparece o se invierte.
+	\item La contribución marginal es mayor: la interacción momentum + volatility targeting está ampliamente estudiada en renta variable \citep{barroso2015,danielmoskowitz2016}, pero hay bastante menos evidencia específica en cripto.
+	\item En ETFs sectoriales europeos el efecto probablemente sea positivo pero modesto, como en EE.\,UU., por lo que sirve como control de que el pipeline metodológico reproduce el resultado ya conocido antes de interpretar lo que se observe en cripto.
+\end{itemize}
+
+Los riesgos principales de este diseño —poder estadístico limitado (cripto solo cuenta con dos o tres ciclos completos: 2017-18, 2020-21, 2022-23), sesgo de supervivencia si se usa el universo actual de criptoactivos ``grandes'', y menor calidad de los datos de spread y volumen por exchange— se abordan explícitamente en el capítulo de metodología.
+
+
+\chapter{Revisión de la literatura}
+
+Este capítulo organiza la literatura relevante en tres bloques: (i) el momentum como anomalía y como factor de riesgo dentro de los modelos multifactoriales, en su relación con el CAPM; (ii) el mecanismo de los crashes de momentum; y (iii) las soluciones propuestas mediante escalado por volatilidad.
+
+\section{El momentum como anomalía frente al CAPM}
+
+El CAPM postula que la única variable que explica el retorno esperado de un activo es su sensibilidad al mercado (beta):
+
+\begin{equation}
+	E(R_i) = R_f + \beta_i \, \big( E(R_m) - R_f \big)
+\end{equation}
+
+Es decir, dos activos con el mismo beta deberían tener el mismo retorno esperado, y ninguna otra variable debería añadir poder explicativo. Desde los años ochenta y noventa se acumuló evidencia de variables que predicen el retorno más allá del beta —tamaño (\textit{size}), \textit{book-to-market} (\textit{value}) y momentum \citep{jegadeeshtitman1993}—, dando lugar a los modelos multifactoriales como extensión del CAPM: Fama-French de tres factores \citep{famafrench1993} (mercado + SMB + HML), Carhart de cuatro factores \citep{carhart1997} (añade el factor momentum UMD/WML) y Fama-French de cinco factores \citep{famafrench2015} (añade \textit{profitability} e \textit{investment}).
+
+El factor momentum (UMD, \textit{Up Minus Down}, o WML, \textit{Winners Minus Losers}) se construye rankeando mensualmente los activos por su retorno acumulado entre $t-12$ y $t-2$ (se excluye el último mes por el efecto de reversión a corto plazo / microestructura), formando una cartera larga en el decil ganador y corta en el decil perdedor. El factor es el retorno de esa cartera long-short:
+
+\begin{equation}
+	WML_t = R_{winners,t} - R_{losers,t}
+\end{equation}
+
+Conviene distinguir dos usos del mismo armazón: un uso académico/explicativo (\textit{ex post}, para descomponer el retorno de una cartera en exposición a factores conocidos frente a alpha genuino) y un uso práctico/predictivo (\textit{ex ante}, como señal cross-sectional para rankear activos y construir carteras). Este trabajo se sitúa en el segundo uso: no se testa si el CAPM es cierto, sino que se explota la anomalía que el CAPM no explica.
+
+\section{El mecanismo de los crashes de momentum}
+
+Una estrategia momentum ``pura'' en su forma académica es long-short y, en teoría, \textit{market-neutral}: el riesgo de mercado debería cancelarse al combinar la pata larga y la pata corta. Sin embargo, \citet{danielmoskowitz2016}, en \textit{``Momentum Crashes''} (JFE), muestran que esta neutralidad se rompe de forma sistemática en momentos concretos. La pata corta (perdedores) se comporta como una opción \textit{call} vendida sobre el mercado: son activos que han caído mucho, con betas altas y gran sensibilidad a rebotes bruscos. Cuando el mercado, tras un periodo bajista, rebota con violencia —como en marzo-abril de 2009—, esos perdedores suben mucho más que el mercado general, precisamente cuando la estrategia está corta en ellos. A la vez, la pata larga (activos defensivos que aguantaron la caída) se queda rezagada porque el refugio deja de ser necesario. El resultado es un fallo correlacionado de ambas patas simultáneamente, en el peor momento posible, en lugar de la compensación habitual de una cartera long-short.
+
+El agravante es que una medida de riesgo puramente retrospectiva no protege a tiempo: la volatilidad realizada pasada suele estar todavía baja justo antes del crash, porque este coincide con el punto de inflexión del mercado. Los crashes de momentum tienden a concentrarse cuando coinciden tres condiciones: (i) el mercado lleva tiempo en fase bajista, formando una pata corta muy castigada; (ii) la volatilidad —implícita o realizada— está elevada, señal de pánico y de que un rebote potencial sería más violento; y (iii) se produce un cambio brusco de régimen, en el que la pata corta pasa de ``sigue cayendo'' a ``rebota con fuerza'' en cuestión de días.
+
+\section{Volatility targeting: la solución de escalado por riesgo}
+
+\subsection{Barroso y Santa-Clara (2015): ``Momentum has its moments''}
+
+Conviene precisar la terminología: no se trata de \textit{volatility trading} (operar la volatilidad implícita frente a la realizada, típicamente con opciones o VIX), sino de \textit{volatility scaling} o \textit{risk scaling}: escalar el tamaño de la posición de la estrategia momentum en función de su propia volatilidad reciente, manteniendo el mismo signo de posición (larga en ganadores, corta en perdedores). La reparametrización propuesta por \citet{barroso2015} es:
+
+\begin{equation}
+	r^{scaled}_{WML,t} = \frac{\sigma_{target}}{\hat{\sigma}_{WML,t-1}} \cdot r_{WML,t}
+\end{equation}
+
+donde $\hat{\sigma}_{WML,t-1}$ es la volatilidad realizada de la propia serie WML, estimada con datos diarios de los últimos aproximadamente seis meses (126 días de negociación), y $\sigma_{target}$ es la volatilidad objetivo constante que se busca mantener a lo largo del tiempo. El tamaño de la apuesta se reduce cuando la volatilidad reciente del momentum sube y se amplía cuando baja.
+
+El hallazgo central del paper es que este escalado casi duplica el Sharpe ratio y reduce drásticamente la asimetría negativa y la curtosis de los retornos, sin sacrificar apenas retorno medio. La razón es, en cierto modo, contraintuitiva: el retorno esperado del momentum no cae proporcionalmente cuando sube la volatilidad, de modo que reducir el tamaño de la posición en periodos de alta volatilidad ahorra riesgo sin sacrificar tanto retorno.
+
+\subsection{Moreira y Muir (2017): ``Volatility-Managed Portfolios''}
+
+\citet{moreiramuir2017} generalizan la misma receta ($\sigma_{target}/\hat{\sigma}_{t-1}$) a prácticamente cualquier factor de riesgo —mercado, \textit{value}, \textit{size}, no solo momentum—. Su argumento central es que la varianza es mucho más predecible que el retorno esperado, de modo que escalar por volatilidad inversa mejora el Sharpe de forma casi mecánica en la mayoría de los factores: no es un efecto específico del momentum, sino una propiedad más general de la relación entre riesgo y retorno esperado en series financieras.
+
+\subsection{Daniel y Moskowitz (2016): el refinamiento condicional}
+
+En lugar de escalar únicamente por la volatilidad realizada de la propia serie WML, \citet{danielmoskowitz2016} condicionan el riesgo a un indicador de si el mercado ha estado recientemente en fase bajista (proxy de que la pata corta está ``cargada'' de opcionalidad) y a una previsión de la volatilidad del mercado, no solo del momentum. Esta versión anticipa mejor los crashes específicamente, porque el mecanismo de Barroso y Santa-Clara reacciona después de que la volatilidad ya ha subido, mientras que el enfoque condicional intenta anticipar el régimen de crash antes de que se materialice en la volatilidad realizada del propio factor.
+
+\subsection{Momentum en criptoactivos}
+
+La documentación del momentum en cripto es sensiblemente más reciente y limitada que en renta variable. \citet{liutsyvinski2021} documentan retornos brutos de momentum muy elevados en este mercado, pero la literatura sobre su interacción específica con el \textit{volatility targeting} —y, en particular, sobre si la mejora en Sharpe documentada en acciones sobrevive a los costes de fricción propios de cripto— es todavía escasa. Este es precisamente el vacío que ocupa este trabajo.
+
+\section{Síntesis y posicionamiento del trabajo}
+
+La literatura revisada establece con solidez que (i) el momentum es una anomalía robusta y persistente frente al CAPM; (ii) sus crashes obedecen a un mecanismo identificable, ligado a la asimetría de la pata corta en reversiones bruscas de mercado; y (iii) el escalado por volatilidad mitiga ese riesgo de forma casi mecánica en renta variable estadounidense. Lo que no está resuelto es si esa mitigación se sostiene, neta de costes realistas, en un universo con una dinámica de volatilidad estructuralmente distinta y mucho menos profundidad de mercado. Este trabajo replica el enfoque de Barroso y Santa-Clara —y, como extensión, lo contrasta con el enfoque condicional de Daniel y Moskowitz— aplicado a criptoactivos, usando ETFs sectoriales europeos como benchmark de control metodológico.
+
+
+\chapter{Metodología}
+
+El objetivo de este capítulo es trasladar la pregunta de investigación a un diseño empírico ejecutable: qué se construye, qué se compara, con qué datos y bajo qué supuestos de coste. El plan se organiza en seis bloques secuenciales.
+
+\section{Universos de inversión}
+
+Se emplean dos universos con roles distintos en el diseño:
+
+\begin{itemize}
+	\item \textbf{Universo principal — criptoactivos}: se construye un universo histórico de ``top-$N$ por capitalización de mercado'' evaluado en cada fecha de rebalanceo, y no el top-$N$ actual, para evitar sesgo de supervivencia (incluir únicamente los criptoactivos que sobrevivieron hasta hoy sesgaría los resultados al alza). Se aplican filtros mínimos de liquidez/volumen diario por exchange.
+	\item \textbf{Universo de control — ETFs sectoriales europeos}: universo líquido y ya documentado en la literatura de renta variable, usado como benchmark de sanidad. Si la metodología no reproduce en este universo el efecto de volatility targeting conocido en EE.\,UU., se revisa el pipeline antes de interpretar los resultados en cripto.
+\end{itemize}
+
+\section{Construcción de la estrategia momentum clásica}
+
+\begin{enumerate}
+	\item Cálculo de la señal: ranking de cada activo por su retorno acumulado entre $t-12$ y $t-2$ (se excluye el último mes por el efecto de reversión a corto plazo / microestructura).
+	\item Formación de cartera: long-short (o long-only, según las restricciones del universo cripto respecto a la disponibilidad de instrumentos para ir corto) sobre los deciles o cuantiles extremos del ranking.
+	\item Rebalanceo periódico de la cartera con la frecuencia definida en el diseño (mensual como referencia base, sujeto a los tests de robustez de la sección \ref{sec:robustez}).
+\end{enumerate}
+
+\section{Versión con volatility scaling}
+
+Réplica de la metodología de \citet{barroso2015}: el tamaño de la posición se hace inversamente proporcional a la volatilidad reciente de la propia serie momentum, con una estimación base mediante volatilidad realizada \textit{rolling} (ventana de referencia de $\sim$126 días) y, como extensión, una estimación vía modelos GARCH. Como extensión adicional, se construye también una versión condicional inspirada en \citet{danielmoskowitz2016}, incorporando un indicador de régimen de mercado (bear/bull reciente).
+
+\textbf{Decisión metodológica pendiente de fijar}: dado que la volatilidad en cripto exhibe un \textit{clustering} sustancialmente más fuerte que en renta variable, se evaluará si la ventana de estimación de $\sim$6 meses usada por Barroso y Santa-Clara es adecuada o si es preferible una estimación de volatilidad de mayor frecuencia (datos horarios o diarios de corto plazo) para el universo cripto, comparando frente a la ventana estándar como caso base.
+
+\section{Modelización de costes de transacción}
+
+Se busca que la comparación entre estrategia pura y estrategia escalada sea neta de fricciones realistas, no solo de retornos brutos. Los componentes de coste a modelizar son:
+
+\begin{itemize}
+	\item Spread bid-ask, específico por activo y por exchange en el caso cripto.
+	\item Comisión de negociación.
+	\item Slippage / impacto de mercado, sensible al tamaño de la orden respecto al volumen disponible.
+	\item Coste de financiación de posiciones apalancadas: el volatility targeting implica apalancamiento variable, por lo que hay que estimar su coste de financiación en los periodos en que la volatilidad objetivo exige escalar la exposición por encima de 1x.
+	\item Decisión específica de cripto: spot frente a futuros perpetuos. Usar perpetuos implica incorporar el \textit{funding rate}, que puede ser una fuente de coste (o ingreso) significativa y que cambia sustancialmente el resultado; se documentará y justificará la elección, idealmente contrastando ambas.
+\end{itemize}
+
+\section{Backtest y comparación}
+
+Se ejecuta un backtest \textit{out-of-sample} con costes de transacción explícitos, comparando la estrategia momentum pura frente a su versión escalada por volatilidad (y, como extensión, frente a la versión condicional). Las métricas de comparación —que operacionalizan el ``perfil riesgo-retorno'' mencionado en la pregunta de investigación— son:
+
+\begin{itemize}
+	\item Retorno medio y Sharpe ratio.
+	\item Sortino ratio (penaliza solo la volatilidad a la baja).
+	\item Máximo drawdown y Calmar ratio.
+	\item Asimetría (\textit{skewness}) y curtosis de la distribución de retornos, como medida directa del riesgo de cola que el volatility targeting busca mitigar.
+	\item Comportamiento específico durante los periodos de crash conocidos del universo elegido (2018, mayo de 2021 y 2022 en cripto).
+\end{itemize}
+
+\section{Tests de robustez}
+\label{sec:robustez}
+
+Dado que el universo cripto solo cuenta con dos o tres ciclos de mercado completos (2017-18, 2020-21, 2022-23), cualquier resultado puede estar dominado por el régimen del periodo muestral en lugar de por el efecto que se estudia. Para mitigar este riesgo:
+
+\begin{itemize}
+	\item Se reportan resultados por sub-periodo, no solo en el agregado completo de la muestra.
+	\item Se aplica bootstrap por bloques para construir intervalos de confianza que respeten la autocorrelación y el clustering de volatilidad de la serie.
+	\item Se comprueba la sensibilidad del resultado a distintas ventanas de formación de la señal momentum y a distintas frecuencias de rebalanceo.
+	\item Se decide explícitamente, y se documenta, si se controla por régimen de mercado o no, dado que la cripto combina periodos muy distintos entre sí (2017, 2021, 2022).
+\end{itemize}
+
+\section{Cuestiones abiertas a resolver antes de la ejecución}
+
+A modo de checklist, quedan pendientes de fijación operativa las siguientes decisiones, ya identificadas durante el diseño del trabajo:
+
+\begin{enumerate}
+	\item Definición operativa de ``perfil riesgo-retorno'': qué métrica o combinación de métricas (Sharpe, Sortino, max drawdown/Calmar, asimetría/curtosis) se usa como criterio principal de comparación, dado que el volatility targeting típicamente mejora el Sharpe y reduce el riesgo de cola izquierda, pero no siempre mejora el retorno total.
+	\item Números concretos de costes de transacción: spread, comisión, slippage/impacto de mercado y coste de financiación del apalancamiento variable.
+	\item Spot frente a futuros perpetuos en cripto, y tratamiento del funding rate.
+	\item Ventana temporal muestral y frecuencia de rebalanceo, y si se controla explícitamente por régimen de mercado dada la historia corta y heterogénea de la cripto.
+	\item Ventana de estimación de la volatilidad para el escalado en cripto (base de $\sim$6 meses vs.\ una estimación de mayor frecuencia, dado el clustering más fuerte).
+\end{enumerate}
+
+
+%----------
+%	BIBLIOGRAFÍA
+%----------
+
+%\nocite{*} % Si quieres que aparezcan en la bibliografía todos los documentos que la componen (también los que no estén citados en el texto) descomenta está línea
+
+\clearpage
+\addcontentsline{toc}{chapter}{Bibliografía}
+\setquotestyle[english]{british} % Cambiamos el tipo de cita porque en el estilo IEEE se usan las comillas inglesas.
+\printbibliography
+
+
+
+%----------
+%	ANEXOS
+%----------
+
+% Si tu trabajo incluye anexos, puedes descomentar las siguientes líneas
+%\chapter* {Anexo x}
+%\pagenumbering{gobble} % Las páginas de los anexos no se numeran
+
+
+
+\end{document}

@@ -243,3 +243,48 @@ El modelo da un resultado central: **el spread óptimo no es fijo, depende del i
 | **6. Market Making** | ¿Funciona el spread óptimo en la práctica? | Alta | Muy alta | Desks quant de market making |
 
 Las propuestas 1, 2 y 4 tienen la motivación más sólida dentro del contenido del máster. La 6 es la más diferenciadora y la más cercana a un perfil quant de industria, pero también la más exigente en datos y en implementación.
+
+
+# Propuesta 7 Markovitz Correlation matrix
+
+# 2 - Markovitz Correlation matrix
+Aquí va el mismo esquema para la propuesta 2.
+
+---
+
+**Qué es la optimización de carteras (Markowitz)**
+
+La teoría moderna de carteras de Markowitz (1952) plantea que, dado un conjunto de activos, existe una combinación óptima de pesos que maximiza el retorno esperado para un nivel de riesgo dado (o minimiza el riesgo para un retorno dado) — la llamada frontera eficiente. El insumo clave del modelo es la matriz de covarianzas entre los activos: de ella depende directamente qué cartera resulta "óptima". Es, junto con CAPM, el pilar fundacional de las finanzas cuantitativas modernas y la base teórica de la gestión de carteras institucional.
+
+**Por qué es relevante / necesario**
+
+El problema práctico de Markowitz es antiguo y bien conocido: la matriz de covarianza muestral, estimada directamente de los datos históricos, es **muy inestable en muestras finitas** — especialmente cuando el número de activos es grande respecto al número de observaciones. Pequeños cambios en el periodo muestral producen carteras óptimas radicalmente distintas, con pesos extremos (posiciones muy largas y muy cortas) que no tienen sentido económico. Michaud (1989) lo bautizó como "error-maximization": el optimizador no distingue señal de ruido de estimación, y acaba apostando fuerte precisamente donde el ruido es mayor. Esto hace que Markowitz "de libro" apenas se use tal cual en la práctica.
+
+**Qué se hace en la práctica**
+
+La industria responde con dos vías, no siempre bien diferenciadas en su justificación empírica:
+- **Estimadores robustecidos de la covarianza**, que "encogen" (shrink) la matriz muestral hacia un objetivo más estable (ej. Ledoit-Wolf), reduciendo el ruido de estimación sin descartar la información de los datos.
+- **Estimadores dinámicos**, como DCC-GARCH, que permiten que la covarianza varíe en el tiempo (recogiendo, por ejemplo, que las correlaciones suelen dispararse en crisis).
+
+Pero hay una corriente paralela, y esta es la clave de la propuesta: gran parte de la industria y de la literatura reciente sugiere que, pese a toda esta sofisticación, una simple cartera **1/N** (repartir el capital a partes iguales entre todos los activos, sin optimizar nada) es difícil de batir de forma consistente fuera de muestra.
+
+**Estado del arte (mini resumen)**
+
+- **Ledoit & Wolf (2004)**, *"Honey, I Shrunk the Sample Covariance Matrix"*: proponen el estimador shrinkage que mezcla la matriz muestral con un objetivo estructurado, mejorando el condicionamiento y reduciendo el error de estimación de forma demostrable.
+- **DeMiguel, Garlappi & Uppal (2009)**, *"Optimal Versus Naive Diversification: How Inefficient is the 1/N Portfolio Strategy?"* (RFS): comparan 14 modelos de optimización (incluyendo shrinkage) contra 1/N en varios datasets, y encuentran que **ninguno bate de forma consistente y significativa a 1/N out-of-sample** — el error de estimación de medias y covarianzas destruye la ventaja teórica de optimizar.
+- **Engle (2002)**, DCC-GARCH: el marco estándar para covarianzas condicionales dinámicas, ampliamente usado en gestión de riesgo pero menos evaluado específicamente en el contexto de esta disputa Ledoit-Wolf vs. 1/N.
+
+**Qué aporto yo / cuál es el problema / por qué este TFM**
+
+Existe una tensión no resuelta entre dos líneas de la literatura: una (Ledoit-Wolf y sucesores) sostiene que mejorar la estimación de covarianza mejora la cartera resultante; otra (DeMiguel et al.) sostiene que, en la práctica, ese esfuerzo no se traduce en mejor desempeño out-of-sample frente a no optimizar en absoluto. El problema que delimita este TFM es: **¿el shrinkage (Ledoit-Wolf) y la covarianza dinámica (DCC-GARCH) consiguen batir a la cartera naive 1/N de forma robusta en [tu universo de activos], o se confirma el resultado de DeMiguel et al. incluso con estimadores más sofisticados que los que ellos evaluaron en 2009?** DeMiguel et al. no incluyeron DCC-GARCH en su comparación original — esa es la extensión natural que aporta este trabajo.
+
+**Mini resumen de metodología propuesta**
+
+1. Definición del universo de activos (ej. componentes de un índice, o ETFs sectoriales) y periodo muestral, con ventana rolling de estimación.
+2. Construcción de carteras óptimas (mínima varianza y/o máximo Sharpe) bajo tres estimadores de covarianza: muestral clásica, shrinkage Ledoit-Wolf, y DCC-GARCH dinámico.
+3. Benchmark: cartera 1/N (naive) y cartera muestral clásica sin corregir.
+4. Backtest out-of-sample con rebalanceo periódico (ej. mensual), rolling window, sin usar información futura en ningún paso.
+5. Comparación de desempeño: Sharpe ratio, volatilidad realizada, máximo drawdown, turnover (coste implícito de rebalanceo) — con tests de significatividad de diferencias entre estrategias.
+6. Análisis de robustez: ¿cambia el ranking de métodos según el número de activos del universo o el periodo (crisis vs. calma)?
+
+

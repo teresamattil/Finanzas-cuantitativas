@@ -1,0 +1,123 @@
+
+Volatility Targeting aplicado a la estrategia Momentum:
+evidencia en criptoactivos frente a ETFs sectoriales europeos
+Trabajo Fin de Máster — Propuesta y diseño de investigación
+Teresa
+Máster en Finanzas Cuantitativas
+2026
+ 
+Abstract
+El momentum —la tendencia de los activos con mejor rentabilidad reciente a seguir superando al mercado en el corto plazo— es una de las anomalías más robustas y replicadas de las finanzas empíricas, documentada desde Jegadeesh & Titman (1993) y presente en prácticamente todas las clases de activo. Sin embargo, la estrategia sufre crashes: caídas extremas y concentradas en el tiempo, como la pérdida superior al 70% registrada en 2009 tras el rebote posterior a la crisis de Lehman Brothers. Barroso & Santa-Clara (2015) muestran que escalar el tamaño de la posición momentum por su propia volatilidad reciente (volatility targeting) casi duplica el Sharpe ratio en el mercado estadounidense y reduce drásticamente el riesgo de cola, un resultado generalizado posteriormente por Moreira & Muir (2017) a otros factores de riesgo.
+Este trabajo evalúa si dicho resultado se sostiene fuera del contexto en el que fue documentado —acciones estadounidenses de gran capitalización con décadas de historia— en un universo estructuralmente distinto: los criptoactivos, donde el momentum es especialmente fuerte pero también especialmente volátil, y donde los costes de fricción son órdenes de magnitud mayores. Se emplean los ETFs sectoriales europeos como universo de control, para verificar que la metodología reproduce el efecto conocido en un mercado líquido y ya documentado antes de interpretar los resultados en cripto. La pregunta central es si el volatility targeting mejora el perfil riesgo-retorno del momentum una vez se incorporan costes de transacción realistas —spread, slippage y, en el caso de futuros perpetuos, funding rate— o si dichos costes anulan o incluso revierten la mejora observada en la literatura sobre renta variable.
+Índice
+Abstract	2
+Índice	3
+1. Introducción	4
+1.1. Motivación y pregunta de investigación	4
+1.2. Por qué criptoactivos	4
+2. Revisión de la literatura	6
+2.1. El momentum como anomalía frente al CAPM	6
+2.2. El mecanismo de los crashes de momentum	6
+2.3. Volatility targeting: la solución de escalado por riesgo	7
+2.3.1. Barroso & Santa-Clara (2015) — "Momentum has its moments"	7
+2.3.2. Moreira & Muir (2017) — "Volatility-Managed Portfolios"	7
+2.3.3. Daniel & Moskowitz (2016) — el refinamiento condicional	7
+2.3.4. Momentum en criptoactivos	8
+2.4. Síntesis y posicionamiento del trabajo	8
+3. Metodología	9
+3.1. Universos de inversión	9
+3.2. Construcción de la estrategia momentum clásica	9
+3.3. Versión con volatility scaling	9
+3.4. Modelización de costes de transacción	9
+3.5. Backtest y comparación	10
+3.6. Tests de robustez	10
+3.7. Cuestiones abiertas a resolver antes de la ejecución	10
+Referencias	12
+
+1. Introducción
+El momentum es una anomalía de mercado bien documentada: los activos que más han subido en los últimos 3 a 12 meses tienden a seguir subiendo en el corto plazo, y los que más han caído tienden a seguir cayendo. El fenómeno contradice directamente la hipótesis débil de eficiencia de mercado —si los precios pasados no deberían predecir retornos futuros, el momentum no debería existir— y sin embargo lleva más de tres décadas replicándose en prácticamente cualquier clase de activo: acciones, divisas, materias primas y, más recientemente, criptoactivos.
+Su relevancia no es meramente académica. El momentum es una de las señales sistemáticas más utilizadas por fondos cuantitativos reales —CTAs, managed futures, hedge funds de factores—, habitualmente en combinación con otras señales como value, calidad o baja volatilidad, dentro de un proceso de inversión sistemático: definición de universo, cálculo de señales, ranking, construcción de cartera con ponderación por riesgo, overlay de riesgo y rebalanceo periódico. Pero el momentum tiene un defecto grave y conocido: sufre crashes —periodos cortos y extremos en los que pierde una fracción enorme de su valor—. El episodio más citado es 2009, cuando, tras el rebote brusco posterior a la crisis de Lehman Brothers, las carteras momentum perdieron más del 70% de su valor en semanas. Esto hace que, pese a exhibir un Sharpe ratio atractivo en media, sea una estrategia difícilmente invertible para un gestor real sin algún mecanismo de control de riesgo.
+La respuesta habitual de la industria no ha sido abandonar el momentum, sino gestionar dinámicamente el tamaño de la posición en función del riesgo estimado —lo que se conoce como volatility targeting o risk scaling: cuando la volatilidad reciente de la estrategia sube, se reduce la exposición; cuando baja, se amplía. Es una práctica extendida en la gestión de CTAs y fondos de volatilidad controlada, y cuenta con respaldo académico sólido en el mercado estadounidense de gran capitalización. Sin embargo, su justificación empírica fuera de ese contexto —mercados con menor profundidad, mayores costes de fricción, o activos con una dinámica de volatilidad estructuralmente distinta— está mucho menos probada.
+1.1. Motivación y pregunta de investigación
+La literatura existente sobre volatility targeting aplicado a momentum se concentra casi exclusivamente en mercados de renta variable estadounidense de gran capitalización, con décadas de datos disponibles. Quedan sin resolver dos preguntas: si el resultado se sostiene (a) en mercados con menor profundidad y mayores costes de fricción, y (b) en activos de comportamiento estructuralmente distinto —como los criptoactivos—, donde el momentum tiene documentación mucho más reciente y limitada, y donde la volatilidad es órdenes de magnitud mayor y más persistente (clustering más fuerte).
+Este trabajo delimita el problema de la siguiente manera: ¿el volatility targeting mejora igual de bien el perfil riesgo-retorno del momentum fuera de EE. UU. / large-caps —en concreto en criptoactivos, usando ETFs sectoriales europeos como benchmark de control— y esa mejora se mantiene una vez se incluyen costes de transacción realistas?
+1.2. Por qué criptoactivos
+Se elige el mercado cripto como universo principal de estudio, y los ETFs sectoriales europeos como benchmark de sanidad metodológica, por varias razones:
+•	La tensión de la pregunta es más aguda: el momentum en cripto es muy fuerte (documentado por Liu & Tsyvinski) pero sus crashes también son brutales —2018, mayo de 2021, 2022— por la volatilidad extrema y su clustering. Es el escenario ideal para que el volatility targeting demuestre su valor, o para que los costes se lo coman por completo.
+•	Los costes son la parte más interesante de la historia: en cripto, la suma de spread, slippage y funding rate (si se opera con futuros perpetuos) puede ser entre 5 y 10 veces la de un ETF líquido. Es plausible encontrar que el volatility targeting mejora el Sharpe bruto de forma notable, pero que tras costes realistas el efecto desaparece o se invierte.
+•	La contribución marginal es mayor: la interacción momentum + volatility targeting está ampliamente estudiada en renta variable (Barroso & Santa-Clara, Moskowitz et al.), pero hay bastante menos evidencia específica en cripto.
+•	En ETFs sectoriales europeos el efecto probablemente sea positivo pero modesto, como en EE. UU., por lo que sirve como control de que el pipeline metodológico reproduce el resultado ya conocido antes de interpretar lo que se observe en cripto.
+Los riesgos principales de este diseño —poder estadístico limitado (cripto solo cuenta con dos o tres ciclos completos: 2017-18, 2020-21, 2022-23), sesgo de supervivencia si se usa el universo actual de criptoactivos "grandes", y menor calidad de los datos de spread y volumen por exchange— se abordan explícitamente en la sección de metodología.
+2. Revisión de la literatura
+Esta sección organiza la literatura relevante en tres bloques: (i) el momentum como anomalía y como factor de riesgo dentro de los modelos multifactoriales, en su relación con el CAPM; (ii) el mecanismo de los crashes de momentum; y (iii) las soluciones propuestas mediante escalado por volatilidad.
+2.1. El momentum como anomalía frente al CAPM
+El CAPM postula que la única variable que explica el retorno esperado de un activo es su sensibilidad al mercado (beta):
+E(Rᵢ) = Rf + βᵢ · (E(Rm) − Rf)
+Es decir, dos activos con el mismo beta deberían tener el mismo retorno esperado, y ninguna otra variable debería añadir poder explicativo. Desde los años ochenta y noventa se acumuló evidencia de variables que predicen el retorno más allá del beta —tamaño (size), book-to-market (value) y momentum (Jegadeesh & Titman, 1993)— dando lugar a los modelos multifactoriales como extensión del CAPM: Fama-French de tres factores (1993, mercado + SMB + HML), Carhart de cuatro factores (1997, añade el factor momentum UMD/WML) y Fama-French de cinco factores (2015, añade profitability e investment).
+El factor momentum (UMD, Up Minus Down, o WML, Winners Minus Losers) se construye rankeando mensualmente los activos por su retorno acumulado entre t−12 y t−2 (se excluye el último mes por el efecto de reversión a corto plazo / microestructura), formando una cartera larga en el decil ganador y corta en el decil perdedor. El factor es el retorno de esa cartera long-short: WMLt = Rwinners,t − Rlosers,t. Conviene distinguir dos usos del mismo armazón: un uso académico/explicativo (ex post, para descomponer el retorno de una cartera en exposición a factores conocidos frente a alpha genuino) y un uso práctico/predictivo (ex ante, como señal cross-sectional para rankear activos y construir carteras). Este trabajo se sitúa en el segundo uso: no se testa si el CAPM es cierto, sino que se explota la anomalía que el CAPM no explica.
+2.2. El mecanismo de los crashes de momentum
+Una estrategia momentum "pura" en su forma académica es long-short y, en teoría, market-neutral: el riesgo de mercado debería cancelarse al combinar la pata larga y la pata corta. Sin embargo, Daniel & Moskowitz (2016), en "Momentum Crashes" (JFE), muestran que esta neutralidad se rompe de forma sistemática en momentos concretos. La pata corta (perdedores) se comporta como una opción call vendida sobre el mercado: son activos que han caído mucho, con betas altas y gran sensibilidad a rebotes bruscos. Cuando el mercado, tras un periodo bajista, rebota con violencia —como en marzo-abril de 2009—, esos perdedores suben mucho más que el mercado general, precisamente cuando la estrategia está corta en ellos. A la vez, la pata larga (activos defensivos que aguantaron la caída) se queda rezagada porque el refugio deja de ser necesario. El resultado es un fallo correlacionado de ambas patas simultáneamente, en el peor momento posible, en lugar de la compensación habitual de una cartera long-short.
+El agravante es que una medida de riesgo puramente retrospectiva no protege a tiempo: la volatilidad realizada pasada suele estar todavía baja justo antes del crash, porque este coincide con el punto de inflexión del mercado. Los crashes de momentum tienden a concentrarse cuando coinciden tres condiciones: (i) el mercado lleva tiempo en fase bajista, formando una pata corta muy castigada; (ii) la volatilidad —implícita o realizada— está elevada, señal de pánico y de que un rebote potencial sería más violento; y (iii) se produce un cambio brusco de régimen, en el que la pata corta pasa de "sigue cayendo" a "rebota con fuerza" en cuestión de días.
+2.3. Volatility targeting: la solución de escalado por riesgo
+2.3.1. Barroso & Santa-Clara (2015) — "Momentum has its moments"
+Conviene precisar la terminología: no se trata de volatility trading (operar la volatilidad implícita frente a la realizada, típicamente con opciones o VIX), sino de volatility scaling o risk scaling: escalar el tamaño de la posición de la estrategia momentum en función de su propia volatilidad reciente, manteniendo el mismo signo de posición (larga en ganadores, corta en perdedores). La reparametrización propuesta es:
+rscaledWML,t  =  (σtarget / σ̂WML,t−1)  ·  rWML,t
+donde σ̂WML,t−1 es la volatilidad realizada de la propia serie WML, estimada con datos diarios de los últimos aproximadamente seis meses (126 días de negociación), y σtarget es la volatilidad objetivo constante que se busca mantener a lo largo del tiempo. El tamaño de la apuesta se reduce cuando la volatilidad reciente del momentum sube y se amplía cuando baja.
+El hallazgo central del paper es que este escalado casi duplica el Sharpe ratio y reduce drásticamente la asimetría negativa y la curtosis de los retornos, sin sacrificar apenas retorno medio. La razón es, en cierto modo, contraintuitiva: el retorno esperado del momentum no cae proporcionalmente cuando sube la volatilidad, de modo que reducir el tamaño de la posición en periodos de alta volatilidad ahorra riesgo sin sacrificar tanto retorno.
+2.3.2. Moreira & Muir (2017) — "Volatility-Managed Portfolios"
+Generalizan la misma receta (σtarget/σ̂t−1) a prácticamente cualquier factor de riesgo —mercado, value, size, no solo momentum—. Su argumento central es que la varianza es mucho más predecible que el retorno esperado, de modo que escalar por volatilidad inversa mejora el Sharpe de forma casi mecánica en la mayoría de los factores: no es un efecto específico del momentum, sino una propiedad más general de la relación entre riesgo y retorno esperado en series financieras.
+2.3.3. Daniel & Moskowitz (2016) — el refinamiento condicional
+En lugar de escalar únicamente por la volatilidad realizada de la propia serie WML, condicionan el riesgo a un indicador de si el mercado ha estado recientemente en fase bajista (proxy de que la pata corta está "cargada" de opcionalidad) y a una previsión de la volatilidad del mercado, no solo del momentum. Esta versión anticipa mejor los crashes específicamente, porque el mecanismo de Barroso & Santa-Clara reacciona después de que la volatilidad ya ha subido, mientras que el enfoque condicional intenta anticipar el régimen de crash antes de que se materialice en la volatilidad realizada del propio factor.
+2.3.4. Momentum en criptoactivos
+La documentación del momentum en cripto es sensiblemente más reciente y limitada que en renta variable. Liu & Tsyvinski documentan retornos brutos de momentum muy elevados en este mercado, pero la literatura sobre su interacción específica con el volatility targeting —y, en particular, sobre si la mejora en Sharpe documentada en acciones sobrevive a los costes de fricción propios de cripto— es todavía escasa. Este es precisamente el vacío que ocupa este trabajo.
+2.4. Síntesis y posicionamiento del trabajo
+La literatura revisada establece con solidez que (i) el momentum es una anomalía robusta y persistente frente al CAPM; (ii) sus crashes obedecen a un mecanismo identificable, ligado a la asimetría de la pata corta en reversiones bruscas de mercado; y (iii) el escalado por volatilidad mitiga ese riesgo de forma casi mecánica en renta variable estadounidense. Lo que no está resuelto es si esa mitigación se sostiene, neta de costes realistas, en un universo con una dinámica de volatilidad estructuralmente distinta y mucho menos profundidad de mercado. Este trabajo replica el enfoque de Barroso & Santa-Clara —y, como extensión, lo contrasta con el enfoque condicional de Daniel & Moskowitz— aplicado a criptoactivos, usando ETFs sectoriales europeos como benchmark de control metodológico.
+3. Metodología
+El objetivo de esta sección es trasladar la pregunta de investigación a un diseño empírico ejecutable: qué se construye, qué se compara, con qué datos y bajo qué supuestos de coste. El plan se organiza en seis bloques secuenciales.
+3.1. Universos de inversión
+Se emplean dos universos con roles distintos en el diseño:
+•	Universo principal — criptoactivos: se construye un universo histórico de "top-N por capitalización de mercado" evaluado en cada fecha de rebalanceo, y no el top-N actual, para evitar sesgo de supervivencia (incluir únicamente los criptoactivos que sobrevivieron hasta hoy sesgaría los resultados al alza). Se aplican filtros mínimos de liquidez/volumen diario por exchange.
+•	Universo de control — ETFs sectoriales europeos: universo líquido y ya documentado en la literatura de renta variable, usado como benchmark de sanidad. Si la metodología no reproduce en este universo el efecto de volatility targeting conocido en EE. UU., se revisa el pipeline antes de interpretar los resultados en cripto.
+3.2. Construcción de la estrategia momentum clásica
+1.	Cálculo de la señal: ranking de cada activo por su retorno acumulado entre t−12 y t−2 (se excluye el último mes por el efecto de reversión a corto plazo / microestructura).
+2.	Formación de cartera: long-short (o long-only, según las restricciones del universo cripto respecto a la disponibilidad de instrumentos para ir corto) sobre los deciles o cuantiles extremos del ranking.
+3.	Rebalanceo periódico de la cartera con la frecuencia definida en el diseño (mensual como referencia base, sujeto a los tests de robustez del bloque 3.6).
+3.3. Versión con volatility scaling
+Réplica de la metodología de Barroso & Santa-Clara: el tamaño de la posición se hace inversamente proporcional a la volatilidad reciente de la propia serie momentum, con una estimación base mediante volatilidad realizada rolling (ventana de referencia de ~126 días) y, como extensión, una estimación vía modelos GARCH. Como extensión adicional, se construye también una versión condicional inspirada en Daniel & Moskowitz, incorporando un indicador de régimen de mercado (bear/bull reciente).
+Decisión metodológica pendiente de fijar: dado que la volatilidad en cripto exhibe un clustering sustancialmente más fuerte que en renta variable, se evaluará si la ventana de estimación de ~6 meses usada por Barroso & Santa-Clara es adecuada o si es preferible una estimación de volatilidad de mayor frecuencia (datos horarios o diarios de corto plazo) para el universo cripto, comparando frente a la ventana estándar como caso base.
+3.4. Modelización de costes de transacción
+Se busca que la comparación entre estrategia pura y estrategia escalada sea neta de fricciones realistas, no solo de retornos brutos. Los componentes de coste a modelizar son:
+•	Spread bid-ask, específico por activo y por exchange en el caso cripto.
+•	Comisión de negociación.
+•	Slippage / impacto de mercado, sensible al tamaño de la orden respecto al volumen disponible.
+•	Coste de financiación de posiciones apalancadas: el volatility targeting implica apalancamiento variable, por lo que hay que estimar su coste de financiación en los periodos en que la volatilidad objetivo exige escalar la exposición por encima de 1x.
+•	Decisión específica de cripto: spot frente a futuros perpetuos. Usar perpetuos implica incorporar el funding rate, que puede ser una fuente de coste (o ingreso) significativa y que cambia sustancialmente el resultado; se documentará y justificará la elección, idealmente contrastando ambas.
+3.5. Backtest y comparación
+Se ejecuta un backtest out-of-sample con costes de transacción explícitos, comparando la estrategia momentum pura frente a su versión escalada por volatilidad (y, como extensión, frente a la versión condicional). Las métricas de comparación —que operacionalizan el "perfil riesgo-retorno" mencionado en la pregunta de investigación— son:
+•	Retorno medio y Sharpe ratio.
+•	Sortino ratio (penaliza solo la volatilidad a la baja).
+•	Máximo drawdown y Calmar ratio.
+•	Asimetría (skewness) y curtosis de la distribución de retornos, como medida directa del riesgo de cola que el volatility targeting busca mitigar.
+•	Comportamiento específico durante los periodos de crash conocidos del universo elegido (2018, mayo de 2021 y 2022 en cripto).
+3.6. Tests de robustez
+Dado que el universo cripto solo cuenta con dos o tres ciclos de mercado completos (2017-18, 2020-21, 2022-23), cualquier resultado puede estar dominado por el régimen del periodo muestral en lugar de por el efecto que se estudia. Para mitigar este riesgo:
+•	Se reportan resultados por sub-periodo, no solo en el agregado completo de la muestra.
+•	Se aplica bootstrap por bloques para construir intervalos de confianza que respeten la autocorrelación y el clustering de volatilidad de la serie.
+•	Se comprueba la sensibilidad del resultado a distintas ventanas de formación de la señal momentum y a distintas frecuencias de rebalanceo.
+•	Se decide explícitamente, y se documenta, si se controla por régimen de mercado o no, dado que la cripto combina periodos muy distintos entre sí (2017, 2021, 2022).
+3.7. Cuestiones abiertas a resolver antes de la ejecución
+A modo de checklist, quedan pendientes de fijación operativa las siguientes decisiones, ya identificadas durante el diseño del trabajo:
+1.	Definición operativa de "perfil riesgo-retorno": qué métrica o combinación de métricas (Sharpe, Sortino, max drawdown/Calmar, asimetría/curtosis) se usa como criterio principal de comparación, dado que el volatility targeting típicamente mejora el Sharpe y reduce el riesgo de cola izquierda, pero no siempre mejora el retorno total.
+2.	Números concretos de costes de transacción: spread, comisión, slippage/impacto de mercado y coste de financiación del apalancamiento variable.
+3.	Spot frente a futuros perpetuos en cripto, y tratamiento del funding rate.
+4.	Ventana temporal muestral y frecuencia de rebalanceo, y si se controla explícitamente por régimen de mercado dada la historia corta y heterogénea de la cripto.
+5.	Ventana de estimación de la volatilidad para el escalado en cripto (base de ~6 meses vs. una estimación de mayor frecuencia, dado el clustering más fuerte).
+Referencias
+Barroso, P., & Santa-Clara, P. (2015). Momentum has its moments. Journal of Financial Economics, 116(1), 111–120.
+Carhart, M. M. (1997). On persistence in mutual fund performance. Journal of Finance, 52(1), 57–82.
+Daniel, K., & Moskowitz, T. J. (2016). Momentum crashes. Journal of Financial Economics, 122(2), 221–247.
+Fama, E. F., & French, K. R. (1993). Common risk factors in the returns on stocks and bonds. Journal of Financial Economics, 33(1), 3–56.
+Fama, E. F., & French, K. R. (2015). A five-factor asset pricing model. Journal of Financial Economics, 116(1), 1–22.
+Jegadeesh, N., & Titman, S. (1993). Returns to buying winners and selling losers: Implications for stock market efficiency. Journal of Finance, 48(1), 65–91.
+Liu, Y., & Tsyvinski, A. (2021). Risks and returns of cryptocurrency. Review of Financial Studies, 34(6), 2689–2727.
+Moreira, A., & Muir, T. (2017). Volatility-managed portfolios. Journal of Finance, 72(4), 1611–1644.
