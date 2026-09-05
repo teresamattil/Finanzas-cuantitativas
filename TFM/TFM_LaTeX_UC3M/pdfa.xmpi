@@ -62,6 +62,16 @@
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"> 
    <dc:format>application/pdf</dc:format> 
+   <dc:title><rdf:Alt><rdf:li xml:lang="x-default">Volatility Targeting aplicado a la estrategia Momentum: evidencia en criptoactivos frente a ETFs sectoriales europeos</rdf:li></rdf:Alt></dc:title>
+   <dc:creator><rdf:Seq><rdf:li>Teresa Mattil Olazabal</rdf:li></rdf:Seq></dc:creator>
+   <dc:publisher><rdf:Bag><rdf:li>Universidad Carlos III de Madrid</rdf:li></rdf:Bag></dc:publisher>
+   <dc:language><rdf:Bag><rdf:li>es-ES</rdf:li></rdf:Bag></dc:language>
+   <dc:description><rdf:Alt><rdf:li xml:lang="x-default">Trabajo Fin de Máster sobre volatility targeting aplicado a la estrategia momentum</rdf:li></rdf:Alt></dc:description>
+   <dc:subject><rdf:Bag><rdf:li>momentum</rdf:li>
+     <rdf:li>volatility targeting</rdf:li>
+     <rdf:li>criptoactivos</rdf:li>
+     <rdf:li>gestión cuantitativa</rdf:li>
+     <rdf:li>factores de riesgo</rdf:li></rdf:Bag></dc:subject>
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:prism="http://prismstandard.org/namespaces/basic/2.2/"> 
   </rdf:Description> 
@@ -73,15 +83,15 @@
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/"> 
    <xmp:CreatorTool>LaTeX with hyperref</xmp:CreatorTool> 
-   <xmp:ModifyDate>2026-08-22T19:37:46+02:00</xmp:ModifyDate> 
-   <xmp:CreateDate>2026-08-22T19:37:46+02:00</xmp:CreateDate> 
-   <xmp:MetadataDate>2026-08-22T19:37:46+02:00</xmp:MetadataDate> 
+   <xmp:ModifyDate>2026-09-05T16:24:44+02:00</xmp:ModifyDate> 
+   <xmp:CreateDate>2026-09-05T16:24:44+02:00</xmp:CreateDate> 
+   <xmp:MetadataDate>2026-09-05T16:24:44+02:00</xmp:MetadataDate> 
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmpRights = "http://ns.adobe.com/xap/1.0/rights/"> 
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"> 
-   <xmpMM:DocumentID>uuid:83F82B3F-D311-C022-DBB3-C3689FB4BE3E</xmpMM:DocumentID> 
-   <xmpMM:InstanceID>uuid:73259229-834B-5FCA-0D7F-D54CCF1D21DC</xmpMM:InstanceID> 
+   <xmpMM:DocumentID>uuid:F84E2C61-D2D3-251D-3D59-65FDBF8819BD</xmpMM:DocumentID> 
+   <xmpMM:InstanceID>uuid:B1B93437-9C5E-F1AB-5A84-F0D7E00318CC</xmpMM:InstanceID> 
   </rdf:Description> 
  </rdf:RDF> 
 </x:xmpmeta> 
