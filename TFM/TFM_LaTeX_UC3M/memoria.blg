@@ -1,17 +1,17 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'memoria.blg'
-[182] biber-darwin:340> INFO - === Sat Sep  5, 2026, 16:24:40
-[210] Biber.pm:419> INFO - Reading 'memoria.bcf'
-[383] Biber.pm:979> INFO - Found 11 citekeys in bib section 0
-[418] Biber.pm:4419> INFO - Processing section 0
-[442] Biber.pm:4610> INFO - Looking for bibtex file 'referencias.bib' for section 0
-[445] bibtex.pm:1713> INFO - LaTeX decoding ...
-[471] bibtex.pm:1519> INFO - Found BibTeX data source 'referencias.bib'
-[622] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'variable = shifted' with 'variable = non-ignorable'
-[623] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[623] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'es-ES'
-[662] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[662] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'variable = shifted' with 'variable = non-ignorable'
-[662] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'es-ES'
-[676] bbl.pm:660> INFO - Writing 'memoria.bbl' with encoding 'UTF-8'
-[693] bbl.pm:763> INFO - Output to memoria.bbl
+[178] biber-darwin:340> INFO - === Wed Sep  9, 2026, 07:24:38
+[207] Biber.pm:419> INFO - Reading 'memoria.bcf'
+[465] Biber.pm:979> INFO - Found 11 citekeys in bib section 0
+[500] Biber.pm:4419> INFO - Processing section 0
+[519] Biber.pm:4610> INFO - Looking for bibtex file 'referencias.bib' for section 0
+[521] bibtex.pm:1713> INFO - LaTeX decoding ...
+[538] bibtex.pm:1519> INFO - Found BibTeX data source 'referencias.bib'
+[669] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'variable = shifted' with 'variable = non-ignorable'
+[669] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[669] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'es-ES'
+[703] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[703] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'variable = shifted' with 'variable = non-ignorable'
+[703] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'es-ES'
+[718] bbl.pm:660> INFO - Writing 'memoria.bbl' with encoding 'UTF-8'
+[736] bbl.pm:763> INFO - Output to memoria.bbl

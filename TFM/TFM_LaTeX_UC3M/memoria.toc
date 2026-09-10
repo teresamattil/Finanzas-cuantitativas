@@ -1,9 +1,9 @@
 \babel@toc {spanish}{}\relax 
 \contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Motivación y pregunta de investigación}{2}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Por qué ETFs sectoriales europeos}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.2}Por qué precisamente este universo}{2}{section.1.2}%
 \contentsline {chapter}{\numberline {2}Revisión de la literatura}{4}{chapter.2}%
-\contentsline {section}{\numberline {2.1}El momentum como anomalía frente al CAPM}{4}{section.2.1}%
+\contentsline {section}{\numberline {2.1}El momentum dentro de los modelos multifactoriales}{4}{section.2.1}%
 \contentsline {section}{\numberline {2.2}El mecanismo de los crashes de momentum}{5}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Volatility targeting: la solución de escalado por riesgo}{5}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Barroso y Santa-Clara (2015): ``Momentum has its moments''}{5}{subsection.2.3.1}%
@@ -11,26 +11,26 @@
 \contentsline {subsection}{\numberline {2.3.3}Daniel y Moskowitz (2016): el refinamiento condicional}{6}{subsection.2.3.3}%
 \contentsline {section}{\numberline {2.4}Costes de transacción e implementabilidad real}{6}{section.2.4}%
 \contentsline {section}{\numberline {2.5}Síntesis y posicionamiento del trabajo}{7}{section.2.5}%
-\contentsline {chapter}{\numberline {3}Metodología}{8}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Universo de inversión y control de calidad de los datos}{8}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Construcción y validación de la señal momentum}{8}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Construcción de la cartera y motor de backtest}{9}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Métricas de riesgo-retorno}{9}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Escalado por volatilidad}{10}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Costes de transacción y financiación}{10}{section.3.6}%
-\contentsline {section}{\numberline {3.7}Tests de robustez}{11}{section.3.7}%
-\contentsline {section}{\numberline {3.8}Validación externa}{11}{section.3.8}%
-\contentsline {chapter}{\numberline {4}Resultados}{12}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Validación de la señal momentum}{12}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Serie sin escalar: métricas de riesgo-retorno}{12}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Escalado por volatilidad: de la estimación mensual a la diaria}{13}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Comparación pura vs. escalada, bruta y neta de costes}{14}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Tests de robustez}{15}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Validación externa: factor Europe Momentum (Kenneth French)}{17}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Tabla de síntesis final del checkpoint de sanidad}{18}{section.4.7}%
-\contentsline {chapter}{\numberline {5}Discusión y conclusiones}{20}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Discusión}{20}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Conclusiones}{21}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Limitaciones}{21}{section.5.3}%
-\contentsline {chapter}{Bibliografía}{23}{section.5.3}%
+\contentsline {chapter}{\numberline {3}Metodología}{9}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Universo de inversión y control de calidad de los datos}{9}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Construcción y validación de la señal momentum}{9}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Construcción de la cartera y motor de backtest}{10}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Métricas de riesgo-retorno}{10}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Escalado por volatilidad}{11}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Costes de transacción y financiación}{11}{section.3.6}%
+\contentsline {section}{\numberline {3.7}Tests de robustez}{12}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Validación externa}{12}{section.3.8}%
+\contentsline {chapter}{\numberline {4}Resultados}{13}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Validación de la señal momentum}{13}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Serie sin escalar: métricas de riesgo-retorno}{13}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Escalado por volatilidad: de la estimación mensual a la diaria}{14}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Comparación pura vs. escalada, bruta y neta de costes}{15}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Tests de robustez}{16}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Validación externa: factor Europe Momentum (Kenneth French)}{18}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Tabla de síntesis final del checkpoint de sanidad}{19}{section.4.7}%
+\contentsline {chapter}{\numberline {5}Discusión y conclusiones}{21}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Discusión}{21}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Conclusiones}{22}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Limitaciones}{22}{section.5.3}%
+\contentsline {chapter}{Bibliografía}{24}{section.5.3}%
 \contentsfinish 

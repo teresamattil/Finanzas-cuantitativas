@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.12)  5 SEP 2026 16:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.12)  9 SEP 2026 07:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -310,7 +310,7 @@ Using XMP template file: pdfa.xmp
 \openout3 = `pdfa.xmpi'.
 
 <<pdfa.xmpi>>)
-Package hyperref Info: Option `colorlinks' set `true' on input line 43.
+Package hyperref Info: Option `colorlinks' set `true' on input line 45.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2023/05/13 v2.17o AMS math features
@@ -975,7 +975,7 @@ Package: blx-case-expl3 2023/03/05 v3.19 expl3 case changing code for biblatex
 ))
 
 Package biblatex Warning: Macro 'name:delim:apa:family-given' undefined.
-(biblatex)                Using \newbibmacro on input line 201.
+(biblatex)                Using \newbibmacro on input line 203.
 
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
@@ -985,48 +985,48 @@ LaTeX Info: Redefining \% on input line 12.
 )
 \openout1 = `memoria.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 234.
+LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 236.
 LaTeX Font Info:    Trying to load font information for OML+txmi on input line 
-234.
+236.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/txfonts/omltxmi.fd
 File: omltxmi.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 234.
-LaTeX Font Info:    Checking defaults for OMS/txsy/m/n on input line 234.
+LaTeX Font Info:    ... okay on input line 236.
+LaTeX Font Info:    Checking defaults for OMS/txsy/m/n on input line 236.
 LaTeX Font Info:    Trying to load font information for OMS+txsy on input line 
-234.
+236.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/txfonts/omstxsy.fd
 File: omstxsy.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 234.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 234.
-LaTeX Font Info:    ... okay on input line 234.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 234.
-LaTeX Font Info:    ... okay on input line 234.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 234.
-LaTeX Font Info:    ... okay on input line 234.
-LaTeX Font Info:    Checking defaults for OMX/txex/m/n on input line 234.
+LaTeX Font Info:    ... okay on input line 236.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 236.
+LaTeX Font Info:    ... okay on input line 236.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 236.
+LaTeX Font Info:    ... okay on input line 236.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 236.
+LaTeX Font Info:    ... okay on input line 236.
+LaTeX Font Info:    Checking defaults for OMX/txex/m/n on input line 236.
 LaTeX Font Info:    Trying to load font information for OMX+txex on input line 
-234.
+236.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/txfonts/omxtxex.fd
 File: omxtxex.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 234.
-LaTeX Font Info:    Checking defaults for U/txexa/m/n on input line 234.
+LaTeX Font Info:    ... okay on input line 236.
+LaTeX Font Info:    Checking defaults for U/txexa/m/n on input line 236.
 LaTeX Font Info:    Trying to load font information for U+txexa on input line 2
-34.
+36.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/txfonts/utxexa.fd
 File: utxexa.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 234.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 234.
-LaTeX Font Info:    ... okay on input line 234.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 234.
-LaTeX Font Info:    ... okay on input line 234.
+LaTeX Font Info:    ... okay on input line 236.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 236.
+LaTeX Font Info:    ... okay on input line 236.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 236.
+LaTeX Font Info:    ... okay on input line 236.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1084,14 +1084,14 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring ON on input line 234.
+Package hyperref Info: Link coloring ON on input line 236.
 
 (./memoria.out) (./memoria.out)
 \@outlinefile=\write5
 \openout5 = `memoria.out'.
 
-LaTeX Info: Redefining \. on input line 234.
-LaTeX Info: Redefining \% on input line 234.
+LaTeX Info: Redefining \. on input line 236.
+LaTeX Info: Redefining \% on input line 236.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: floatrow package is loaded.
@@ -1125,30 +1125,36 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'memoria.bbl' found.
 
 (./memoria.bbl)
-Package biblatex Info: Reference section=0 on input line 234.
-Package biblatex Info: Reference segment=0 on input line 234.
+Package biblatex Info: Reference section=0 on input line 236.
+Package biblatex Info: Reference segment=0 on input line 236.
 LaTeX Font Info:    Trying to load font information for T1+txss on input line 2
-41.
+43.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/txfonts/t1txss.fd
 File: t1txss.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Font shape `T1/txss/m/n' will be
-(Font)              scaled to size 11.39996pt on input line 241.
+(Font)              scaled to size 11.39996pt on input line 243.
+<imagenes/LogoUNED.jpg, id=141, 501.875pt x 501.875pt>
+File: imagenes/LogoUNED.jpg Graphic file (type jpg)
+<use imagenes/LogoUNED.jpg>
+Package pdftex.def Info: imagenes/LogoUNED.jpg  used on input line 251.
+(pdftex.def)             Requested size: 142.26378pt x 142.26239pt.
 LaTeX Font Info:    Font shape `T1/txss/m/n' will be
-(Font)              scaled to size 16.41594pt on input line 252.
+(Font)              scaled to size 16.41594pt on input line 254.
 LaTeX Font Info:    Font shape `T1/txss/m/sl' will be
-(Font)              scaled to size 16.41594pt on input line 256.
+(Font)              scaled to size 16.41594pt on input line 258.
 LaTeX Font Info:    Font shape `T1/txss/m/n' will be
-(Font)              scaled to size 23.63593pt on input line 260.
+(Font)              scaled to size 23.63593pt on input line 262.
 LaTeX Font Info:    Font shape `T1/txss/m/it' in size <24.88> not available
-(Font)              Font shape `T1/txss/m/sl' tried instead on input line 260.
+(Font)              Font shape `T1/txss/m/sl' tried instead on input line 262.
 LaTeX Font Info:    Font shape `T1/txss/m/sl' will be
-(Font)              scaled to size 23.63593pt on input line 260.
+(Font)              scaled to size 23.63593pt on input line 262.
 LaTeX Font Info:    Font shape `T1/txss/m/n' will be
-(Font)              scaled to size 19.70294pt on input line 264.
+(Font)              scaled to size 19.70294pt on input line 266.
  [1
 
-{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}]
+{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc} <./imagenes/Lo
+goUNED.jpg>]
 pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has 
 been already used, duplicate ignored
 <to be read again> 
@@ -1196,21 +1202,30 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.310 \chapter
-              *{Dedicatoria} % \chapter* evita que aparezca en el índice
-[1] [5
-
-] [6] (./memoria.toc
+l.314 \tableofcontents
+                       [1] (./memoria.toc
 LaTeX Info: Redefining \sptext on input line 1.
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [7
+ [2
 
 ])
 \tf@toc=\write6
 \openout6 = `memoria.toc'.
 
- [8] [9]
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.III}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.317 \newpage
+               % página en blanco o de cortesía [3]
+pdfTeX warning (ext4): destination with the same identifier (name{page.IV}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.325 \clearpage
+                 [4]
 Cap\'{\i }tulo 1.
 [1
 
@@ -1219,59 +1234,59 @@ Cap\'{\i }tulo 1.
 Cap\'{\i }tulo 2.
 [4
 
-] [5] [6] [7]
+] [5] [6] [7] [8]
 Cap\'{\i }tulo 3.
 LaTeX Font Info:    Trying to load font information for T1+txtt on input line 4
-43.
+41.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/txfonts/t1txtt.fd
 File: t1txtt.fd 2000/12/15 v3.1
-) [8
+) [9
 
-] [9]
-[10] [11]
+] [10]
+[11] [12]
 Cap\'{\i }tulo 4.
 LaTeX Font Info:    Font shape `T1/txr/b/n' in size <10.95> not available
-(Font)              Font shape `T1/txr/bx/n' tried instead on input line 496.
-[12
+(Font)              Font shape `T1/txr/bx/n' tried instead on input line 502.
+[13
 
 ]
-<imagenes/fig_multiplicador.png, id=354, 867.24pt x 361.35pt>
+<imagenes/fig_multiplicador.png, id=355, 867.24pt x 361.35pt>
 File: imagenes/fig_multiplicador.png Graphic file (type png)
 <use imagenes/fig_multiplicador.png>
-Package pdftex.def Info: imagenes/fig_multiplicador.png  used on input line 537
+Package pdftex.def Info: imagenes/fig_multiplicador.png  used on input line 543
 .
 (pdftex.def)             Requested size: 384.1096pt x 160.0476pt.
- [13] [14 <./imagenes/fig_multiplicador.png>]
-<imagenes/fig_valor_liquidativo.png, id=371, 742.9356pt x 380.1402pt>
+ [14] [15 <./imagenes/fig_multiplicador.png>]
+<imagenes/fig_valor_liquidativo.png, id=372, 742.9356pt x 380.1402pt>
 File: imagenes/fig_valor_liquidativo.png Graphic file (type png)
 <use imagenes/fig_valor_liquidativo.png>
 Package pdftex.def Info: imagenes/fig_valor_liquidativo.png  used on input line
- 580.
+ 586.
 (pdftex.def)             Requested size: 384.1096pt x 196.54294pt.
- [15 <./imagenes/fig_valor_liquidativo.png>]
+ [16 <./imagenes/fig_valor_liquidativo.png>]
 <imagenes/fig_sensibilidad_costes.png, id=380, 555.7563pt x 339.669pt>
 File: imagenes/fig_sensibilidad_costes.png Graphic file (type png)
 <use imagenes/fig_sensibilidad_costes.png>
 Package pdftex.def Info: imagenes/fig_sensibilidad_costes.png  used on input li
-ne 593.
+ne 599.
 (pdftex.def)             Requested size: 341.43437pt x 208.6801pt.
- [16 <./imagenes/fig_sensibilidad_costes.png>] [17]
-Overfull \hbox (63.56055pt too wide) in paragraph at lines 691--702
+ [17 <./imagenes/fig_sensibilidad_costes.png>] [18]
+Overfull \hbox (63.56055pt too wide) in paragraph at lines 697--708
  [][] 
  []
 
-[18] [19]
+[19] [20]
 Cap\'{\i }tulo 5.
-[20
+[21
 
-] [21] [22]
-Package csquotes Info: Disabling multilingual quotes on input line 739.
+] [22] [23]
+Package csquotes Info: Disabling multilingual quotes on input line 752.
 
 
 Package csquotes Warning: Quote style 'british/english' not defined.
-(csquotes)                Ignoring command on input line 739.
+(csquotes)                Ignoring command on input line 752.
 
-[23
+[24
 
 
 ] (./memoria.aux
@@ -1284,19 +1299,19 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
 Package rerunfilecheck Info: File `memoria.out' has not changed.
-(rerunfilecheck)             Checksum: D654CE21518715FD8F998168223D3D2B;3209.
+(rerunfilecheck)             Checksum: C232E50681776EE2EB1D4C51DA1D11F9;3217.
 Package logreq Info: Writing requests to 'memoria.run.xml'.
 \openout1 = `memoria.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 29092 strings out of 474116
- 485636 string characters out of 5743682
- 1944187 words of memory out of 5000000
- 50950 multiletter control sequences out of 15000+600000
+ 29104 strings out of 474116
+ 485892 string characters out of 5743682
+ 1943187 words of memory out of 5000000
+ 50966 multiletter control sequences out of 15000+600000
  618293 words of font info for 114 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 92i,16n,117p,1511b,4184s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 92i,16n,117p,1484b,4184s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxmi.pfb></us
 r/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/local
 /texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxsc.pfb></usr/local/texli
@@ -1308,9 +1323,9 @@ pe1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw
 /times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utm
 bi8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><
 /usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on memoria.pdf (33 pages, 455830 bytes).
+Output written on memoria.pdf (32 pages, 471053 bytes).
 PDF statistics:
  513 PDF objects out of 1000 (max. 8388607)
- 94 named destinations out of 1000 (max. 500000)
- 300 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 90 named destinations out of 1000 (max. 500000)
+ 305 words of extra memory for PDF output out of 10000 (max. 10000000)
 
